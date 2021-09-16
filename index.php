@@ -10,34 +10,51 @@
 				$module = $_GET['module'];
 				switch($module){
 					case 'UserList':
-						$link = '/Modules/UserList/user_list.php';
-						break;
+							$link = '/Modules/UserList/user_list.php';
+							$js_local_source = '/Modules/UserList/user_list.js';
+							break;
 					case 'UserRegistration':
-						$link = '/Modules/UserRegistration/user_registeration.php';
-						break;
+							$link = '/Modules/UserRegistration/user_registeration.php';
+							$js_local_source = '/Modules/UserRegistration/user_registeration.js';
+							break;
 					case 'TaskList':
 							$link = '/Modules/TaskList/task_list.php';
-							break;		
+							$js_local_source = '/Modules/TaskList/task_list.js';
+							break;
+					case 'CustomerList':
+							$link = '/Modules/СustomerList/customer_list.php';
+							$js_local_source = '/Modules/СustomerList/customer_list.js';
+							break;
+					case 'TaskEdit':
+							$link = '/Modules/TaskEdit/task_edit.php';
+							$js_local_source = '/Modules/TaskEdit/task_edit.js';
+							break;	
 					default:
-						$link = '/Modules/UserList/user_list.php';	
+							$link = '/Modules/UserList/user_list.php';
+							$js_local_source = '/Modules/UserList/user_list.js';	
 				}
 			}elseif ($user_role == 'mgr'){
 				$module = $_GET['module'];
 				switch($module){
 					case 'TaskList':
-						$link = '/Modules/TaskList/task_list.php';
-						break;
+							$link = '/Modules/TaskList/task_list.php';
+							$js_local_source = '/Modules/TaskList/task_list.js';
+							break;
+					case 'CustomerList':
+							$link = '/Modules/СustomerList/customer_list.php';
+							$js_local_source = '/Modules/СustomerList/customer_list.js';
+							break;
+					case 'TaskEdit':
+							$link = '/Modules/TaskEdit/task_edit.php';
+							$js_local_source = '/Modules/TaskEdit/task_edit.js';
+							break;
 					default:
-						$link = '/Modules/TaskList/task_list.php';	
+							$link = '/Modules/TaskList/task_list.php';
+							$js_local_source = '/Modules/TaskList/task_list.js';
 				}
 			}
-			
-			// Подключение контента
+			// Подключение контента (скрипты в футер грузим по необходимости)
 			include($_SERVER['DOCUMENT_ROOT'].$link);
-
-
-			// include($_SERVER['DOCUMENT_ROOT'].'/Modules/UserList/user_list.php');
-			// include($_SERVER['DOCUMENT_ROOT'].'/Modules/UserRegistration/user_registeration.php');
 		?>
 	</main>
 

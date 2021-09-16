@@ -8,14 +8,11 @@
 	<script src = "/js/dataTables.bootstrap4.min.js"></script>
 	<script src = "/js/bootstrap-datepicker.min.js"></script>
 	<!-- Кастомизация интерфейса -->
-	<script src = "/js/custom.js"></script>
-	<script src = "/js/customModal.js">	</script>
+	<script src = "/js/custom.js"></script>	
 	<script src = '/js/jquery.form.min.js'></script>
 
-	<!--Регистрация пользователя-->
-	<script src = '/Modules/UserRegistration/user_registeration.js'></script>
+	<!-- Локальный скрипт -->
+	<script src = '<?=$js_local_source?>'></script>
 
-	<!--Список пользователей-->
-	<script src = '/Modules/UserList/user_list.js'></script>
 </body>
 </html>

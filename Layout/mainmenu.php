@@ -13,9 +13,17 @@
 			<li class="nav-item">
 				<a class="nav-link" href="#">Уведомления</a>
 			</li>
+
+			<?php if($user_role == 'mgr'){?>
+			<li class="nav-item">
+				<a class="nav-link" href="/index.php?module=CustomerList">Список заказчиков</a>
+			</li>
+			<?php } ?>
+
 			<li class="nav-item">
 				<a class="nav-link" href="/Login/baselogin/logout.php">Выход</a>
 			</li>
+
 			<?php if($user_role == 'adm'){?>
 				<li class="nav-item dropdown">
 					<a class="nav-link dropdown-toggle" href="#" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Администратор</a>
@@ -23,6 +31,7 @@
 					<a class="dropdown-item" href="/index.php?module=UserList">Список пользователей</a>	
 					<a class="dropdown-item" href="/index.php?module=UserRegistration">Регистрация пользователя</a>
 					<a class="dropdown-item" href="/index.php?module=TaskList">Список задач</a>
+					<a class="dropdown-item" href="/index.php?module=CustomerList">Список заказчиков</a>
 					</div>
 				</li>
 			<?php } ?>

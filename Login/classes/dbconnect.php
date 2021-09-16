@@ -16,6 +16,7 @@ $opt = [
 
 $pdo = new PDO($dsn, $USER, $PASSWORD, $opt);
 
+// Функция очистки строки
 function ClearSQLString($string){
 	$eitem = array('strong','lt','gt','sub','&','amp', ";", "/","\r\n", "\n", "\r");
 	$string = htmlentities(htmlspecialchars($string));

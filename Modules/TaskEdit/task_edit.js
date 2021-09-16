@@ -1,7 +1,7 @@
 $(document).ready(function () {
 	"use strict";
 
-	var c_Id = "003"; // Код задачи
+	// var c_Id = "003"; // Код задачи
 
 	// Формирование страницы  (Функция)
 	function ImgWork(TaskId) {
@@ -13,7 +13,7 @@ $(document).ready(function () {
 		// Первоначальная загрузка данных из PHP в формате JSON 
 
 		$.ajax({
-			url: '/Assets/setImagesArr.php',
+			url: '/Modules/TaskEdit/setImagesArr.php',
 			type: 'GET',
 			dataType: 'json',
 			data: {
@@ -50,20 +50,25 @@ $(document).ready(function () {
 					var modal = $(this);
 					modal.find('.modal-title').text(recipient);
 					modal.find('.modal-body').html('<img src="' + recipient + '" class="img-thumbnail" alt="Желание заказчика">');
+
+					// Скачивание файла НЕ РАБОТАЕТ!!!!	
+					var ImgToDownload = $(this).parent().parent().find("h5").text();
+					// console.log("Загрузка файла" + ImgToDownload);
+					$("#DownloadImage").attr("href", ImgToDownload);
+
 				});
 			},
 			error: function (e) {
-				alert(e.message);
+				// alert(e.message);
 			}
 		});
 
 	}
 	// Удаление элемента (Функция)
 	function DelImageFromDir(imgToDel) {
-
 		var ImgToDel = imgToDel;
 		$.ajax({
-			url: '/Assets/delOneImage.php',
+			url: '/Modules/TaskEdit/delOneImage.php',
 			type: 'GET',
 			data: {
 				ImgToDel: ImgToDel
@@ -74,6 +79,7 @@ $(document).ready(function () {
 		});
 	}
 
+
 	// Базовое формирование страницы
 	ImgWork(c_Id);
 	$('#result').hide();
@@ -82,7 +88,8 @@ $(document).ready(function () {
 		$('#js-file').click();
 		return false;
 	});
-	$('#c_Id').text(c_Id);
+
+	$('#c_Id').text(c_Id); // Показываем ID редактируемой задачи
 
 	// Кнопка удаления изображения в модальном окне 
 	$('#ClearImage').on("click", function () {
@@ -91,19 +98,35 @@ $(document).ready(function () {
 		ImgWork(c_Id);
 	});
 
+	// Редактирование кооментария к задаче
+	$(document).on("click", "#EditTaskDescription", function () {
+		var TaskDescription = $('#task_description').val();
+
+		$.ajax({
+			url: '/Modules/TaskEdit/task_edit_description.php',
+			type: 'post',
+			data: {
+				TaskID: c_Id,
+				TaskDescription: TaskDescription
+			},
+			success: function (data) {
+				$('#task_description').val(data);
+				$('#liveToast').toast('show');
+			}
+		});
+	});
 
 	// Загрузка файлов
 	$('#js-file').on("change", function () {
 		console.log("Загрузка в папку " + c_Id);
 		$('#js-form').ajaxSubmit({
-			url: '/Assets/LoadImages.php',
+			url: '/Modules/TaskEdit/LoadImages.php',
 			type: 'POST',
 			target: '#result',
 			data: {
 				TaskID: c_Id
 			},
 			success: function () {
-				// После загрузки файла очистим форму.
 				$('#js-form')[0].reset();
 				ImgWork(c_Id);
 				$('#result').show();
@@ -111,4 +134,8 @@ $(document).ready(function () {
 			}
 		});
 	});
+
+	// Добавление креативов в задачу
+	
+
 });

@@ -8,6 +8,7 @@ if (isset($_COOKIE['id']) and isset($_COOKIE['hash']))
 	$query->execute();
 	$userdata = $query->fetch(PDO::FETCH_LAZY);
 
+	$user_id = $userdata['user_id']; // Роль пользователя
 	$user_role = $userdata['user_role']; // Роль пользователя
 	$user_name = $userdata['user_name']; // Имя пользователя
 	$user_surname = $userdata['user_surname']; // Фамилия пользователя

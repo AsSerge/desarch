@@ -6,7 +6,7 @@ $Task_ID = $_POST['TaskID'];
 $allow = array('jpg', 'jpeg', 'png', 'gif');
 
  // Директория, куда будут загружаться файлы.
-$path = $_SERVER["DOCUMENT_ROOT"] . '/img/task_base_dir/'.$Task_ID.'/';
+$path = $_SERVER["DOCUMENT_ROOT"] . '/Tasks/'.$Task_ID.'/';
 
 if (isset($_FILES[$input_name])) {
 	// Преобразуем массив $_FILES в удобный вид для перебора в foreach.

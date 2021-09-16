@@ -5,11 +5,131 @@ $(document).ready(function () {
 	$(document).on("click", ".userDelBtn", function (e) {
 		e.preventDefault();
 		var userToDel = $(this).attr("data-user-id");
-		// console.log("Нажали >> " + k);
 		RemoveUser(userToDel);
+		location.reload(); // Перезагрузка страницы
 		GetUserList();
 	});
+	// Отправка формы из модального окна EditUser по кнопке SaveUser (изменение данных о пользователе)
+	$(document).on("click", "#SaveUser", function (e) {
+		e.preventDefault();
+		var update_user = $("#update_user").val();
+
+		var user_id = $("#user_id").val();
+		var user_name = $("#user_name").val();
+		var user_surname = $("#user_surname").val();
+		var user_login = $("#user_login").val();
+		var user_password = $("#user_password").val();
+		var user_role = $("#user_role").val();
+
+		$.ajax({
+			url: '/Modules/UserList/user_update.php',
+			type: 'POST',
+			dataType: 'html',
+			data: {
+				update_user: update_user,
+				user_id: user_id,
+				user_name: user_name,
+				user_surname: user_surname,
+				user_login: user_login,
+				user_password: user_password,
+				user_role: user_role
+			},
+			success: function (data) {
+				console.log(data);
+			}
+		});
+	})
+
+
+	// Формирование модального окна
+	$('#EditUser').on('shown.bs.modal', function (event) {
+		var button = $(event.relatedTarget);
+		var user_id = button.data('whatever');
+
+		$.ajax({
+			url: '/Modules/UserList/getoneuserdata.php',
+			type: 'POST',
+			data: {
+				user_id: user_id
+			},
+			dataType: 'html',
+			success: function (data) {
+
+				var userEditForm = "";
+				var role_block = "";
+				var res = $.parseJSON(data);
+				// console.log(res);
+
+
+				var modal = $("#EditUser");
+				modal.find('.modal-title').text("Редактор пользователя ID: " + res.user_id);
+
+				// Проверка на значение по умолчанию
+				var rolle_arr_name = ["Администратор", "Постановщик задачи", "Дизайнер", "Проверяющий"];
+				var rolle_arr = ["adm", "mgr", "dgr", "ctr"];
+				var role = res.user_role;
+
+				for (var i = 0; i <= 3; i++) {
+					if (role == rolle_arr[i]) {
+						role_block += '<option value="' + rolle_arr[i] + '" selected>' + rolle_arr_name[i] + '</option>';
+					} else {
+						role_block += '<option value="' + rolle_arr[i] + '">' + rolle_arr_name[i] + '</option>';
+					}
+				}
+
+				// Формирование тела формы	
+				userEditForm = `<form>\
+				
+				<div class="form-group">\
+					<input type = "hidden" id = "update_user" value = "update_user">
+					<input type = "hidden" id = "user_id" value = "${res.user_id}">
+					<label for="user_name">Имя</label>
+					<input type="text" class="form-control mb-2" id="user_name" value = "${res.user_name}" disabled>
+
+					<label for="user_name">Фамилия</label>
+					<input type="text" class="form-control mb-2" id="user_surname" value = "${res.user_surname}" disabled>
+
+					<label for="user_login">Логин</label>
+					<input type="email" class="form-control mb-2" id="user_login" value = "${res.user_login}" disabled>
+
+					<label for="user_password">Новый пароль</label>
+					<input type="text" class="form-control mb-2" id="user_password" value = "">
+
+					<label for="user_role">Роль</label>
+					<select class="form-control" id="user_role" name="user_role">
+						${role_block}
+					</select>
+				</div>\
+				<div style = "text-align: center">
+					<button type="button" class="btn btn-secondary" data-dismiss="modal">Отмена</button>
+					<button type="submit" class="btn btn-danger" data-dismiss="modal" id="SaveUser">Сохранить</button>
+				</div>
+				</form>`;
+
+				modal.find('.modal-body').html(userEditForm);
+			}
+		});
+	});
 });
+
+// Получение информации об одном пользователе
+function GrtOneUserData(iser_id) {
+
+	$.ajax({
+		url: '/Modules/UserList/getoneuserdata.php',
+		type: 'POST',
+		data: {
+			user_id: iser_id
+		},
+		dataType: 'html',
+		success: function (data) {
+			// console.log(data);
+			res = $.parseJSON(data);
+		}
+	});
+
+}
+
 
 // Безвозвратное удаление пользователя из базы
 function RemoveUser(userToDel) {
@@ -22,7 +142,7 @@ function RemoveUser(userToDel) {
 		},
 		dataType: 'html',
 		success: function (data) {
-			console.log(data);
+			// console.log(data);
 		}
 	});
 }
@@ -55,15 +175,19 @@ function GetUserList() {
 						user_role = "Дизайнер";
 						break;
 					case "ctr":
-						$user_role_description = "Проверяющий";
+						user_role = "Проверяющий";
 						break;
 				}
 				text_table += `<tr>\
 				<td>${entry.user_id}</td>\
-				<td><a href = '#' data-user-id= "${entry.user_id}">${entry.user_name} ${entry.user_surname}</a></td>\
+				<td><a href = '#' data-user-id= "${entry.user_id}"\
+				
+				class="EditUser" data-toggle="modal" data-target="#EditUser" data-whatever="${entry.user_id}"\
+
+				>${entry.user_name} ${entry.user_surname}</a></td>\
 				<td>${entry.user_login}</td>\
 				<td>${user_role}</td>\
-				<td><button type="button" class="btn btn-danger userDelBtn" data-user-id= "${entry.user_id}"><i class="far fa-trash-alt"></i> Удалить</button></td>\
+				<td><button type="button" class="btn btn-danger userDelBtn btn-sm" data-user-id= "${entry.user_id}"><i class="far fa-trash-alt"></i> Удалить</button></td>\
 				</tr>`;
 			})
 			text_table += "</table>";
