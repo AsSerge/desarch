@@ -52,6 +52,21 @@
 							$link = '/Modules/TaskList/task_list.php';
 							$js_local_source = '/Modules/TaskList/task_list.js';
 				}
+			}elseif ($user_role == 'dgr'){
+				$module = $_GET['module'];
+				switch($module){
+					case 'CreativeEdit':
+							$link = '/Modules/CreativeEdit/сreative_edit.php';
+							$js_local_source = '/Modules/CreativeEdit/creative_edit.js';
+							break;
+					case 'CreativeList':
+							$link = '/Modules/CreativeList/сreative_list.php';
+							$js_local_source = '/Modules/CreativeList/сreative_list.js';
+							break;
+					default:
+							$link = '/Modules/CreativeList/сreative_list.php';
+							$js_local_source = '/Modules/CreativeList/сreative_list.js';
+		}
 			}
 			// Подключение контента (скрипты в футер грузим по необходимости)
 			include($_SERVER['DOCUMENT_ROOT'].$link);

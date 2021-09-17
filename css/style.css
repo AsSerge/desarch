@@ -167,3 +167,8 @@ body {
 		display: inline-block;
 		width: 45%;
 	}
+
+	/* Настройка вертикального выравнивания в таблице */
+	#CR_CreativeList td{
+		vertical-align: middle;
+	}

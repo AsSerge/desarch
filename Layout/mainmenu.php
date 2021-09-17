@@ -24,9 +24,15 @@
 
 			<?php } ?>
 
+			<?php if($user_role == 'dgr'){?>
+
 			<li class="nav-item">
-				<a class="nav-link" href="/Login/baselogin/logout.php">Выход</a>
+				<a class="nav-link" href="/index.php?module=CreativeList">Список заданий</a>
 			</li>
+
+
+			<?php } ?>
+
 
 			<?php if($user_role == 'adm'){?>
 				<li class="nav-item dropdown">
@@ -39,6 +45,11 @@
 					</div>
 				</li>
 			<?php } ?>
+
+			<li class="nav-item">
+				<a class="nav-link" href="/Login/baselogin/logout.php">Выход</a>
+			</li>
+
 		</ul>
 		</div>
 </nav>
