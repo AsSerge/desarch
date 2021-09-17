@@ -7,17 +7,21 @@
 
 		<div class="navbar-collapse offcanvas-collapse" id="navbarsExampleDefault">
 		<ul class="navbar-nav mr-auto">
-			<li class="nav-item active">
+			<!-- <li class="nav-item active">
 				<a class="nav-link" href="#">Dashboard <span class="sr-only">(current)</span></a>
 			</li>
 			<li class="nav-item">
 				<a class="nav-link" href="#">Уведомления</a>
-			</li>
+			</li> -->
 
 			<?php if($user_role == 'mgr'){?>
 			<li class="nav-item">
+				<a class="nav-link" href="/index.php?module=TaskList">Список задач</a>
+			</li>
+			<li class="nav-item">
 				<a class="nav-link" href="/index.php?module=CustomerList">Список заказчиков</a>
 			</li>
+
 			<?php } ?>
 
 			<li class="nav-item">

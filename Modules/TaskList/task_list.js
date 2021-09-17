@@ -2,6 +2,35 @@ $(document).ready(function () {
 	"use strict";
 	// Временно отключаем кнопку сохранения
 	$('#SaveTask').attr("disabled", "disabled");
+
+
+	// Настройка DataTable для списка задач
+	// Скрыт столбец даты последнего изменения, но таблица сортируется по нему
+
+	$('#DT_TaskList').DataTable({
+		"paging": true,
+		"ordering": true,
+		"info": false,
+		"stateSave": false,
+		"columnDefs": [{
+			"targets": [0],
+			"visible": false,
+			"searchable": false
+		}],
+		"order": [
+			[0, "ASC"]
+		],
+		"lengthMenu": [
+			[10, 25, 50, -1],
+			[10, 25, 50, "Все"]
+		],
+		"language": {
+			"url": "/datafiles/dataTables.russian.json"
+		}
+	});
+
+
+
 	// Настройки DatePicker
 	$('.datepicker').datepicker({
 			weekStart: 1,

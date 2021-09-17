@@ -12,20 +12,20 @@
 	$task_id = $_GET['task_id'];
 	echo "<script>var c_Id = {$task_id};</script>";
 
-	// Выбираем задачу по ID
-	// $stmt = $pdo->prepare("SELECT * FROM `tasks` WHERE task_id = :task_id");
+	// Выбираем задачу по ID	
 	$stmt = $pdo->prepare("SELECT * FROM tasks as T LEFT JOIN customers AS C ON (T.customer_id = C.customer_id) WHERE T.task_id = :task_id");
-	$stmt->execute(array(
-		'task_id' => $task_id
-	));
+	$stmt->execute(array('task_id' => $task_id));
 	$task = $stmt->fetch(PDO::FETCH_ASSOC);
 
 	// Разбираем креативы в составе задачи
 	$stmtcr = $pdo->prepare("SELECT * FROM сreatives WHERE task_id = ?");
-	$stmtcr->execute(array($task_id ));
-	
+	$stmtcr->execute(array($task_id ));	
 	$creatives = $stmtcr->fetchAll(PDO::FETCH_ASSOC);
 
+	// Получаем список дизайнеров
+	$stmtdr = $pdo->prepare("SELECT * FROM  users WHERE user_role = 'dgr'");
+	$stmtdr->execute();	
+	$designers = $stmtdr->fetchAll(PDO::FETCH_ASSOC);
 ?>
 
 <div class="my-3 p-3 bg-white rounded box-shadow">
@@ -139,8 +139,6 @@
 					</div>
 				</div>
 
-
-
 				<div class="col-lg-8">
 					<h6 class="border-bottom border-gray pb-3 mb-2"><i class="fas fa-list"></i> Список креативов</h6>
 					<?php
@@ -148,43 +146,47 @@
 						echo"<div class='alert alert-warning' role='alert'>Креативы в задаче отсутствуют!</div>";
 					}else{
 						echo "<table class='table table-borderless table-striped table-setdisigner-task table-light-header'>";
-						echo "<thead><tr><th scope='col'>Название креатива</th><th scope='col'>Дизайнер</th><th scope='col'>Статус</th><th scope='col'>Действие</th></tr></thead>";
-						echo "<tbody>";
-						foreach($creatives as $crt){
-							echo "<tr>";
-								echo "<td>".$crt['creative_name']."</td>";
-								echo "<td>";
-									echo "<select class='custom-select' name='task_customer'>";
-										echo "<option selected>Выбрать...</option>";
-										echo "<option value='1'>Вероника Суркова</option>";
-										echo "<option value='2'>Лилит Аршакян</option>";
-										echo "<option value='3'>Оксана Шмакова</option>";
-									echo "</select>";
-								echo "</td>";
-								echo "<td>".$crt['creative_status']."</td>";
-								echo "<td>";
-									echo "<button type='button' class='btn btn-outline-danger btn-sm'><i class='fas fa-window-close'></i> Удалить</button>";
-								echo "</td>";
-							echo "</tr>";
-						}
-						echo "</tbody>";	
+							echo "<thead><tr><th scope='col'>Название креатива</th><th scope='col'>Дизайнер</th><th scope='col'>Статус</th><th scope='col'>Действие</th></tr></thead>";
+							echo "<tbody>";
+							foreach($creatives as $crt){
+
+								$des_label = ($crt['creative_status'] != "В задаче") ? 'disabled' : ''; // Определяем статус креатива
+								echo "<tr>";
+									echo "<td>".$crt['creative_name']."</td>";
+									echo "<td>";
+										echo "<select class='custom-select CreativeDesigner' name='CreativeDesigner' data-creative = {$crt['creative_id']} {$des_label}>";
+										echo "<option selected value=''>Выбрать...</option>";
+
+										foreach ($designers as $des){
+											$sel_label = ($des['user_id'] == $crt['user_id']) ? 'selected' : '';// Проверяем назначенного пользователя
+											echo "<option value='".$des['user_id']."' ".$sel_label.">".$des['user_name']." ".$des['user_surname']."</option>";
+										}
+
+										echo "</select>";
+									echo "</td>";
+									echo "<td>".$crt['creative_status']."</td>";
+									echo "<td>";
+										echo "<button type='button' class='btn btn-outline-danger btn-sm DelOneCreative' data-creative = {$crt['creative_id']} {$des_label}><i class='fas fa-window-close'></i> Удалить</button>";
+									echo "</td>";
+								echo "</tr>";
+							}
+							echo "</tbody>";	
 						echo "</table>";	
 					}
 					?>
 					<div class="row">
 						<div class="col" style="text-align: center;">
 							<div class="btn-group" role="group" aria-label="Basic example">
-								<button class="btn btn-outline-success" type="button" data-toggle="modal" data-target="#AddCraetiveModal" id="">Добавить креатив</button>
-								<button type="button" class="btn btn-primary">Сохранить задачу</button>
-								<button type="button" class="btn btn-info" disabled>Завершить задачу</button>
+								<button type="button" class="btn btn-secondary" id="AddNewCreative"><i class="far fa-plus-square"></i> Добавить креатив</button>
+								<!-- <button class="btn btn-outline-success" type="button" data-toggle="modal" data-target="#AddCraetiveModal" id="">Добавить креатив</button> -->
+								<button type="button" class="btn btn-primary"><i class="far fa-save" id></i> Сохранить задачу</button>
+								<!-- <button type="button" class="btn btn-info" disabled>Завершить задачу</button> -->
 							</div>
 						</div>
 					</div>	
 				</div>
 			</div>
 		</div>
-
-
 
 
 		<div class="modal fade" id="AddCraetiveModal" tabindex="-1">

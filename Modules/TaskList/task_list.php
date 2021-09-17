@@ -20,24 +20,45 @@ if($user_role == 'adm'){
 // Выбираем все задачи для выбранного постановщика и определяем тип задачи по ID заказчика
 $tasks = $stmt->fetchAll(PDO::FETCH_ASSOC);
 // Индивидуальные настроки по типам ролей
+
+// Фугкция для определения количества креативов разного типа в задаче
+function GetCreativeNumbers($pdo, $task_id, $select_number){
+	switch ($select_number){
+		case "All":
+			$stmt = $pdo->prepare("SELECT * FROM сreatives WHERE task_id = ?");
+			break;
+		case "Accept":
+			$stmt = $pdo->prepare("SELECT * FROM сreatives WHERE task_id = ? AND creative_status = 'Принят'");
+			break;
+		case "Inwork":
+			$stmt = $pdo->prepare("SELECT * FROM сreatives WHERE task_id = ? AND creative_status = 'В работе'");
+			break;
+	}
+	$stmt->execute(array($task_id));
+	return $stmt->rowCount();
+}
+
+
 if(count($tasks)==0){
 	echo "<div class='alert alert-warning' role='alert'>Список задач пуст!</div>";
 }else{
-	echo "<table class='table table-sm table-light-header'>";
+	echo "<table class='table table-sm table-light-header' id='DT_TaskList'>";
 
-	echo "<thead><tr><th>Номер</th><th>Заказчик</th><th>Тип</th><th>Название задачи</th><th>Крайний срок</th><th>Дизайн</th><th>Принято</th><th>В работе</th><th>Статус</th><th>Действие</th></tr></thead>";
+	echo "<thead><tr><th>#</th><th>#</th><th>Номер</th><th>Заказчик</th><th>Тип</th><th>Название задачи</th><th>Крайний срок</th><th>Креативов всего</th><th>Принято</th><th>В работе</th><th>Статус</th><th>Действие</th></tr></thead>";
 
 	echo "<tbody>";
 	forEach($tasks as $task){
 		echo "<tr>";
+		echo "<td>".$task['task_update']."</td>";
+		echo "<td>".$task['task_id']."</td>";
 		echo "<td>".$task['task_number']."</td>";
 		echo "<td>".$task['customer_name']."</td>";
 		echo "<td>".$task['customer_type']."</td>";
 		echo "<td>".$task['task_name']."</td>";
 		echo "<td>".$task['task_deadline']."</td>";
-		echo "<td></td>";
-		echo "<td></td>";
-		echo "<td></td>";
+		echo "<td>".GetCreativeNumbers($pdo, $task['task_id'], "All")."</td>";
+		echo "<td>".GetCreativeNumbers($pdo, $task['task_id'], "Accept")."</td>";
+		echo "<td>".GetCreativeNumbers($pdo, $task['task_id'], "Inwork")."</td>";
 		echo "<td>".$task['task_status']."</td>";
 		echo "<td><a href = '/index.php?module=TaskEdit&task_id=".$task['task_id']."' class='btn btn-outline-primary btn-sm' type='button'><i class='fas fa-edit'></i> Редактор</a></td>";
 		echo "</tr>";
