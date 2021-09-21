@@ -31,6 +31,10 @@
 ?>
 <div class="my-3 p-3 bg-white rounded box-shadow">
 	<div class="row">
+
+
+
+	
 		<div class="col-lg-2 col-md-4">
 			<div class="task_card shadow p-3 mb-5 rounded">
 				<div class="task_card_title lh-100 rounded">
@@ -38,6 +42,7 @@
 				</div>
 				<div class="task_card_body m-2 pb-2" style = 'font-size: 0.8rem'>
 					<table class='table table-sm table-light-header'>
+						<tr><td class='span_bolder'>ID:</td><td><?=$creative['task_id']?></td></tr>
 						<tr><td class='span_bolder'>Название:</td><td><?=$creative['task_name']?></td></tr>
 						<tr><td class='span_bolder'>Заказчик:</td><td><?=Customer($pdo, $creative['customer_id'])['customer_name']?><t/></tr>
 						<tr><td class='span_bolder'>Канал:</td><td><?=Customer($pdo, $creative['customer_id'])['customer_type']?></td></tr>
@@ -45,21 +50,44 @@
 						<tr><td class='span_bolder'>Крайний срок:</td><td><?=mysql_to_date($creative['task_deadline'])?></td></tr>
 						<tr><td colspan="2"><span class='span_bolder'>Описание задачи: </span><?=$creative['task_description']?></td></tr>
 					</table>
+
+					<div>
+						<?php
+						// Выводим картинки, если есть
+						$task_folder=TASK_FOLDER.$creative['task_id'];
+						// Функция получения массива файлов-изображений из заданной папки
+						function GetImagesArr($dir, $id){
+							$file = [];
+							$sc_dir = $dir.$id;
+							$files = scandir($sc_dir);
+							foreach ($files as $values){
+								// Выводим только файлы-изображения JPEG
+								if($values != "." AND $values != ".."){
+									if(exif_imagetype($sc_dir."/".$values) == IMAGETYPE_JPEG ){
+										$file[] = "/Tasks/".$id."/".$values;
+									}	
+								}
+							}
+							return $file; 
+						}
+						// Формируем массив базовых исзобажений для задачи
+						$cr_files = GetImagesArr(TASK_FOLDER, $creative['task_id']);
+						if(count($cr_files) > 0){
+							echo "<div class = 'SmallImagesTaskCard'>";
+							foreach($cr_files as $img){
+								echo "<div class='oneimage' big-image='{$img}'><img src='{$img}' alt = ''></div>";
+							}
+							echo "</div>";
+						}
+						?>
+
+					</div>
 				</div>
 			</div>
 		</div>
 
 
 
-								<style>
-									.ImageSet{
-										border: 1px dotted var(--gray);
-										border-radius: 8px;
-									}
-									.ImageSet img{
-										padding: 5px;
-									}
-								</style>
 
 
 
@@ -116,14 +144,10 @@
 						</div>	
 
 					</div>
-
-								<!-- 
-								<div class="col" style="text-align: center;">
-									<button type="button" class="btn btn-primary" id="FilesDN"><i class="fas fa-file-upload"></i> Загрузить</button>
-									<button type="button" class="btn btn-warning" id="FilesDN"><i class="fas fa-trash-alt"></i> Удалить</button>
-								</div> -->
-
 				</div>
+
+
+
 
 
 
@@ -133,13 +157,16 @@
 						<div class="form-group">
 							<div class="col-sm-12 mb-2">
 								<label for="creative_name">Название креатива [<?=$creative_id?>]</label>
-								<input type="text" class="form-control" id="creative_name" value="<?=$creative['creative_name']?>">
+								<input type="text" class="form-control" id="creative_name" name="creative_name" value="<?=$creative['creative_name']?>">
 							</div>
 							<div class="col-sm-12 mb-2">
 									<label for="creative_style">Стиль креатива</label>
-									<select class="custom-select" id="creative_style" >
-										<option value="">Выберете...</option>
+									<select class="custom-select" id="creative_style" name="creative_style">
+										<!-- <option value="">Выберете...</option> -->
 										<?php
+										if($creative['creative_style'] == ""){
+											echo "<option value=''>Выберете...</option>";
+										}
 										foreach($array_creative_style as $c_style){
 											$sel_lable = ($c_style == $creative['creative_style'])? 'selected':'';
 											echo"<option value='{$c_style}' {$sel_lable}>{$c_style}</option>";
@@ -151,9 +178,11 @@
 								<div class="row">
 									<div class="col-sm-6 mb-2">
 										<label for="creative_development_type">Тип креатива</label>
-										<select class="custom-select" id="development_type" >
-										<option value="">Выберете...</option>
+										<select class="custom-select" id="creative_development_type" >
 											<?php
+											if($creative['creative_development_type'] == ""){
+												echo "<option value=''>Выберете...</option>";
+											}
 											foreach($array_creative_development_type as $c_type){
 												$sel_lable = ($c_type == $creative['creative_development_type'])? 'selected':'';
 												echo"<option value='{$c_type}' {$sel_lable}>{$c_type}</option>";
@@ -164,8 +193,11 @@
 									<div class="col-sm-6 mb-2">
 									<label for="creative_magnitude">Заимствование</label>
 										<select class="custom-select" id="creative_magnitude" >
-										<option value="">Выберете...</option>
+
 											<?php
+											if($creative['creative_magnitude'] == ""){
+												echo "<option value=''>Выберете...</option>";
+											}
 											foreach($array_creative_magnitude as $c_mag){
 												$sel_lable = ($c_mag == $creative['creative_magnitude'])? 'selected':'';
 												echo"<option value='{$c_mag}' {$sel_lable}>{$c_mag}</option>";
@@ -178,32 +210,75 @@
 							<div class="col-sm-12 mb-2">
 								<label for="creative_source">Источник вдохновения</label>
 									<select class="custom-select" id="creative_source" >
-										<option value="">Выберете...</option>
 										<?php
+										if($creative['creative_source'] == ""){
+											echo "<option value=''>Выберете...</option>";
+										}
 										foreach($array_creative_source as $c_source){
 											$sel_lable = ($c_source == $creative['creative_source'])? 'selected':'';
 											echo"<option value='{$c_source}' {$sel_lable}>{$c_source}</option>";
 										}
 										?>
 									</select>
-
 							</div>
-
 							<div class="col-sm-12 mb-2">
 								<label for="creative_description">Описание креатива</label>
 								<textarea class="form-control mb-2" name="creative_description" id="creative_description" cols="3" rows="3"><?=$creative['creative_description']?></textarea>
-
-
 							</div>
-
-
-
-
 						</div>
-					</form>	
+						<div class="col" style="text-align: center;">
+							<button type="button" class="btn btn-primary btn-sm" id="CreativeInfoUpdate"><i class="far fa-save"></i> Сохранить</button>
+						</div>
+					</form>
 				</div>
 			</div>
 		</div>
 	</div>
 	
 </div>
+
+<!-- Модальное окно Просмотр и удаление Base изображений -->
+<div class="modal fade" id="EditBaseDesign" tabindex="-1">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title">Заголовок модального окна</h5>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body">
+				</div>
+			<div class="modal-footer" style="margin:auto">
+				<button type="button" class="btn btn-secondary" data-dismiss="modal"><i class="fas fa-times"></i> Закрыть</button>
+				<button type="button" class="btn btn-danger" data-dismiss="modal" id="ClearImage"><i class="far fa-trash-alt"></i> Удалить</button>
+			</div>
+			</div>
+		</div>
+	</div>
+<!-- Системные сообщения (Сохранение изменений)  -->
+<div class="position-fixed bottom-0 right-0 p-3" style="z-index: 5; left: 0; bottom: 0;">
+	<div id="liveToast" class="toast hide" role="alert" aria-live="assertive" aria-atomic="true" data-delay="1000" style="background-color: #ffc107">
+		<div class="toast-header">
+			<strong class="mr-auto">Системное сообщение</strong>
+			<button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">
+				<span aria-hidden="true">&times;</span>
+			</button>
+		</div>
+		<div class="toast-body">
+			<p><i class="far fa-save"></i> Информация обновлена!</p>
+		</div>
+	</div>
+</div>
+
+<!-- Отображение картинок в полный экран -->
+<div id="popup" class="popup">
+		<div class="popup__body">
+			<div class="popup__content">
+				<div class="popup__dnload"></div>
+				<div class="popup__close"></div>
+				<div class="popup__image"></div>
+			</div>
+		</div>
+</div>
+

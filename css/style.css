@@ -184,3 +184,94 @@ body {
 	.span_bolder{
 		font-weight: 600;
 	}
+
+	/* Настройки страницы редактирования дизайнов*/
+	.ImageSet{
+		/* border: 1px dotted var(--gray); */
+		border-radius: 8px;
+	}
+	.ImageSet img{
+		padding: 3px;
+	}
+	#BaseImages{
+		padding: 10px;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		justify-content: space-around;
+		flex-wrap: wrap;
+	}
+	#BaseImages img{
+		height: 250px
+	}
+
+/* Настройка просмоторщика картинок в окне для страницы редактирования Креатива */
+
+	.SmallImagesTaskCard{
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		justify-content: space-around;
+		flex-wrap: wrap;
+	}
+	.SmallImagesTaskCard img{
+		width: 80px;
+		cursor: pointer;
+
+	}
+
+	.popup {
+		position: fixed;
+		width: 100%;
+		height: 100%;
+		background-color: black;
+		top: 0;
+		left: 0;
+		z-index: 6000;
+		}		
+		
+	.popup__body {
+		min-height: 100vh;
+		display: -webkit-box;
+		display: -ms-flexbox;
+		display: flex;
+		-webkit-box-align: center;
+			-ms-flex-align: center;
+				align-items: center;
+		-webkit-box-pack: center;
+			-ms-flex-pack: center;
+				justify-content: center;
+		border: 1px solid #00aa09;
+		position: relative;
+	}
+	
+	.popup__close {
+		position: absolute;
+		color: white;
+		right: 20px;
+		top: 20px;
+		/* border: 1px solid #00aa09; */
+		cursor: pointer;
+	}
+	
+	.popup__dnload {
+		position: absolute;
+		color: white;
+		right: 80px;
+		top: 20px;
+		/* border: 1px solid #aa008e; */
+		cursor: pointer;
+	}
+	
+	.popup__image {
+		display: -webkit-box;
+		display: -ms-flexbox;
+		display: flex;
+		-webkit-box-align: center;
+			-ms-flex-align: center;
+				align-items: center;
+		-webkit-box-pack: center;
+			-ms-flex-pack: center;
+				justify-content: center;
+	}
+	

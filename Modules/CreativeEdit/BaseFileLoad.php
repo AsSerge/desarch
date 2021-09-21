@@ -58,7 +58,7 @@ if (isset($_FILES[$input_name])) {
 			} else {
 				 // Перемещаем файл в директорию.
 				 // Переименовываем файл в [ID][имя файла]
-				$name = $creative_id.$name;
+				$name = $creative_id."_".$name;
 				if (move_uploaded_file($file['tmp_name'], $path . $name)) {
 					 // Далее можно сохранить название файла в БД и т.п.
 					$success = 'Файл «' . $name . '» успешно загружен.';
