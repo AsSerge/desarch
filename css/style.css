@@ -172,3 +172,15 @@ body {
 	#CR_CreativeList td{
 		vertical-align: middle;
 	}
+
+
+	/* Настройка карточки задачи в редакторе креатива */
+	.task_card{
+		background-color: var(--light);
+	}
+	.task_card_title{
+		background-color: var(--cyan);
+	}
+	.span_bolder{
+		font-weight: 600;
+	}

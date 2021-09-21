@@ -18,6 +18,7 @@ include_once($_SERVER['DOCUMENT_ROOT']."/Layout/settings.php"); // Функци�
 	// print_r($creatives);
 	// echo "</pre>";
 
+	// Функция определения параметров заказчика
 	function Customer($pdo, $customer_id){
 		$stmt = $pdo->prepare("SELECT customer_name, customer_type FROM customers WHERE customer_id = ?");
 		$stmt->execute(array($customer_id));
@@ -36,15 +37,49 @@ foreach($creatives as $crt){
 	echo "<td>".$crt['task_name']." [".$crt['task_number']."]</td>";
 	echo "<td>".Customer($pdo, $crt['customer_id'])['customer_name']." [".Customer($pdo, $crt['customer_id'])['customer_type']."]</td>";
 	echo "<td>".mysql_to_date($crt['task_deadline'])."</td>";
-	echo "<td><a href = '/index.php?module=CreativeEdit&creative_id=".$crt['creative_id']."'>".$crt['creative_name']."</a></td>";
+	echo "<td>".$crt['creative_name']."</td>";
+	// echo "<td><a href = '/index.php?module=CreativeEdit&creative_id=".$crt['creative_id']."'>".$crt['creative_name']."</a></td>";
 	echo "<td>".$crt['creative_status']."</td>";
 	echo "<td>";
 	
 	$lable_set = ($crt['creative_status'] == 'В задаче') ? '': 'disabled';
+
+	switch($crt['creative_status']){
+		case 'В работе':
+				$button_color = 'info';
+				$lable_work = '';
+				$lable_title = $crt['creative_status'];
+			break;
+		case 'В задаче':
+				$button_color = 'danger';
+				$lable_work = 'disabled';
+				$lable_title = $crt['creative_status'];
+			break;
+		case 'На доработке':
+				$button_color = 'warning';
+				$lable_work = '';
+				$lable_title = $crt['creative_status'];
+			break;
+		case 'На утверждении':
+				$button_color = 'primary';
+				$lable_work = 'disabled';
+				$lable_title = $crt['creative_status'];
+			break;
+
+		case 'Принят':
+				$button_color = 'success';
+				$lable_work = 'disabled';
+				$lable_title = $crt['creative_status'];
+			break;
+		default:
+				$button_color = 'info';
+				$lable_work = '';
+				$lable_title = $crt['creative_status'];
+	}
 		
 	echo "<button type='button' class='btn btn-warning btn-sm TakeToWork' data-creative = '".$crt['creative_id']."' {$lable_set}><i class='far fa-flag'></i></button>&nbsp;";
-	echo "<button type='button' class='btn btn-info btn-sm' {$lable_work}><i class='fas fa-tools'></i></button>&nbsp;";		
-		
+	echo "<button type='button' class='btn btn-{$button_color} btn-sm' {$lable_work} data-toggle='tooltip' data-placement='left' title='{$lable_title}' onclick='document.location=`/index.php?module=CreativeEdit&creative_id=".$crt['creative_id']."`'><i class='fas fa-tools'></i></button>&nbsp;";
+
 	echo "</td>";
 	echo "</tr>";
 }

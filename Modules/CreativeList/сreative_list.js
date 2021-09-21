@@ -1,7 +1,7 @@
 $(document).ready(function () {
 	"use strict";
 
-	// Кнопка "Взять в работу" ставит признак "В работе" для креатива
+	// Кнопка "Взять в работу" ставит признак "В работе" для креатива и создает новую папку с ID креатива в папке Creatives
 
 	$(document).on("click", ".TakeToWork", function () {
 		var CreativeID = $(this).data('creative');
@@ -17,7 +17,7 @@ $(document).ready(function () {
 				var ToasBodyText = "Задача взята в работу";
 				$('#liveToast').children(".toast-body").html("<p><i class='far fa-save'> " + ToasBodyText + "</p>");
 				$('#liveToast').toast('show');
-				// location.reload(); // Перезагрузка страницы
+				location.reload(); // Перезагрузка страницы
 			}
 		});
 	});
