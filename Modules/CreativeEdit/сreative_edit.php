@@ -31,262 +31,254 @@
 ?>
 <div class="my-3 p-3 bg-white rounded box-shadow">
 	<div class="row">
-
-
-
-	
-		<div class="col-lg-2 col-md-4">
+		<div class="col-md-3">
+			<!-- Карточка задачи -->
 			<div class="task_card shadow p-3 mb-5 rounded">
-				<div class="task_card_title lh-100 rounded">
-					<h6 class = 'p-2 text-white lh-100'><i class="fas fa-tasks"></i> Задача [<?=$creative['task_number']?>]</h6>
-				</div>
-				<div class="task_card_body m-2 pb-2" style = 'font-size: 0.8rem'>
-					<table class='table table-sm table-light-header'>
-						<tr><td class='span_bolder'>ID:</td><td><?=$creative['task_id']?></td></tr>
-						<tr><td class='span_bolder'>Название:</td><td><?=$creative['task_name']?></td></tr>
-						<tr><td class='span_bolder'>Заказчик:</td><td><?=Customer($pdo, $creative['customer_id'])['customer_name']?><t/></tr>
-						<tr><td class='span_bolder'>Канал:</td><td><?=Customer($pdo, $creative['customer_id'])['customer_type']?></td></tr>
-						<tr><td class='span_bolder'>Дата постановки:</td><td><?=mysql_to_date($creative['task_setdatetime'])?></td></tr>
-						<tr><td class='span_bolder'>Крайний срок:</td><td><?=mysql_to_date($creative['task_deadline'])?></td></tr>
-						<tr><td colspan="2"><span class='span_bolder'>Описание задачи: </span><?=$creative['task_description']?></td></tr>
-					</table>
+					<div class="task_card_title lh-100 rounded">
+						<h6 class = 'p-2 text-white lh-100'><i class="fas fa-tasks"></i> Задача [<?=$creative['task_number']?>]</h6>
+					</div>
+					<div class="task_card_body m-2 pb-2" style = 'font-size: 0.8rem'>
+						<table class='table table-sm table-light-header'>
+							<tr><td class='span_bolder'>ID:</td><td><?=$creative['task_id']?></td></tr>
+							<tr><td class='span_bolder'>Название:</td><td><?=$creative['task_name']?></td></tr>
+							<tr><td class='span_bolder'>Заказчик:</td><td><?=Customer($pdo, $creative['customer_id'])['customer_name']?><t/></tr>
+							<tr><td class='span_bolder'>Канал:</td><td><?=Customer($pdo, $creative['customer_id'])['customer_type']?></td></tr>
+							<tr><td class='span_bolder'>Дата постановки:</td><td><?=mysql_to_date($creative['task_setdatetime'])?></td></tr>
+							<tr><td class='span_bolder'>Крайний срок:</td><td><?=mysql_to_date($creative['task_deadline'])?></td></tr>
+							<tr><td colspan="2"><span class='span_bolder'>Описание задачи: </span><?=$creative['task_description']?></td></tr>
+						</table>
 
-					<div>
-						<?php
-						// Выводим картинки, если есть
-						$task_folder=TASK_FOLDER.$creative['task_id'];
-						// Функция получения массива файлов-изображений из заданной папки
-						function GetImagesArr($dir, $id){
-							$file = [];
-							$sc_dir = $dir.$id;
-							$files = scandir($sc_dir);
-							foreach ($files as $values){
-								// Выводим только файлы-изображения JPEG
-								if($values != "." AND $values != ".."){
-									if(exif_imagetype($sc_dir."/".$values) == IMAGETYPE_JPEG ){
-										$file[] = "/Tasks/".$id."/".$values;
-									}	
+						<div>
+							<?php
+							// Выводим картинки, если есть
+							$task_folder=TASK_FOLDER.$creative['task_id'];
+							// Функция получения массива файлов-изображений из заданной папки
+							function GetImagesArr($dir, $id){
+								$file = [];
+								$sc_dir = $dir.$id;
+								$files = scandir($sc_dir);
+								foreach ($files as $values){
+									// Выводим только файлы-изображения JPEG
+									if($values != "." AND $values != ".."){
+										if(exif_imagetype($sc_dir."/".$values) == IMAGETYPE_JPEG ){
+											$file[] = "/Tasks/".$id."/".$values;
+										}	
+									}
 								}
+								return $file; 
 							}
-							return $file; 
-						}
-						// Формируем массив базовых исзобажений для задачи
-						$cr_files = GetImagesArr(TASK_FOLDER, $creative['task_id']);
-						if(count($cr_files) > 0){
-							echo "<div class = 'SmallImagesTaskCard'>";
-							foreach($cr_files as $img){
-								echo "<div class='oneimage' big-image='{$img}'><img src='{$img}' alt = ''></div>";
+							// Формируем массив базовых исзобажений для задачи
+							$cr_files = GetImagesArr(TASK_FOLDER, $creative['task_id']);
+							if(count($cr_files) > 0){
+								echo "<div class = 'SmallImagesTaskCard'>";
+								foreach($cr_files as $img){
+									echo "<div class='oneimage' big-image='{$img}'><img src='{$img}' alt = ''></div>";
+								}
+								echo "</div>";
 							}
-							echo "</div>";
-						}
-						?>
+							?>
 
+						</div>
 					</div>
 				</div>
 			</div>
-		</div>
+		
+			<!-- Описание креатива-->
+		<div class="col-md-9">
+			<!-- Меню описание креатива -->
+			<ul class="nav nav-tabs nav-fill" id="myTab" role="tablist">
+			<!-- <ul class="nav nav-pils" id="myTab" role="tablist"> -->
+				<li class="nav-item" role="presentation">
+					<a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">Креатив / Источник</a>
+				</li>
+				<li class="nav-item" role="presentation">
+					<a class="nav-link" id="description-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">Описание креатива</a>
+				</li>
+				<li class="nav-item" role="presentation">
+					<a class="nav-link" id="grades-tab" data-toggle="tab" href="#grades" role="tab" aria-controls="grades" aria-selected="false">Оценки и отзывы</a>
+				</li>
+				<li class="nav-item" role="presentation">
+					<a class="nav-link" id="library-tab" data-toggle="tab" href="#library" role="tab" aria-controls="library" aria-selected="false">Библиотека</a>
+				</li>
+			</ul>
 
-
-
-
-
-
-		<div class="col-lg-10 col-md-8">
-			<div class="row">
-				<div class="col-md-8">
-					<div class="row">
-						<div class="col-6">
-							<div class="form-group">
-								<h6 class="border-bottom border-gray pb-3 mb-2"><i class="far fa-images"></i> Креатив</h6>
-
-								<div class="alert alert-warning" role="alert" id = "PreviewImageNoN">
-									Изображения отсутствуют
-								</div>	
-								<div class="ImageSet mb-3" id="PreviewImages"></div>
-								<div class="custom-file mb-2">
-									<div class="col" style="text-align: center;">
-										<form id="PreviewFileLoad" enctype="multipart/form-data">
-											<!-- <input id="PreviewFile" type="file" name="file[]" multiple style='display: none;'> -->
-											<input id="PreviewFile" type="file" name="file" style='display: none;'>
-											<button type="button" class="btn btn-primary btn-sm" id="FilesDN"><i class="fas fa-file-upload"></i> Загрузить Preview</button>
-										</form>
-									</div>
-
-								</div>
-								<div id="resultPreview"></div>
-
-							</div>
-						</div>
-
-						
-						<div class="col-6">
-
-							<div class="form-group">
-								<h6 class="border-bottom border-gray pb-3 mb-2"><i class="far fa-images"></i> Источник</h6>
-
-								<div class="alert alert-warning" role="alert" id = "BaseImageNoN">
-									Изображения отсутствуют
-								</div>	
-								<div class="ImageSet mb-3" id="BaseImages"></div>
-								<div class="custom-file mb-2">
-									<div class="col" style="text-align: center;">
-										<form id="BaseFileLoad" enctype="multipart/form-data">
-											<input id="BaseFile" type="file" name="file[]" multiple style='display: none;'>
-											<button type="button" class="btn btn-primary btn-sm" id="BaseFilesDN"><i class="fas fa-file-upload"></i> Загрузить Base</button>
-										</form>
-									</div>
-
-								</div>
-								<div id="resultBase"></div>
-									
-							</div>
-						</div>	
-
-					</div>
-				</div>
-
-
-
-
-
-
-
-				<div class="col-md-4">
-					<form>
-						<div class="form-group">
-						<h6 class="border-bottom border-gray pb-3 mb-2"><i class="far fa-images"></i> Описание креатива</h6>
-							<div class="col-sm-12 mb-2">
-								<div class="alert alert-secondary" role="alert">
-									Дата начала работы: <strong><?=mysql_to_date($creative['creative_start_date'])?></strong>
-								</div>
-							</div>
-							<div class="col-sm-12 mb-2">
-								<label for="creative_name">Название креатива [<?=$creative_id?>]</label>
-								<input type="text" class="form-control" id="creative_name" name="creative_name" value="<?=$creative['creative_name']?>">
-							</div>
-							<div class="col-sm-12 mb-2">
-									<label for="creative_style">Стиль креатива</label>
-									<select class="custom-select" id="creative_style" name="creative_style">
-										<!-- <option value="">Выберете...</option> -->
-										<?php
-										if($creative['creative_style'] == ""){
-											echo "<option value=''>Выберете...</option>";
-										}
-										foreach($array_creative_style as $c_style){
-											$sel_lable = ($c_style == $creative['creative_style'])? 'selected':'';
-											echo"<option value='{$c_style}' {$sel_lable}>{$c_style}</option>";
-										}
-										?>
-									</select>
-							</div>
-							<div class="col-sm-12 mb-2">
-								<div class="row">
-									<div class="col-sm-6 mb-2">
-										<label for="creative_development_type">Тип креатива</label>
-										<select class="custom-select" id="creative_development_type" >
-											<?php
-											if($creative['creative_development_type'] == ""){
-												echo "<option value=''>Выберете...</option>";
-											}
-											foreach($array_creative_development_type as $c_type){
-												$sel_lable = ($c_type == $creative['creative_development_type'])? 'selected':'';
-												echo"<option value='{$c_type}' {$sel_lable}>{$c_type}</option>";
-											}
-											?>
-										</select>
-									</div>
-									<div class="col-sm-6 mb-2">
-									<label for="creative_magnitude">Заимствование</label>
-										<select class="custom-select" id="creative_magnitude" >
-
-											<?php
-											if($creative['creative_magnitude'] == ""){
-												echo "<option value=''>Выберете...</option>";
-											}
-											foreach($array_creative_magnitude as $c_mag){
-												$sel_lable = ($c_mag == $creative['creative_magnitude'])? 'selected':'';
-												echo"<option value='{$c_mag}' {$sel_lable}>{$c_mag}</option>";
-											}
-											?>
-										</select>
-									</div>
-								</div>
-							</div>
-							<div class="col-sm-12 mb-2">
-								<label for="creative_source">Источник вдохновения</label>
-									<select class="custom-select" id="creative_source" >
-										<?php
-										if($creative['creative_source'] == ""){
-											echo "<option value=''>Выберете...</option>";
-										}
-										foreach($array_creative_source as $c_source){
-											$sel_lable = ($c_source == $creative['creative_source'])? 'selected':'';
-											echo"<option value='{$c_source}' {$sel_lable}>{$c_source}</option>";
-										}
-										?>
-									</select>
-							</div>
-							<div class="col-sm-12 mb-2">
-								<label for="creative_description">Описание креатива</label>
-								<textarea class="form-control mb-2" name="creative_description" id="creative_description" cols="3" rows="3"><?=$creative['creative_description']?></textarea>
-							</div>
-						</div>
-						<div class="col" style="text-align: center;">
-							<button type="button" class="btn btn-primary btn-sm" id="CreativeInfoUpdate"><i class="far fa-save"></i> Сохранить</button>
-						</div>
-					</form>
-				</div>
-			</div>
-		</div>
-	</div>
-	<hr>
-
-	<div class="row">
-		<div class="col-md-2">
-
-		</div>	
-		<div class="col-md-10">
-		<ul class="nav nav-tabs" id="myTab" role="tablist">
-			<li class="nav-item" role="presentation">
-				<a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">Креатив+Источник</a>
-			</li>
-			<li class="nav-item" role="presentation">
-				<a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">Описание креатива</a>
-			</li>
-			<li class="nav-item" role="presentation">
-				<a class="nav-link" id="contact-tab" data-toggle="tab" href="#contact" role="tab" aria-controls="contact" aria-selected="false">Оценки и отзывы</a>
-			</li>
-		</ul>
 			<div class="tab-content" id="myTabContent">
+				<!-- Креатив / источник -->
 				<div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+					<div class="row mt-3">
+						<div class="col-6">
+								<div class="form-group">
+									<h6 class="border-bottom border-gray pb-3 mb-2"><i class="far fa-images"></i> Креатив</h6>
 
-				<div class="row mt-3">
-					<div class="col">
+									<div class="alert alert-warning" role="alert" id = "PreviewImageNoN">
+										Изображения отсутствуют
+									</div>	
+									<div class="ImageSet mb-3" id="PreviewImages"></div>
+									<div class="custom-file mb-2">
+										<div class="col" style="text-align: center;">
+											<form id="PreviewFileLoad" enctype="multipart/form-data">
+												<!-- <input id="PreviewFile" type="file" name="file[]" multiple style='display: none;'> -->
+												<input id="PreviewFile" type="file" name="file" style='display: none;'>
+												<button type="button" class="btn btn-primary btn-sm" id="FilesDN"><i class="fas fa-file-upload"></i> Загрузить Preview</button>
+											</form>
+										</div>
 
-					
+									</div>
+									<div id="resultPreview"></div>
 
+								</div>
+							</div>
+
+							
+							<div class="col-6">
+
+								<div class="form-group">
+									<h6 class="border-bottom border-gray pb-3 mb-2"><i class="far fa-images"></i> Источник</h6>
+
+									<div class="alert alert-warning" role="alert" id = "BaseImageNoN">
+										Изображения отсутствуют
+									</div>	
+									<div class="ImageSet mb-3" id="BaseImages"></div>
+									<div class="custom-file mb-2">
+										<div class="col" style="text-align: center;">
+											<form id="BaseFileLoad" enctype="multipart/form-data">
+												<input id="BaseFile" type="file" name="file[]" multiple style='display: none;'>
+												<button type="button" class="btn btn-primary btn-sm" id="BaseFilesDN"><i class="fas fa-file-upload"></i> Загрузить Base</button>
+											</form>
+										</div>
+
+									</div>
+									<div id="resultBase"></div>
+										
+								</div>
+							</div>	
+		
 					</div>
 				</div>
 
-				</div>
+				<!-- Описание креатива -->
 				<div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+					<div class="row mt-3">
+						<div class="col-md-4">
 
-				<div class="row mt-3">
-					<div class="col">
+							<div class="OnePreviewImage mt-5"></div>
 
+						</div>	
+						<div class="col-md-8">
+							<form>
+								<div class="form-group">
+								<h6 class="border-bottom border-gray pb-3 mb-2"><i class="far fa-images"></i> Описание креатива</h6>
+									<div class="col-sm-12 mb-2">
+										<div class="alert alert-secondary" role="alert">
+											Дата начала работы: <strong><?=mysql_to_date($creative['creative_start_date'])?></strong>
+										</div>
+									</div>
+									<div class="col-sm-12 mb-2">
+										<label for="creative_name">Название креатива [<?=$creative_id?>]</label>
+										<input type="text" class="form-control" id="creative_name" name="creative_name" value="<?=$creative['creative_name']?>">
+									</div>
+									<div class="col-sm-12 mb-2">
+											<label for="creative_style">Стиль креатива</label>
+											<select class="custom-select" id="creative_style" name="creative_style">
+												<!-- <option value="">Выберете...</option> -->
+												<?php
+												if($creative['creative_style'] == ""){
+													echo "<option value=''>Выберете...</option>";
+												}
+												foreach($array_creative_style as $c_style){
+													$sel_lable = ($c_style == $creative['creative_style'])? 'selected':'';
+													echo"<option value='{$c_style}' {$sel_lable}>{$c_style}</option>";
+												}
+												?>
+											</select>
+									</div>
+									<div class="col-sm-12 mb-2">
+										<div class="row">
+											<div class="col-sm-6 mb-2">
+												<label for="creative_development_type">Тип креатива</label>
+												<select class="custom-select" id="creative_development_type" >
+													<?php
+													if($creative['creative_development_type'] == ""){
+														echo "<option value=''>Выберете...</option>";
+													}
+													foreach($array_creative_development_type as $c_type){
+														$sel_lable = ($c_type == $creative['creative_development_type'])? 'selected':'';
+														echo"<option value='{$c_type}' {$sel_lable}>{$c_type}</option>";
+													}
+													?>
+												</select>
+											</div>
+											<div class="col-sm-6 mb-2">
+											<label for="creative_magnitude">Заимствование</label>
+												<select class="custom-select" id="creative_magnitude" >
+
+													<?php
+													if($creative['creative_magnitude'] == ""){
+														echo "<option value=''>Выберете...</option>";
+													}
+													foreach($array_creative_magnitude as $c_mag){
+														$sel_lable = ($c_mag == $creative['creative_magnitude'])? 'selected':'';
+														echo"<option value='{$c_mag}' {$sel_lable}>{$c_mag}</option>";
+													}
+													?>
+												</select>
+											</div>
+										</div>
+									</div>
+									<div class="col-sm-12 mb-2">
+										<label for="creative_source">Источник вдохновения</label>
+											<select class="custom-select" id="creative_source" >
+												<?php
+												if($creative['creative_source'] == ""){
+													echo "<option value=''>Выберете...</option>";
+												}
+												foreach($array_creative_source as $c_source){
+													$sel_lable = ($c_source == $creative['creative_source'])? 'selected':'';
+													echo"<option value='{$c_source}' {$sel_lable}>{$c_source}</option>";
+												}
+												?>
+											</select>
+									</div>
+									<div class="col-sm-12 mb-2">
+										<label for="creative_description">Описание креатива</label>
+										<textarea class="form-control mb-2" name="creative_description" id="creative_description" cols="3" rows="3"><?=$creative['creative_description']?></textarea>
+									</div>
+								</div>
+								<div class="col" style="text-align: center;">
+									<button type="button" class="btn btn-primary" id="CreativeInfoUpdate"><i class="far fa-save"></i> Сохранить описание</button>
+								</div>
+							</form>
+						</div>
+					</div>
+				</div>
+				<!-- Оценки и отзывы -->
+				<div class="tab-pane fade" id="grades" role="tabpanel" aria-labelledby="grades-tab">
+					<div class="row mt-3">
+						<div class="col-md-4 text-center mb-3">
+							<button type="button" class="btn btn-info" data-toggle="tooltip" data-placement="bottom" title="Отправка на утверждение" id="SendToApproval"><i class="far fa-share-square"></i> Отправить креатив на утверждение</button>
+						</div>
+						<div class="col-md-8">
+							<div class="alert alert-primary" role="alert">
+							<i class="fas fa-info-circle"></i> После разработки или доработки креатива отправьте его на утверждение, нажав кнопку "Отправить креатив на утверждение". На время работы комиссии, доступ к редактированию креатива будет преостановлен.
+							</div>
+						</div>
+					</div>
+				</div>
+				<!-- Библиотека -->
+				<div class="tab-pane fade" id="library" role="tabpanel" aria-labelledby="contact-tab">
+					<div class="row mt-3">
+							<div class="col">
+								<div class="alert alert-primary" role="alert">
+								<i class="fas fa-info-circle"></i> После утверждения креатива ВСЕМИ участниками приемной комиссии и принятия решения о преобретении креатива - необходимо загрузить преобретенные изображения в библиотеку.
+								</div>
+							</div>
 					</div>
 				</div>
 
 
-				</div>
-				<div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">
-
-				</div>
 			</div>
 		</div>
-	</div>
-
-	
+	</div>	
 </div>
 
 <!-- Модальное окно Просмотр и удаление Base изображений -->
@@ -322,7 +314,6 @@
 		</div>
 	</div>
 </div>
-
 <!-- Отображение картинок в полный экран -->
 <div id="popup" class="popup">
 		<div class="popup__body">

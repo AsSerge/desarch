@@ -6,11 +6,26 @@ $(document).ready(function () {
 	$('#PreviewImages').hide();
 	$('#BaseImages').hide();
 
+	// ОБЯЗАТЕЛЬНОЕ ОТКЛЮЧЕНИЕ КЭША ДЛЯ БРАУЗЕРА!!!!
+	$.ajaxSetup({
+		cache: false
+	});
+
+	// Установка значения коэффицианта заимстования
+	var testCDT = $('#creative_development_type').val();
+	if (testCDT == "Собственная разработка") {
+		console.log(">>> " + testCDT);
+		$('#creative_magnitude').val("до 50%");
+		$('#creative_magnitude').prop('disabled', true);
+	} else {
+		$('#creative_magnitude').prop('disabled', false);
+	}
+
 	// Получение preview картинки креатива
 	GetPreviewImage(c_Id);
 	GetBaseImage(c_Id);
 
-	// Сокрытиt поля загрузки файлов preview и base (настройка кнопок)
+	// Сокрытие поля загрузки файлов preview и base (настройка кнопок)
 	$('#FilesDN').on('click', function () {
 		$('#PreviewFile').click();
 		return false;
@@ -28,6 +43,7 @@ $(document).ready(function () {
 			url: '/Modules/CreativeEdit/check_preview_file.php',
 			type: 'post',
 			datatype: 'html',
+			cache: false,
 			data: {
 				creative_id: c_Id,
 				preview_file: 'preview.jpg'
@@ -35,12 +51,17 @@ $(document).ready(function () {
 			success: function (data) {
 				var check_result = data;
 				if (check_result == "YES") {
+					// Обманываем кэширование
+					var dummy = new Date();
 					$('#PreviewImageNoN').hide();
 					$('#PreviewImages').show();
-					$('#PreviewImages').html("<img src = '/Creatives/" + creative_id + "/preview.jpg' width = '100%'>");
+					$('#PreviewImages').html("<img src = '/Creatives/" + creative_id + "/preview.jpg?ver=" + dummy.getTime() + "' width = '100%'>");
+					$('.OnePreviewImage').html("<img src = '/Creatives/" + creative_id + "/preview.jpg?ver=" + dummy.getTime() + "' width = '100%'>");
+					$('#SendToApproval').attr('disabled', false); // При наличии Preview - кнопка Отправки креатива на утверждение разрешается
 				} else {
 					$('#PreviewImageNoN').show();
 					$('#PreviewImages').hide();
+					$('#SendToApproval').prop('disabled', true);
 				}
 			}
 		});
@@ -89,13 +110,16 @@ $(document).ready(function () {
 					}
 					return SetFilling
 				}
+				console.log(Designes.length);
 				if (Designes.length != 0) {
 					$('#BaseImageNoN').hide();
 					$('#BaseImages').show();
 					$('#BaseImages').html(GetDesignList(Designes));
+					$('#SendToApproval').attr('disabled', false); // При наличии Base - кнопка Отправки креатива на утверждение разрешается
 				} else {
 					$('#BaseImageNoN').show();
 					$('#BaseImages').hide();
+					$('#SendToApproval').prop('disabled', true);
 				}
 				// Формирование модального окна
 				$('#EditBaseDesign').on('shown.bs.modal', function (event) {
@@ -174,6 +198,19 @@ $(document).ready(function () {
 	// 		}
 	// 	});
 	// }
+
+	// Проверка состояния Переключателя "Тип Креатива" -> Изменение коэффицианта заимстовавания
+	$('#creative_development_type').on("change", function () {
+		var testCDT = $('#creative_development_type').val();
+
+		if (testCDT == "Собственная разработка") {
+			console.log(">>> " + testCDT);
+			$('#creative_magnitude').val("до 50%");
+			$('#creative_magnitude').prop('disabled', true);
+		} else {
+			$('#creative_magnitude').prop('disabled', false);
+		}
+	})
 	// Обновление информации в форме
 	$('#CreativeInfoUpdate').on("click", function () {
 		var creative_name = $('#creative_name').val();
@@ -198,64 +235,30 @@ $(document).ready(function () {
 			success: function (data) {
 				console.log(data);
 
-				// var ToasBodyText = "Информация о креативе обновлена";
-				// $('#liveToast').children(".toast-body").html("<p><i class='far fa-save'> " + ToasBodyText + "</p>");
-				// $('#liveToast').toast('show');
+				var ToasBodyText = "Информация о креативе обновлена";
+				$('#liveToast').children(".toast-body").html("<p><i class='far fa-save'> " + ToasBodyText + "</p>");
+				$('#liveToast').toast('show');
 
-				location.reload();
+				// location.reload();
+				$('#myTab a[href="#profile"]').tab('show')
 			}
 		});
 	});
 
-	// Интерактивные изображения в оверлее
-	$('.popup').css({
-		'opacity': 0,
-		'visibility': 'hidden'
-	});
-
-	$(".oneimage").on("click", function () {
-		console.log("wetewrtewr");
-		var imgwidht = $(window).width() * 0.5 + "px"; // Здесь устнавливаем ширину картинки в зависимости от ширины окна
-		var scrl = $(window).outerWidth() - $(window).width() + "px" // Ширина линейки прокрутки
-
-		var activeimage = $(this).attr("big-image");
-		$('body').css({
-			"overflow": "hidden",
-			"padding-right": scrl
-		});
-
-		$('.header').css({
-			"padding-right": scrl
-		});
-
-		$('.popup').animate({
-			'opacity': 1
-		}, 700).css({
-			'visibility': 'visible'
-		});
-
-		var loc = $(location).attr('href');
-		$(".popup__close").html("<i class = 'fas fa-times'></i>");
-		// $(".popup__dnload").html('<a href = "' + loc + activeimage + '" download>Скачать</a>');
-		$(".popup__image").html('<img src="' + activeimage + '" width="' + imgwidht + '">');
-
-	});
-	$(".popup__close").on("click", function () {
-		$('body').css({
-			"overflow": "visible",
-			"padding-right": "0"
-		});
-		$('.header').css({
-			"padding-right": "0"
-		});
-		$('.popup').animate({
-			'opacity': 0
-		}, 200).css({
-			'visibility': 'hidden'
+	// Кнопка отправки креатива на утверждение
+	$('#SendToApproval').on("click", function () {
+		$.ajax({
+			url: '/Modules/CreativeEdit/creative_approval.php',
+			type: 'post',
+			data: {
+				creative_id: c_Id
+			},
+			success: function (data) {
+				console.log("Отправили на утверждение! " + data);
+				location.href = '/index.php?module=CreativeList';
+			}
 		});
 	});
-
-
 
 
 });

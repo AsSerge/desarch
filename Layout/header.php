@@ -5,6 +5,11 @@
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
+
+	<meta http-equiv="no-cache">
+	<meta http-equiv="Expires" content="-1">
+	<meta http-equiv="Cache-Control" content="no-cache">
+
 	<!-- Bootstrap CSS -->	
 	<!-- <link rel="stylesheet" href="/css/bootstrap.css"> -->
 	<link rel="stylesheet" href="/css/bootstrap.min.css">	
@@ -24,3 +29,5 @@
 	<title><?=$user_role_description?></title>
 </head>
 <body class="bg-light">
+
+

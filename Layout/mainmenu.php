@@ -30,6 +30,13 @@
 				<a class="nav-link" href="/index.php?module=CreativeList">Список заданий</a>
 			</li>
 
+			<?php } ?>
+
+			<?php if($user_role == 'ctr'){?>
+
+			<li class="nav-item">
+				<a class="nav-link" href="/index.php?module=RatingList">Список для голосования</a>
+			</li>
 
 			<?php } ?>
 

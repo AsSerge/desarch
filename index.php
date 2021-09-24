@@ -52,6 +52,21 @@
 							$link = '/Modules/TaskList/task_list.php';
 							$js_local_source = '/Modules/TaskList/task_list.js';
 				}
+			}elseif ($user_role == 'ctr'){
+				$module = $_GET['module'];
+				switch($module){
+					case 'RatingEdit':
+							$link = '/Modules/RatingEdit/rating_edit.php';
+							$js_local_source = '/Modules/RatingEdit/rating_edit.js';
+							break;
+					case 'RatingList':
+							$link = '/Modules/RatingList/rating_list.php';
+							$js_local_source = '/Modules/RatingList/rating_list.js';
+							break;
+					default:
+						$link = '/Modules/RatingList/rating_list.php';
+						$js_local_source = '/Modules/RatingList/rating_list.js';
+				}
 			}elseif ($user_role == 'dgr'){
 				$module = $_GET['module'];
 				switch($module){
@@ -66,11 +81,11 @@
 					default:
 							$link = '/Modules/CreativeList/сreative_list.php';
 							$js_local_source = '/Modules/CreativeList/сreative_list.js';
-		}
+
 			}
+		}
 			// Подключение контента (скрипты в футер грузим по необходимости)
 			include($_SERVER['DOCUMENT_ROOT'].$link);
 		?>
 	</main>
-
 <?php require_once($_SERVER['DOCUMENT_ROOT'].'/Layout/footer.php')?>
