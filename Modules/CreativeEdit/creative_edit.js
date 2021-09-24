@@ -14,7 +14,7 @@ $(document).ready(function () {
 	// Установка значения коэффицианта заимстования
 	var testCDT = $('#creative_development_type').val();
 	if (testCDT == "Собственная разработка") {
-		console.log(">>> " + testCDT);
+		// console.log(">>> " + testCDT);
 		$('#creative_magnitude').val("до 50%");
 		$('#creative_magnitude').prop('disabled', true);
 	} else {
@@ -24,6 +24,14 @@ $(document).ready(function () {
 	// Получение preview картинки креатива
 	GetPreviewImage(c_Id);
 	GetBaseImage(c_Id);
+
+	// Инициализируем локальное хранилище
+	localStorage.setItem('PreviewImage', '');
+	localStorage.setItem('BaseImage', '');
+
+	// Отключаем кнопку отправки на утверждение
+	// $('#SendToApproval').prop('disabled', true);
+
 
 	// Сокрытие поля загрузки файлов preview и base (настройка кнопок)
 	$('#FilesDN').on('click', function () {
@@ -57,11 +65,11 @@ $(document).ready(function () {
 					$('#PreviewImages').show();
 					$('#PreviewImages').html("<img src = '/Creatives/" + creative_id + "/preview.jpg?ver=" + dummy.getTime() + "' width = '100%'>");
 					$('.OnePreviewImage').html("<img src = '/Creatives/" + creative_id + "/preview.jpg?ver=" + dummy.getTime() + "' width = '100%'>");
-					$('#SendToApproval').attr('disabled', false); // При наличии Preview - кнопка Отправки креатива на утверждение разрешается
+					localStorage.setItem('PreviewImage', true); // Пишем в локальное хранилище
 				} else {
 					$('#PreviewImageNoN').show();
 					$('#PreviewImages').hide();
-					$('#SendToApproval').prop('disabled', true);
+					localStorage.setItem('PreviewImage', false); // Пишем в локальное хранилище
 				}
 			}
 		});
@@ -110,16 +118,15 @@ $(document).ready(function () {
 					}
 					return SetFilling
 				}
-				console.log(Designes.length);
 				if (Designes.length != 0) {
 					$('#BaseImageNoN').hide();
 					$('#BaseImages').show();
 					$('#BaseImages').html(GetDesignList(Designes));
-					$('#SendToApproval').attr('disabled', false); // При наличии Base - кнопка Отправки креатива на утверждение разрешается
+					localStorage.setItem('BaseImage', true);
 				} else {
 					$('#BaseImageNoN').show();
 					$('#BaseImages').hide();
-					$('#SendToApproval').prop('disabled', true);
+					localStorage.setItem('BaseImage', false);
 				}
 				// Формирование модального окна
 				$('#EditBaseDesign').on('shown.bs.modal', function (event) {
@@ -142,7 +149,7 @@ $(document).ready(function () {
 		});
 	}
 
-	// Удаление элемента (Функция)
+	// Удаление элемента в модальном окне (Функция)
 	function DelImageFromDir(imgToDel) {
 		var ImgToDel = imgToDel;
 		$.ajax({
@@ -183,28 +190,13 @@ $(document).ready(function () {
 		});
 	});
 
-	// function SetUpdate(CreativeId, Field, Content) {
-	// 	$.ajax({
-	// 		url: '/Modules/CreativeEdit/update_creative_info.php',
-	// 		type: 'post',
-	// 		datatype: 'html',
-	// 		data: {
-	// 			creative_id: CreativeId,
-	// 			field: Field,
-	// 			content: Content
-	// 		},
-	// 		success: function (data) {
-	// 			console.log(data);
-	// 		}
-	// 	});
-	// }
 
 	// Проверка состояния Переключателя "Тип Креатива" -> Изменение коэффицианта заимстовавания
 	$('#creative_development_type').on("change", function () {
 		var testCDT = $('#creative_development_type').val();
 
 		if (testCDT == "Собственная разработка") {
-			console.log(">>> " + testCDT);
+			// console.log(">>> " + testCDT);
 			$('#creative_magnitude').val("до 50%");
 			$('#creative_magnitude').prop('disabled', true);
 		} else {
@@ -213,37 +205,77 @@ $(document).ready(function () {
 	})
 	// Обновление информации в форме
 	$('#CreativeInfoUpdate').on("click", function () {
+		// Проверка: все необходимые поля формы должны быть заполнены
+		var ErrForm = [];
 		var creative_name = $('#creative_name').val();
 		var creative_style = $('#creative_style').val();
 		var creative_development_type = $('#creative_development_type').val();
 		var creative_magnitude = $('#creative_magnitude').val();
 		var creative_source = $('#creative_source').val();
 		var creative_description = $('#creative_description').val();
-		$.ajax({
-			url: '/Modules/CreativeEdit/update_creative_info.php',
-			type: 'POST',
-			datatype: 'html',
-			data: {
-				creative_id: c_Id,
-				creative_name: creative_name,
-				creative_style: creative_style,
-				creative_development_type: creative_development_type,
-				creative_magnitude: creative_magnitude,
-				creative_source: creative_source,
-				creative_description: creative_description
-			},
-			success: function (data) {
-				console.log(data);
 
-				var ToasBodyText = "Информация о креативе обновлена";
-				$('#liveToast').children(".toast-body").html("<p><i class='far fa-save'> " + ToasBodyText + "</p>");
-				$('#liveToast').toast('show');
+		ErrForm[0] = creative_name == "" ? 0 : 1;
+		ErrForm[1] = creative_style == "" ? 0 : 1;
+		ErrForm[2] = creative_development_type == "" ? 0 : 1;
+		ErrForm[3] = creative_magnitude == "" ? 0 : 1;
+		ErrForm[4] = creative_source == "" ? 0 : 1;
 
-				// location.reload();
-				$('#myTab a[href="#profile"]').tab('show')
-			}
-		});
+		// Подсчет суммы элементов массива
+		var setNumberFileds = ErrForm.reduce(function (a, b) {
+			return a + b
+		}, 0);
+
+		if (setNumberFileds < 5) {
+			var ToasBodyText = "Все поля должны быть заполнены!";
+			$('#liveToast').children(".toast-body").html("<p><i class='far fa-save'> " + ToasBodyText + "</p>");
+			$('#liveToast').toast('show');
+
+		} else {
+			$.ajax({
+				url: '/Modules/CreativeEdit/update_creative_info.php',
+				type: 'POST',
+				datatype: 'html',
+				data: {
+					creative_id: c_Id,
+					creative_name: creative_name,
+					creative_style: creative_style,
+					creative_development_type: creative_development_type,
+					creative_magnitude: creative_magnitude,
+					creative_source: creative_source,
+					creative_description: creative_description
+				},
+				success: function (data) {
+					// console.log(data);
+
+					var ToasBodyText = "Информация о креативе обновлена";
+					$('#liveToast').children(".toast-body").html("<p><i class='far fa-save'> " + ToasBodyText + "</p>");
+					$('#liveToast').toast('show');
+
+					// location.reload();
+					// $('#myTab a[href="#profile"]').tab('show');
+				}
+			});
+		}
+
 	});
+
+	// Проверка состояния для активации кнопки отправки
+	$('#myTab a[href="#grades"]').on('click', function (event) {
+		event.preventDefault();
+		// Получаем тип разработки - для собственной разработки источники вдохновения НЕ нужны для отправки на проверку
+		var check_creative_development_type = $('#creative_development_type').val();
+		var PreviewImage = localStorage.getItem('PreviewImage');
+		var BaseImage = localStorage.getItem('BaseImage');
+
+		if (check_creative_development_type == "Собственная разработка" && PreviewImage == 'true' && BaseImage == 'false') {
+			$('#SendToApproval').prop('disabled', false);
+		} else if (check_creative_development_type == "Компиляция" && PreviewImage == 'true' && BaseImage == 'true') {
+			$('#SendToApproval').prop('disabled', false);
+		} else {
+			$('#SendToApproval').prop('disabled', true); // Отключаем кнопку
+		}
+	});
+
 
 	// Кнопка отправки креатива на утверждение
 	$('#SendToApproval').on("click", function () {
@@ -259,6 +291,7 @@ $(document).ready(function () {
 			}
 		});
 	});
+
 
 
 });
