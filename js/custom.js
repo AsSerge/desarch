@@ -12,6 +12,11 @@ $(document).ready(function () {
 	});
 
 	// Интерактивные изображения в оверлее
+
+	$('.oneimage').css({
+		'cursor': 'pointer'
+	});
+
 	$('.popup').css({
 		'opacity': 0,
 		'visibility': 'hidden'

@@ -28,6 +28,7 @@ $(document).ready(function () {
 	// Инициализируем локальное хранилище
 	localStorage.setItem('PreviewImage', '');
 	localStorage.setItem('BaseImage', '');
+	// localStorage.setItem('CreativeDevelopmentType', '');
 
 	// Отключаем кнопку отправки на утверждение
 	// $('#SendToApproval').prop('disabled', true);
@@ -195,6 +196,8 @@ $(document).ready(function () {
 	$('#creative_development_type').on("change", function () {
 		var testCDT = $('#creative_development_type').val();
 
+		localStorage.setItem('CreativeDevelopmentType', testCDT); // Устанавливаем тип разработки в LocalStorage
+
 		if (testCDT == "Собственная разработка") {
 			// console.log(">>> " + testCDT);
 			$('#creative_magnitude').val("до 50%");
@@ -263,9 +266,25 @@ $(document).ready(function () {
 	$('#myTab a[href="#grades"]').on('click', function (event) {
 		event.preventDefault();
 		// Получаем тип разработки - для собственной разработки источники вдохновения НЕ нужны для отправки на проверку
-		var check_creative_development_type = $('#creative_development_type').val();
+
+		var check_creative_development_type = "";
 		var PreviewImage = localStorage.getItem('PreviewImage');
 		var BaseImage = localStorage.getItem('BaseImage');
+
+		// Проверяем состояние поля creative_development_type в базе
+		$.ajax({
+			url: '/Modules/CreativeEdit/check_creative_development_type.php',
+			type: 'post',
+			datatype: 'html',
+			data: {
+				creative_id: c_Id
+			},
+			success: function (data) {
+				localStorage.setItem('CreativeDevelopmentType', data);
+			}
+		});
+
+		check_creative_development_type = localStorage.getItem('CreativeDevelopmentType');
 
 		if (check_creative_development_type == "Собственная разработка" && PreviewImage == 'true' && BaseImage == 'false') {
 			$('#SendToApproval').prop('disabled', false);
