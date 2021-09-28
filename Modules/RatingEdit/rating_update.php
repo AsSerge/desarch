@@ -9,7 +9,7 @@ $creative_grade_pos = $_POST['creative_grade_pos'];
 $creative_comment_content = $_POST['creative_comment_content'];
 
 
-// Функция провекри позиции
+// Функция провекри позиции ()
 function GetGradesDataCount($pdo, $creative_id, $user_id){
 	$stmt = $pdo->prepare("SELECT * FROM сreative_grades WHERE creative_id = :creative_id AND user_id = :user_id");
 	$stmt->execute(array(

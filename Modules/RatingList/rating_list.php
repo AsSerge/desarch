@@ -12,6 +12,14 @@ include_once($_SERVER['DOCUMENT_ROOT']."/Layout/settings.php"); // Функци�
 // Получаем Креативов, готовый к утверждению
 	$stmt = $pdo->prepare("SELECT * FROM сreatives as C LEFT JOIN users AS U ON (C.user_id = U.user_id) WHERE C.creative_status = ?");
 	$stmt->execute(array("На утверждении"));
+
+
+	// $stmt = $pdo->prepare("SELECT * FROM сreatives as C LEFT JOIN users AS U ON (C.user_id = U.user_id) WHERE C.creative_status = :a OR C.creative_status = :b");
+	// $stmt->execute(array(
+	// 	'a'=>'На утверждении', 
+	// 	'b'=>'На доработке'
+	// ));
+
 	$creatives = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 	// Функция определения параметров задачи и заказчика по ID задачи
@@ -20,6 +28,15 @@ include_once($_SERVER['DOCUMENT_ROOT']."/Layout/settings.php"); // Функци�
 		$stmt->execute(array($task_id));
 		$customer = $stmt->fetch(PDO::FETCH_ASSOC);
 		return $customer;
+	}
+	// Функция провекри позиции ()
+	function GetGradesDataCount($pdo, $creative_id, $user_id){
+		$stmt = $pdo->prepare("SELECT * FROM сreative_grades WHERE creative_id = :creative_id AND user_id = :user_id");
+		$stmt->execute(array(
+			'creative_id'=>$creative_id,
+			'user_id'=>$user_id
+		));
+		return $stmt->rowCount();
 	}
 ?>
 <style>
@@ -68,23 +85,35 @@ include_once($_SERVER['DOCUMENT_ROOT']."/Layout/settings.php"); // Функци�
 			$color_scheme = 'bg-light';
 			$vote_btn = '';
 	}
+
+	$myKeyCount=0; // Ставим счетчик дизайнов
 	foreach($creatives as $cr){
-		echo "<div class='card m-2 {$color_scheme}'>";
-		echo "	<a href = '/index.php?module=RatingEdit&creative_id={$cr['creative_id']}'><img class='card-img-top' src='/Creatives/{$cr['creative_id']}/preview.jpg' alt=''></a>";
-		echo "	<div class='card-body'>";
-		echo "		<p class='card-text'><strong>Дизайн: </strong>[{$cr['creative_id']}] {$cr['creative_name']}</p>";
-		echo "		<p class='card-text'><strong>Дизайнер: </strong>{$cr['user_surname']} {$cr['user_name']}</p>";
-		echo "		<p class='card-text'><strong>Заказчик: </strong>".Customer($pdo, $cr['task_id'])['customer_name']."</p>";
-		echo "		<p class='card-text'><strong>Канал: </strong>".Customer($pdo, $cr['task_id'])['customer_type']."</p>";
-		echo "	</div>";
-		echo "<div id='ComissionGrades'><div></div><div></div></div>";
-		echo "	<div class='card-footer text-center'>";
-		echo "		<button type='button' onclick='window.location.href=`/index.php?module=RatingEdit&creative_id={$cr['creative_id']}`' class='btn btn-primary btn-sm' {$vote_btn}><i class='fas fa-balance-scale-right'></i> Оценка</button>";
-		echo "	</div>";
-		echo "</div>";
-	}	
+		
+		// Проверяем - голосовал ли проверяющий за этот креатив, если нет - отображаем его
+		$myKey = GetGradesDataCount($pdo, $cr['creative_id'], $user_id);
+		if($myKey != 1){
+			echo "<div class='card m-2 {$color_scheme}'>";
+			echo "	<a href = '/index.php?module=RatingEdit&creative_id={$cr['creative_id']}'><img class='card-img-top' src='/Creatives/{$cr['creative_id']}/preview.jpg' alt=''></a>";
+			echo "	<div class='card-body'>";
+			echo "		<p class='card-text'><strong>Дизайн: </strong>[{$cr['creative_id']}] {$cr['creative_name']}</p>";
+			echo "		<p class='card-text'><strong>Статус: </strong>{$cr['creative_status']}</p>";
+			echo "		<p class='card-text'><strong>Дизайнер: </strong>{$cr['user_surname']} {$cr['user_name']}</p>";
+			echo "		<p class='card-text'><strong>Заказчик: </strong>".Customer($pdo, $cr['task_id'])['customer_name']."</p>";
+			echo "		<p class='card-text'><strong>Канал: </strong>".Customer($pdo, $cr['task_id'])['customer_type']."</p>";		
+			echo "	</div>";
+			echo "<div id='ComissionGrades'><div></div><div></div></div>";
+			echo "	<div class='card-footer text-center'>";
+			echo "		<button type='button' onclick='window.location.href=`/index.php?module=RatingEdit&creative_id={$cr['creative_id']}`' class='btn btn-primary btn-sm' {$vote_btn}><i class='fas fa-balance-scale-right'></i> Оценка</button>";
+			echo "	</div>";
+			echo "</div>";
+			$myKeyCount++;
+		}
+	}
 	?>
 	</div>
+	<?php
+	if($myKeyCount == 0){echo "<div class='alert alert-success' role='alert'>Спасибо! В настоящее время нет доступных дизайнов для голосования</div>";}
+	?>
 </div>
 
 <?php
