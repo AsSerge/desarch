@@ -68,7 +68,7 @@ foreach($creatives as $crt){
 
 		case 'Принят':
 				$button_color = 'success';
-				$lable_work = 'disabled';
+				$lable_work = '';
 				$lable_title = $crt['creative_status'];
 			break;
 		default:

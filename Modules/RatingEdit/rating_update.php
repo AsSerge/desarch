@@ -19,6 +19,23 @@ function GetGradesDataCount($pdo, $creative_id, $user_id){
 	return $stmt->rowCount();
 }
 
+// Функция проверки количества положительных оценок за креатив
+function GetGradesOnCount($pdo, $creative_id){
+	$stmt = $pdo->prepare("SELECT * FROM сreative_grades WHERE creative_id = :creative_id AND creative_grade_pos = :creative_grade_pos");
+	$stmt->execute(array(
+		'creative_id'=>$creative_id,
+		'creative_grade_pos'=>'on'
+	));
+	$GradesOn = $stmt->rowCount(); // Количество положительных оценок 
+	if($GradesOn == 4){
+		$stmt = $pdo->prepare("UPDATE сreatives SET creative_status = :a WHERE creative_id =:b");
+		$stmt->execute(array(
+			'a'=>'Принят',
+			'b'=>$creative_id
+		));
+	}
+}
+
 if(GetGradesDataCount($pdo, $creative_id, $user_id) > 0){
 	// Если такая запись существовала - апдейтим ее
 	if($creative_grade_pos == "on"){
@@ -30,6 +47,9 @@ if(GetGradesDataCount($pdo, $creative_id, $user_id) > 0){
 			'user_id'=>$user_id
 		));
 		$infoTag = "Обновили";
+
+		// Проверяем количество положительных оценок за креатив. Если оно равно 4 - креативу присваевается статус "Принят"
+		GetGradesOnCount($pdo, $creative_id);
 	}else{
 		// Если креатив Отклоняется членом комиссииии - ВСЕ результаты голосования по нему обнуляются и креативу присваиваеися статус "На доработке"
 		$stmt = $pdo->prepare("DELETE FROM сreative_grades WHERE creative_id = ?");
@@ -53,6 +73,8 @@ if(GetGradesDataCount($pdo, $creative_id, $user_id) > 0){
 			'creative_grade_pos'=>$creative_grade_pos
 		));
 		$infoTag = "Добавили";
+		// Проверяем количество положительных оценок за креатив. Если оно равно 4 - креативу присваевается статус "Принят"
+		GetGradesOnCount($pdo, $creative_id);
 	}else{
 		// Если креатив Отклоняется членом комиссииии - ВСЕ результаты голосования по нему обнуляются и креативу присваиваеися статус "На доработке"
 		$stmt = $pdo->prepare("DELETE FROM сreative_grades WHERE creative_id = ?");

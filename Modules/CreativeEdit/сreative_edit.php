@@ -28,6 +28,15 @@
 		return $customer;
 	}
 
+	// Получаем все комментарии текущего креатива
+	$stmt_сomments = $pdo->prepare("SELECT * FROM сreative_сomments AS C LEFT JOIN users AS U ON (C.user_id = U.user_id) WHERE C.creative_id = ?");
+	$stmt_сomments->execute(array($creative_id));
+	$сomments = $stmt_сomments->fetchAll(PDO::FETCH_ASSOC);
+
+	// echo "<pre>";
+	// print_r($сomments);
+	// echo "</pre>";
+
 ?>
 <div class="my-3 p-3 bg-white rounded box-shadow">
 	<div class="row">
@@ -128,7 +137,6 @@
 
 								</div>
 							</div>
-
 							
 							<div class="col-6">
 
@@ -165,7 +173,7 @@
 
 						</div>	
 						<div class="col-md-8">
-							<form>
+							<form id="SendCreativeAllInfo">
 								<div class="form-group">
 								<h6 class="border-bottom border-gray pb-3 mb-2"><i class="far fa-images"></i> Описание креатива</h6>
 									<div class="col-sm-12 mb-2">
@@ -253,7 +261,7 @@
 				</div>
 				<!-- Оценки и отзывы -->
 				<div class="tab-pane fade" id="grades" role="tabpanel" aria-labelledby="grades-tab">
-					<div class="row mt-3">
+					<div class="row mt-3" id="InfoGrades">
 						<div class="col-md-4 text-center mb-3">
 							<button type="button" class="btn btn-info" data-toggle="tooltip" data-placement="bottom" title="Отправка на утверждение" id="SendToApproval"><i class="far fa-share-square"></i> Отправить креатив на утверждение</button>
 						</div>
@@ -261,6 +269,47 @@
 							<div class="alert alert-primary" role="alert">
 							<i class="fas fa-info-circle"></i> После разработки или доработки креатива отправьте его на утверждение, нажав кнопку "Отправить креатив на утверждение". На время работы комиссии, доступ к редактированию креатива будет преостановлен. Креатива собственной разработки достаточно загрузки Preview. Для компилированного креатива необходимо хотя бы одно базовое изображение. 
 							</div>
+						</div>
+					</div>
+					<style>
+						.BlockComments{
+							display: flex;
+							justify-content: left;
+							flex-wrap: wrap;
+						}
+						.OneComment{
+							max-width: 400px;
+							min-width: 300px;
+							background-color: var(--light);
+							padding: 1rem;
+							margin: 1rem 0.5rem;
+						}
+						.CommentSignature{
+							font-weight: 600;
+						}
+						.CommentSignature:BEFORE{
+							content:"-";
+							display: block;
+						}
+					</style>
+
+
+					<div class="row mt-3">
+						<div class="col-md-12">
+						<h6 class="border-bottom border-gray pb-3 mb-2"><i class="far fa-images"></i> Оценки и отзывы</h6>
+								<?php
+								if(count($сomments) > 0){
+									echo "<div class='BlockComments'>";
+									foreach($сomments as $cmt){
+										echo "<div class='OneComment'>";
+										echo "<i class='far fa-envelope-open'></i>&nbsp;{$cmt['creative_comment_content']}<span class='CommentSignature'>{$cmt['user_name']}&nbsp;{$cmt['user_surname']}</span>&nbsp;|&nbsp;{$cmt['creative_comment_update']}";
+										echo "</div>";
+									}
+									echo "</div>";
+								}else{
+									echo"<div class='alert alert-success' role='alert'>В настоящее время нет оценок и отзывов по данному креативу.</div>";
+								}
+								?>
 						</div>
 					</div>
 				</div>
@@ -274,8 +323,7 @@
 							</div>
 					</div>
 				</div>
-
-
+				
 			</div>
 		</div>
 	</div>	

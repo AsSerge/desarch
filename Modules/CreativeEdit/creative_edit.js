@@ -11,6 +11,29 @@ $(document).ready(function () {
 		cache: false
 	});
 
+	// Для УТВЕРЖДЕННОГО креатива скрываем некоторые кнопки
+	$.ajax({
+		url: '/Modules/CreativeEdit/check_creative_status.php',
+		type: 'post',
+		datatype: 'html',
+		cache: false,
+		data: {
+			creative_id: c_Id
+		},
+		success: function (data) {
+			if (data == "Принят") {
+				console.log("Начинаем");
+				$('#FilesDN').hide(); // Кнопка загрузки Изображения
+				$('#BaseFilesDN').hide(); // Кнопка загрузки Изображения
+				$('#ClearImage').hide(); // Кнопка удаления Изображения в popUP окне
+				$('#CreativeInfoUpdate').hide(); // Кнопка сохранения информации о креативе
+				$('#SendToApproval').hide(); // Кнопка отправки на утверждение
+				$('#InfoGrades').hide(); // Информационная панель
+				$('#SendCreativeAllInfo input, select, textarea').attr('disabled', true);
+			}
+		}
+	});
+
 	// Установка значения коэффицианта заимстования
 	var testCDT = $('#creative_development_type').val();
 	if (testCDT == "Собственная разработка") {
@@ -30,7 +53,9 @@ $(document).ready(function () {
 	localStorage.setItem('BaseImage', '');
 	// localStorage.setItem('CreativeDevelopmentType', '');
 
-	// Отключаем кнопку отправки на утверждение
+
+
+
 	// $('#SendToApproval').prop('disabled', true);
 
 

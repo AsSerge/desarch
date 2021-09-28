@@ -38,6 +38,18 @@ include_once($_SERVER['DOCUMENT_ROOT']."/Layout/settings.php"); // Функци�
 		));
 		return $stmt->rowCount();
 	}
+
+	// Функция проверки количества положительных оценок за креатив
+	function GetGradesOnCount($pdo, $creative_id){
+		$stmt = $pdo->prepare("SELECT * FROM сreative_grades WHERE creative_id = :creative_id AND creative_grade_pos = :creative_grade_pos");
+		$stmt->execute(array(
+			'creative_id'=>$creative_id,
+			'creative_grade_pos'=>'on'
+		));
+		return $stmt->rowCount(); // Количество положительных оценок 
+	}
+
+
 ?>
 <style>
 	.MyCardDesk{
@@ -86,12 +98,16 @@ include_once($_SERVER['DOCUMENT_ROOT']."/Layout/settings.php"); // Функци�
 			$vote_btn = '';
 	}
 
+	// Настройка ленточки проголосовавших
+
+
 	$myKeyCount=0; // Ставим счетчик дизайнов
 	foreach($creatives as $cr){
 		
 		// Проверяем - голосовал ли проверяющий за этот креатив, если нет - отображаем его
 		$myKey = GetGradesDataCount($pdo, $cr['creative_id'], $user_id);
 		if($myKey != 1){
+			$myKeyCNT = GetGradesOnCount($pdo, $cr['creative_id']);
 			echo "<div class='card m-2 {$color_scheme}'>";
 			echo "	<a href = '/index.php?module=RatingEdit&creative_id={$cr['creative_id']}'><img class='card-img-top' src='/Creatives/{$cr['creative_id']}/preview.jpg' alt=''></a>";
 			echo "	<div class='card-body'>";
@@ -101,7 +117,11 @@ include_once($_SERVER['DOCUMENT_ROOT']."/Layout/settings.php"); // Функци�
 			echo "		<p class='card-text'><strong>Заказчик: </strong>".Customer($pdo, $cr['task_id'])['customer_name']."</p>";
 			echo "		<p class='card-text'><strong>Канал: </strong>".Customer($pdo, $cr['task_id'])['customer_type']."</p>";		
 			echo "	</div>";
-			echo "<div id='ComissionGrades'><div></div><div></div></div>";
+			echo "<div id='ComissionGrades'>";
+				for($i=0;$i<=$myKeyCNT;$i++){
+					echo "<div></div>";
+				}
+			echo"</div>";
 			echo "	<div class='card-footer text-center'>";
 			echo "		<button type='button' onclick='window.location.href=`/index.php?module=RatingEdit&creative_id={$cr['creative_id']}`' class='btn btn-primary btn-sm' {$vote_btn}><i class='fas fa-balance-scale-right'></i> Оценка</button>";
 			echo "	</div>";
