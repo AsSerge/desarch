@@ -113,7 +113,6 @@ $cr_files = GetImagesArr(CREATIVE_FOLDER, $creative_id);
 		</form>
 	</div>
 
-
 </div>
 
 </div>
