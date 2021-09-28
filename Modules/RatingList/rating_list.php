@@ -70,7 +70,7 @@ include_once($_SERVER['DOCUMENT_ROOT']."/Layout/settings.php"); // Функци�
 	}
 	foreach($creatives as $cr){
 		echo "<div class='card m-2 {$color_scheme}'>";
-		echo "	<img class='card-img-top' src='/Creatives/{$cr['creative_id']}/preview.jpg' alt=''>";
+		echo "	<a href = '/index.php?module=RatingEdit&creative_id={$cr['creative_id']}'><img class='card-img-top' src='/Creatives/{$cr['creative_id']}/preview.jpg' alt=''></a>";
 		echo "	<div class='card-body'>";
 		echo "		<p class='card-text'><strong>Дизайн: </strong>[{$cr['creative_id']}] {$cr['creative_name']}</p>";
 		echo "		<p class='card-text'><strong>Дизайнер: </strong>{$cr['user_surname']} {$cr['user_name']}</p>";

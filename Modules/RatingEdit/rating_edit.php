@@ -10,6 +10,8 @@ require_once ($_SERVER['DOCUMENT_ROOT']."/Layout/settings.php");
 // Получаем ID креатива
 $creative_id = $_GET['creative_id'];
 
+echo "<script>let creative_id = {$creative_id};\n\rlet user_id = {$user_id};</script>";
+
 // Функция получения массива файлов-изображений из заданной папки
 function GetImagesArr($dir, $id){
 	$file = [];
@@ -50,54 +52,15 @@ $cr_files = GetImagesArr(CREATIVE_FOLDER, $creative_id);
 		width: 200px;
 		margin: 2px;
 		padding: 5px;
-	}
-	
-	/*Стилизация переключателя*/
-	.form_toggle {
-		display: inline-block;
-		overflow: hidden;	
-	}
-	.form_toggle-item {
-		float: left;
-		display: inline-block;
-	}
-	.form_toggle-item input[type=radio] {
-		display: none;
-	}
-	.form_toggle-item label {
-		display: inline-block;
-		padding: 0px 15px;
-		line-height: 34px;
-		border: 1px solid #999;
-		border-right: none;
-		cursor: pointer;
-		user-select: none;
-	}
-
-	.form_toggle .item-1 label {
-		border-radius: 3px 0 0 3px;
-	}
-	.form_toggle .item-2 label {
-		border-radius: 0 3px 3px 0;
-		border-right: 1px solid #999;
-	}
-
-/* Checked */
-	.form_toggle .item-1 input[type=radio]:checked + label {
-		background: var(--orange);
-	}
-	.form_toggle .item-2 input[type=radio]:checked + label {
-		background: var(--teal);
-	}
-	.MyRadio{		
-		display: flex;
-		align-items: center;
-		justify-content: center;
-	}
+	}	
 
 /* Комментарии к дизайну */	
 	
-	.MyComment{
+	.MyComment textarea{
+		font-size: 0.9rem;
+	}
+	.SetComment{
+		cursor: pointer;
 	}
 
 
@@ -121,30 +84,36 @@ $cr_files = GetImagesArr(CREATIVE_FOLDER, $creative_id);
 			?>
 		</div>
 	</div>
+	
+	
 	<div class="col-md-4 mb-2">
 		<h6 class="border-bottom border-gray pb-3 mb-2"><i class="far fa-images"></i> Блок голосования</h6>
-		<div class="alert alert-warning" id = "FTMyRadio" role="alert">Для оценки дизайна (креатива) необходимо кликнуть на переключателе. Если вы ходтите оставить комметнарий для дизайнера - впишите его в поле комментариев.</div>
+		<div class="alert alert-warning" id = "FTMyRadio" role="alert">Для оценки дизайна (креатива) необходимо кликнуть на переключателе, выбрав <i class="far fa-thumbs-up"></i> (Принят) или <i class="far fa-thumbs-down"></i> (Отклонен).<br>Если вы ходтите оставить комметнарий <span class="SetComment"><i class="far fa-comment-dots"></i></span> для дизайнера - впишите его в поле комментариев</div>
 		<form action="#">
-			<div class="MyRadio">
-				<div class="form_toggle">
-					<div class="form_toggle-item item-1">
-						<input id="fid-1" type="radio" name="radio" value="off" checked>
-						<label for="fid-1"><i class="far fa-thumbs-down"></i> Не принято</label>
-					</div>
-					<div class="form_toggle-item item-2">
-						<input id="fid-2" type="radio" name="radio" value="on">
-						<label for="fid-2"><i class="far fa-thumbs-up"></i> Принято</label>
-					</div>
+
+
+			<div class='p-2' style="text-align: center;">
+				<button id="BtnOn" type="button" class="btn btn-outline-success"><i class="far fa-thumbs-up"></i> Принят</button>
+				<button id="BtnOff" type="button" class="btn btn-outline-danger"><i class="far fa-thumbs-down"></i> Отклонен</button>				
+			</div>
+
+
+			<div class='p-2' style="text-align: center;">
+				<button id="SetComment" class="btn btn-info btn-sm" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample" >Комментарий <i class="far fa-comment-dots"></i></button>
+			</div>
+			<div class="collapse" id="collapseExample">
+				<div class="card card-body bg-light MyComment">
+					<textarea class="form-control mb-2" name="v_description" id="v_description" cols="3" rows="5" placeholder='Оставьте комментарий для дизайнера'></textarea>
 				</div>
 			</div>
-			<div class='MyComment'>
-				<textarea class="form-control mb-2" name="creative_description" id="creative_description" cols="3" rows="3"></textarea>
-				<div style = "text-align: center;">
-					<button type="button" class="btn btn-primary">Оставить комметнарий</button>
-				</div>
+			<hr>
+			<div class = 'pt-3' style = "text-align: center;">
+				<button id="SendVote" type="button" class="btn btn-primary">ГОЛОСОВАТЬ</button>
 			</div>
 		</form>
 	</div>
+
+
 </div>
 
 </div>
