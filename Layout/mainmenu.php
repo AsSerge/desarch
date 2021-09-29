@@ -14,7 +14,12 @@
 				<a class="nav-link" href="#">Уведомления</a>
 			</li> -->
 
+
 			<?php if($user_role == 'mgr'){?>
+			<li class="nav-item">
+				<a class="nav-link" href="/index.php?module=RatingList">Голосование</a>
+			</li>
+
 			<li class="nav-item">
 				<a class="nav-link" href="/index.php?module=TaskList">Список задач</a>
 			</li>

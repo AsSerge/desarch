@@ -13,6 +13,13 @@
 	$stmt = $pdo->prepare("SELECT * FROM `customers` WHERE 1");
 	$stmt->execute();
 	$customers = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+	function CheckCustomer($pdo, $customer_id){
+		$stmt = $pdo->prepare("SELECT * FROM tasks WHERE customer_id = ?");
+		$stmt->execute(array($customer_id));
+		return $stmt->rowCount();
+	}
+
 	// Индивидуальные настроки по типам ролей
 	if(count($customers)==0){
 		echo "<div class='alert alert-warning' role='alert'>Список заказчиков пуст! Пожалуйста добавьте заказчика!</div>";
@@ -24,7 +31,9 @@
 			echo "<thead><tr><th>ID</th><th>Изменен</th><th>Название</th><th>Тип</th><th>Описание</th></tr></thead>";
 		}
 		echo "<tbody>";
-		forEach($customers as $cust){
+		forEach($customers as $cust){	
+			// Разрешено удалять ТОЛЬКО пустых заказчиков
+			$check_customer = (CheckCustomer($pdo, $cust['customer_id']) > 0) ? 'disabled' : '';
 			echo "<tr>";
 			echo "<td>".$cust['customer_id']."</td>";
 			echo "<td>".$cust['customer_update']."</td>";
@@ -35,7 +44,7 @@
 				echo "<td>";
 				echo "<div class='btn-group' role='group' aria-label='Basic example'>";
 					echo"<button type='button' class='btn btn-info btn-sm EditCustomerBtn' data-toggle='modal' data-target='#AddCustomer' data-whatever = 'edit-customer' data-customer-id = ".$cust['customer_id']."><i class='far fa-edit'></i> Редактировать</button>";
-					echo"<button type='button' class='btn btn-danger btn-sm RemoveCustomerBtn' data-customer-id = ".$cust['customer_id']."><i class='far fa-trash-alt'></i> Удалить</button>";
+					echo"<button type='button' class='btn btn-danger btn-sm RemoveCustomerBtn' data-customer-id = ".$cust['customer_id']." {$check_customer}><i class='far fa-trash-alt'></i> Удалить</button>";
 				echo "</div>";
 				echo"</td>";
 			}

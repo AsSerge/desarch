@@ -13,13 +13,6 @@ include_once($_SERVER['DOCUMENT_ROOT']."/Layout/settings.php"); // Функци�
 	$stmt = $pdo->prepare("SELECT * FROM сreatives as C LEFT JOIN users AS U ON (C.user_id = U.user_id) WHERE C.creative_status = ?");
 	$stmt->execute(array("На утверждении"));
 
-
-	// $stmt = $pdo->prepare("SELECT * FROM сreatives as C LEFT JOIN users AS U ON (C.user_id = U.user_id) WHERE C.creative_status = :a OR C.creative_status = :b");
-	// $stmt->execute(array(
-	// 	'a'=>'На утверждении', 
-	// 	'b'=>'На доработке'
-	// ));
-
 	$creatives = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 	// Функция определения параметров задачи и заказчика по ID задачи
@@ -48,6 +41,10 @@ include_once($_SERVER['DOCUMENT_ROOT']."/Layout/settings.php"); // Функци�
 		));
 		return $stmt->rowCount(); // Количество положительных оценок 
 	}
+
+// echo "<pre>";
+// print_r($creatives);
+// echo "</pre>";
 
 
 ?>

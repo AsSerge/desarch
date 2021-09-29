@@ -29,7 +29,7 @@ $(document).ready(function () {
 				$('#CreativeInfoUpdate').hide(); // Кнопка сохранения информации о креативе
 				$('#SendToApproval').hide(); // Кнопка отправки на утверждение
 				$('#InfoGrades').hide(); // Информационная панель
-				$('#SendCreativeAllInfo input, select, textarea').attr('disabled', true);
+				$('#SendCreativeAllInfo').find('input, select, textarea').attr('disabled', true);
 			}
 		}
 	});
@@ -52,11 +52,6 @@ $(document).ready(function () {
 	localStorage.setItem('PreviewImage', '');
 	localStorage.setItem('BaseImage', '');
 	// localStorage.setItem('CreativeDevelopmentType', '');
-
-
-
-
-	// $('#SendToApproval').prop('disabled', true);
 
 
 	// Сокрытие поля загрузки файлов preview и base (настройка кнопок)
@@ -101,7 +96,7 @@ $(document).ready(function () {
 		});
 	}
 
-	// Загрузка Preview файла
+	// Загрузка Preview файла для дизайна
 	$('#PreviewFile').on("change", function () {
 		$('#PreviewFileLoad').ajaxSubmit({
 			url: '/Modules/CreativeEdit/PreviewFileLoad.php',
@@ -337,5 +332,18 @@ $(document).ready(function () {
 	});
 
 
+	// Настройка раздела загрузки файлов в библиотеку
+	$('#customFile1').on('change', function (e) {
+		var files = [];
+		for (var i = 0; i < $(this)[0].files.length; i++) {
+			files.push($(this)[0].files[i].name);
+		}
+		$(this).next('.custom-file-label').html(files.join(', '));
+	});
+
+	$('#BtnSendFilesToLibrary').on("click", function () {
+		var a = $('#design_source_url').val();
+		console.log("Press " + a);
+	});
 
 });

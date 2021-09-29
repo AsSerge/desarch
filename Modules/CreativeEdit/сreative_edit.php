@@ -281,15 +281,15 @@
 							max-width: 400px;
 							min-width: 300px;
 							background-color: var(--light);
-							padding: 1rem;
-							margin: 1rem 0.5rem;
+							/* padding: 1rem; */
+							margin: 0.5rem;
+							background-color: #ffface;
 						}
 						.CommentSignature{
-							font-weight: 600;
+							font-size: 0.9rem;
+							font-weight: 500;
 						}
 						.CommentSignature:BEFORE{
-							content:"-";
-							display: block;
 						}
 					</style>
 
@@ -299,10 +299,14 @@
 						<h6 class="border-bottom border-gray pb-3 mb-2"><i class="far fa-images"></i> Оценки и отзывы</h6>
 								<?php
 								if(count($сomments) > 0){
-									echo "<div class='BlockComments'>";
+									echo "<div class='BlockComments'>";	
 									foreach($сomments as $cmt){
-										echo "<div class='OneComment'>";
-										echo "<i class='far fa-envelope-open'></i>&nbsp;{$cmt['creative_comment_content']}<span class='CommentSignature'>{$cmt['user_name']}&nbsp;{$cmt['user_surname']}</span>&nbsp;|&nbsp;{$cmt['creative_comment_update']}";
+
+										$str_data = mysql_to_date(explode(" ", $cmt['creative_comment_update'])[0]);
+										$str_time = explode(" ", $cmt['creative_comment_update'])[1];
+
+										echo "<div class='OneComment shadow p-3 mb-3 rounded'>";
+										echo "<i class='far fa-envelope-open'></i>&nbsp;{$cmt['creative_comment_content']}<hr><span class='CommentSignature'>{$cmt['user_name']}&nbsp;{$cmt['user_surname']}&nbsp;|&nbsp;{$str_data}&nbsp;{$str_time}</span>";
 										echo "</div>";
 									}
 									echo "</div>";
@@ -314,6 +318,21 @@
 					</div>
 				</div>
 				<!-- Библиотека -->
+				<style>
+					.creative_library{
+
+					}
+					.library_preview{
+						display: flex;
+						flex-direction: column;
+						justify-content: center;
+					}
+					.library_preview img{
+						width: 100%;
+					}
+
+				</style>
+
 				<div class="tab-pane fade" id="library" role="tabpanel" aria-labelledby="contact-tab">
 					<div class="row mt-3">
 							<div class="col">
@@ -322,12 +341,76 @@
 								</div>
 							</div>
 					</div>
+					<div class="row mt-3">
+							<div class="col">
+								<h6 class="border-bottom border-gray pb-3 mb-2"><i class="far fa-images"></i> Библиотека</h6>
+								<div class="row">
+									<div class="col-md-2 library_preview">
+										<!-- <img src="/Tasks/1/T21_5479.jpg" alt=""> -->
+										<button type="button" class="btn btn-primary btn-sm mt-2">Загрузить Preview</button>
+									</div>
+									<div class="col-md-10">
+										<form action="#" method="post" enctype="multipart/form-data">
+											<div class="form-group">
+												<label for="design_source_url">Путь к странице исходника в Internet</label>
+												<input type="text" class="form-control form-control-sm" id="design_source_url" aria-describedby="emailHelp">
+											</div>
+
+											<div class="row">
+												<div class="col-md-6">
+													<label for="design_name">Введите название</label>
+													<input type="text" class="form-control form-control-sm" id="design_name" aria-describedby="emailHelp">
+												</div>
+
+												<div class="col-md-6">
+													<label for="design_creative_style">Введите направление дизайна</label>
+													<select class="form-control form-control-sm" id="design_creative_style" >
+														<?php
+														foreach($array_creative_style as $acs){
+															echo "<option value='{$acs}'>{$acs}</option>";
+														}
+														?>
+													</select>
+												</div>
+											</div>
+											
+											<div style = "text-align: center" class = "mt-3">
+												<div class="custom-file mb-3">
+													<input type="file" class="custom-file-input" id="customFile1" lang="ru" name="file[]" multiple>
+													<label class="custom-file-label" for="customFile">Выбрать файл</label>
+												</div>
+												<button class="btn btn-primary" type="button" id="BtnSendFilesToLibrary"><i class="far fa-save"></i> Сохранить изменения</button>
+											</div>
+										</form>	
+									</div>
+								</div>
+							</div>
+					</div>
 				</div>
-				
 			</div>
 		</div>
 	</div>	
 </div>
+
+
+
+
+<!-- 
+											<hr>
+											<div>
+												<table class="table table-striped table-sm">
+													<tbody >
+														<tr><td><i class="far fa-file-image"></i></td><td><a href = "#">depositphotos_1289716-Teddy-bear.jpg</a></td><td>2021-09-28 13:00:53</td><td>12M</td></tr>
+														<tr><td><i class="far fa-file-archive"></i></td><td><a href = "#">Depositphotos_1290116_original_vect.zip</a></td><td>2021-09-28 13:00:53</td><td>14M</td></tr>
+														<tr><td><i class="far fa-file-image"></i></td><td><a href = "#">Coroana cu trandafiri 1046.ai</a></td><td>2021-09-28 13:00:53</td><td>8M</td></tr>
+														<tr><td><i class="far fa-file-image"></i></td><td><a href = "#">Coroana cu trandafiri 1046.eps</a></td><td>2021-09-28 13:00:53</td><td>16M</td></tr>
+													</tbody>	
+												</table>
+											</div>
+ -->
+
+
+
 
 <!-- Модальное окно Просмотр и удаление Base изображений -->
 <div class="modal fade" id="EditBaseDesign" tabindex="-1">

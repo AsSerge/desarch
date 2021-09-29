@@ -19,19 +19,22 @@ function GetGradesDataCount($pdo, $creative_id, $user_id){
 	return $stmt->rowCount();
 }
 
-// Функция проверки количества положительных оценок за креатив
+// Функция проверки количества положительных оценок за креатив. При принятии 4х положительных оценок - креатив - принят
 function GetGradesOnCount($pdo, $creative_id){
 	$stmt = $pdo->prepare("SELECT * FROM сreative_grades WHERE creative_id = :creative_id AND creative_grade_pos = :creative_grade_pos");
 	$stmt->execute(array(
 		'creative_id'=>$creative_id,
 		'creative_grade_pos'=>'on'
 	));
-	$GradesOn = $stmt->rowCount(); // Количество положительных оценок 
+	$GradesOn = $stmt->rowCount(); // Количество положительных оценок	 
 	if($GradesOn == 4){
-		$stmt = $pdo->prepare("UPDATE сreatives SET creative_status = :a WHERE creative_id =:b");
+
+		$today = date('Y-m-d'); // Текущее число
+		$stmt = $pdo->prepare("UPDATE сreatives SET creative_status = :a, creative_end_date = :b WHERE creative_id =:c");
 		$stmt->execute(array(
 			'a'=>'Принят',
-			'b'=>$creative_id
+			'b'=>$today,
+			'c'=>$creative_id
 		));
 	}
 }
