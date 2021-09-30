@@ -1,13 +1,12 @@
 <?php
-
 $input_name = 'file'; // Получаем загруженный файл
 
  // Разрешенные расширения файлов.
 $allow = array('jpg', 'jpeg', 'png', 'gif', 'zip', 'eps', 'ai');
 
  // Директория, куда будут загружаться файлы.
-// $path = $_SERVER["DOCUMENT_ROOT"] . '/Designes/'.$creative_id.'/';
-$path = $_SERVER["DOCUMENT_ROOT"] . '/Designes/';
+$path = $_SERVER["DOCUMENT_ROOT"] . '/Designes/'.$designFolderPath.'/';
+// $path = $_SERVER["DOCUMENT_ROOT"] . '/Designes/';
 
 if (isset($_FILES[$input_name])) {
 	// Преобразуем массив $_FILES в удобный вид для перебора в foreach.

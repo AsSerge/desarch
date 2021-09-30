@@ -11,11 +11,23 @@ $(document).ready(function () {
 	});
 
 
+	function CheckFormFilelds() {
+		let design_source_url = $('#design_source_url').val();
+		let design_name = $('#design_name').val();
+		let design_creative_style = $('#design_creative_style').val();
+		let customFile1 = $('#customFile1').val();
+		if (design_source_url == "" || design_name == "" || design_creative_style == "" || customFile1 == "") {
+			// console.log("False");
+			return false
+		} else {
+			// console.log("True");
+			return true
+		}
+	}
+
+	// CheckFormFilelds();
 
 	$('#BtnSendFilesToLibrary').on("click", function () {
-		// let design_source_url = $('#design_source_url').val();
-		// let design_name = $('#design_name').val();
-		// let design_creative_style = $('#design_creative_style').val();
 		$('#DesignSendInfo').ajaxSubmit({
 			url: '/Modules/LibraryEdit/library_updateinfo.php',
 			type: 'post',
@@ -24,7 +36,8 @@ $(document).ready(function () {
 			},
 			success: function (data) {
 				console.log(data);
-				$('#DesignSendInfo')[0].reset();
+				$('#DesignSendInfo')[0].reset(); // Сбрасываем поля формы
+				// $('#customFile1').find('.custom-file-label').html(''); // Сбрасываем поле выбора файла
 			}
 		});
 	});

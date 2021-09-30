@@ -52,16 +52,16 @@ echo "<script>var c_Id = {$creative_id};</script>\n\r";
 							<input type="hidden" name="user_id" value="<?=$user_id?>"> 
 							<div class="form-group">
 								<label for="design_source_url">Путь к странице исходника в Internet</label>
-								<input type="text" class="form-control form-control-sm" id="design_source_url" aria-describedby="emailHelp" name="design_source_url">
+								<input type="text" class="form-control form-control-sm" id="design_source_url" aria-describedby="emailHelp" name="design_source_url" required>
 							</div>
 							<div class="row">
 								<div class="col-md-6">
 									<label for="design_name">Введите название</label>
-									<input type="text" class="form-control form-control-sm" id="design_name" aria-describedby="emailHelp" name="design_name">
+									<input type="text" class="form-control form-control-sm" id="design_name" aria-describedby="emailHelp" name="design_name" required>
 								</div>
 								<div class="col-md-6">
 									<label for="design_creative_style">Введите направление дизайна</label>
-									<select class="form-control form-control-sm" id="design_creative_style" name = "design_creative_style">
+									<select class="form-control form-control-sm" id="design_creative_style" name = "design_creative_style" required>
 										<?php
 											echo "<option value=''>Выберете...</option>";
 										foreach($array_creative_style as $acs){
@@ -73,7 +73,7 @@ echo "<script>var c_Id = {$creative_id};</script>\n\r";
 							</div>
 							<div style = "text-align: center" class = "mt-3">
 								<div class="custom-file mb-3">
-									<input type="file" class="custom-file-input" id="customFile1" lang="ru" name="file[]" multiple>
+									<input type="file" class="custom-file-input" id="customFile1" lang="ru" name="file[]" multiple required>
 									<label class="custom-file-label" for="customFile">Выбрать файл</label>
 								</div>
 								<button class="btn btn-primary" type="button" id="BtnSendFilesToLibrary"><i class="far fa-save"></i> Сохранить изменения</button>
