@@ -331,19 +331,4 @@ $(document).ready(function () {
 		});
 	});
 
-
-	// Настройка раздела загрузки файлов в библиотеку
-	$('#customFile1').on('change', function (e) {
-		var files = [];
-		for (var i = 0; i < $(this)[0].files.length; i++) {
-			files.push($(this)[0].files[i].name);
-		}
-		$(this).next('.custom-file-label').html(files.join(', '));
-	});
-
-	$('#BtnSendFilesToLibrary').on("click", function () {
-		var a = $('#design_source_url').val();
-		console.log("Press " + a);
-	});
-
 });

@@ -177,10 +177,9 @@
 					<div class="row">
 						<div class="col" style="text-align: center;">
 							<div class="btn-group" role="group" aria-label="Basic example">
-								<button type="button" class="btn btn-secondary" id="AddNewCreative"><i class="far fa-plus-square"></i> Добавить креатив</button>
-								<!-- <button class="btn btn-outline-success" type="button" data-toggle="modal" data-target="#AddCraetiveModal" id="">Добавить креатив</button> -->
-								<!-- <button type="button" class="btn btn-primary"><i class="far fa-save" id></i> Сохранить задачу</button> -->
-								<!-- <button type="button" class="btn btn-info" disabled>Завершить задачу</button> -->
+								<button type="button" class="btn btn-secondary" id="AddNewCreative"><i class="far fa-plus-square"></i> Добавить креатив</button>								
+								<button type="button" class="btn btn-primary" onclick="window.location='/index.php?module=TaskList'"><i class="fas fa-undo"></i> В список задач</button>
+								<button type="button" class="btn btn-info" disabled>Завершить задачу</button>
 							</div>
 						</div>
 					</div>	

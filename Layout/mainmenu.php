@@ -30,11 +30,12 @@
 			<?php } ?>
 
 			<?php if($user_role == 'dgr'){?>
-
 			<li class="nav-item">
 				<a class="nav-link" href="/index.php?module=CreativeList">Список заданий</a>
 			</li>
-
+			<li class="nav-item">
+				<a class="nav-link" href="/index.php?module=LibraryList">Список дизайнов</a>
+			</li>
 			<?php } ?>
 
 			<?php if($user_role == 'ctr'){?>
@@ -45,8 +46,10 @@
 
 			<?php } ?>
 
-
 			<?php if($user_role == 'adm'){?>
+				<li class="nav-item">
+					<a class="nav-link" href="/index.php?module=LibraryList">Список дизайнов</a>
+				</li>
 				<li class="nav-item dropdown">
 					<a class="nav-link dropdown-toggle" href="#" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Администратор</a>
 					<div class="dropdown-menu" aria-labelledby="dropdown01">

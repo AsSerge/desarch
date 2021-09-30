@@ -53,6 +53,7 @@ $array_creative_source = array(
 // Констаннты сайта
 define("TASK_FOLDER", $_SERVER['DOCUMENT_ROOT']."/Tasks/"); // Каталог для задач (номера папок по ID задачи)
 define("CREATIVE_FOLDER", $_SERVER['DOCUMENT_ROOT']."/Creatives/"); // Каталог для разрабатываемых креативов (номера папок по ID задачи)
+define("DESIGN_FOLDER", $_SERVER['DOCUMENT_ROOT']."/Designes/"); // Каталог для Дизайнов (номера папок по ID дизайна. Preview файлов хранатся в корне)
 
 // Функции сайта
 //Преобразуем дату в правильный MySql формат

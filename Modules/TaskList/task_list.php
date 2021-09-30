@@ -9,6 +9,7 @@
 <div class="my-3 p-3 bg-white rounded box-shadow">
 
 <?php
+include_once($_SERVER['DOCUMENT_ROOT']."/Layout/settings.php"); // Функции сайта
 // В зависимости от уровня доступа - выводим список
 if($user_role == 'adm'){
 	$stmt = $pdo->prepare("SELECT * FROM tasks as T LEFT JOIN customers AS C ON (T.customer_id = C.customer_id) WHERE 1");
@@ -33,6 +34,9 @@ function GetCreativeNumbers($pdo, $task_id, $select_number){
 		case "Inwork":
 			$stmt = $pdo->prepare("SELECT * FROM сreatives WHERE task_id = ? AND creative_status = 'В работе'");
 			break;
+		case "Approve":
+			$stmt = $pdo->prepare("SELECT * FROM сreatives WHERE task_id = ? AND creative_status = 'На утверждении'");
+			break;
 	}
 	$stmt->execute(array($task_id));
 	return $stmt->rowCount();
@@ -44,7 +48,7 @@ if(count($tasks)==0){
 }else{
 	echo "<table class='table table-sm table-light-header' id='DT_TaskList'>";
 
-	echo "<thead><tr><th>#</th><th>#</th><th>Номер</th><th>Заказчик</th><th>Тип</th><th>Название задачи</th><th>Крайний срок</th><th>Креативов всего</th><th>Принято</th><th>В работе</th><th>Статус</th><th>Действие</th></tr></thead>";
+	echo "<thead><tr><th>#</th><th>#</th><th>Номер</th><th>Заказчик</th><th>Тип</th><th>Название задачи</th><th>Крайний срок</th><th>Креативов всего</th><th>Принято</th><th>В работе</th><th>На утверждении</th><th>Статус</th><th>Действие</th></tr></thead>";
 
 	echo "<tbody>";
 	forEach($tasks as $task){
@@ -55,10 +59,11 @@ if(count($tasks)==0){
 		echo "<td>".$task['customer_name']."</td>";
 		echo "<td>".$task['customer_type']."</td>";
 		echo "<td>".$task['task_name']."</td>";
-		echo "<td>".$task['task_deadline']."</td>";
+		echo "<td>".mysql_to_date($task['task_deadline'])."</td>";
 		echo "<td>".GetCreativeNumbers($pdo, $task['task_id'], "All")."</td>";
 		echo "<td>".GetCreativeNumbers($pdo, $task['task_id'], "Accept")."</td>";
 		echo "<td>".GetCreativeNumbers($pdo, $task['task_id'], "Inwork")."</td>";
+		echo "<td>".GetCreativeNumbers($pdo, $task['task_id'], "Approve")."</td>";
 		echo "<td>".$task['task_status']."</td>";
 		echo "<td><a href = '/index.php?module=TaskEdit&task_id=".$task['task_id']."' class='btn btn-outline-primary btn-sm' type='button'><i class='fas fa-edit'></i> Редактор</a></td>";
 		echo "</tr>";

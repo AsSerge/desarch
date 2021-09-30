@@ -28,7 +28,15 @@
 					case 'TaskEdit':
 							$link = '/Modules/TaskEdit/task_edit.php';
 							$js_local_source = '/Modules/TaskEdit/task_edit.js';
-							break;	
+							break;
+					case 'LibraryEdit':
+							$link = '/Modules/LibraryEdit/library_edit.php';
+							$js_local_source = '/Modules/LibraryEdit/library_edit.js';
+							break;
+					case 'LibraryList':
+							$link = '/Modules/LibraryList/library_list.php';
+							$js_local_source = '/Modules/LibraryList/library_list.js';
+							break;
 					default:
 							$link = '/Modules/UserList/user_list.php';
 							$js_local_source = '/Modules/UserList/user_list.js';	
@@ -86,6 +94,18 @@
 							$link = '/Modules/CreativeList/сreative_list.php';
 							$js_local_source = '/Modules/CreativeList/сreative_list.js';
 							break;
+					case 'LibraryEdit':
+							$link = '/Modules/LibraryEdit/library_edit.php';
+							$js_local_source = '/Modules/LibraryEdit/library_edit.js';
+							break;
+					case 'LibraryEdit':
+							$link = '/Modules/LibraryEdit/library_edit.php';
+							$js_local_source = '/Modules/LibraryEdit/library_edit.js';
+							break;
+					case 'LibraryList':
+							$link = '/Modules/LibraryList/library_list.php';
+							$js_local_source = '/Modules/LibraryList/library_list.js';
+							break;	
 					default:
 							$link = '/Modules/CreativeList/сreative_list.php';
 							$js_local_source = '/Modules/CreativeList/сreative_list.js';

@@ -65,20 +65,24 @@ foreach($creatives as $crt){
 				$lable_work = 'disabled';
 				$lable_title = $crt['creative_status'];
 			break;
-
 		case 'Принят':
 				$button_color = 'success';
 				$lable_work = '';
 				$lable_title = $crt['creative_status'];
+				$lable_work_library = '';
 			break;
 		default:
 				$button_color = 'info';
 				$lable_work = '';
 				$lable_title = $crt['creative_status'];
+				$lable_work_library = 'disabled';
 	}
 		
 	echo "<button type='button' class='btn btn-warning btn-sm TakeToWork' data-creative = '".$crt['creative_id']."' {$lable_set}><i class='far fa-flag'></i></button>&nbsp;";
-	echo "<button type='button' class='btn btn-{$button_color} btn-sm' {$lable_work} data-toggle='tooltip' data-placement='left' title='{$lable_title}' onclick='document.location=`/index.php?module=CreativeEdit&creative_id=".$crt['creative_id']."`'><i class='fas fa-tools'></i></button>&nbsp;";
+	echo "<button type='button' class='btn btn-{$button_color} btn-sm' {$lable_work} data-toggle='tooltip' data-placement='bottom' title='{$lable_title}' onclick='document.location=`/index.php?module=CreativeEdit&creative_id=".$crt['creative_id']."`'><i class='fas fa-tools'></i></button>&nbsp;";
+
+
+	echo "<button type='button' class='btn btn-{$button_color} btn-sm' {$lable_work_library} data-toggle='tooltip' data-placement='bottom' title='Добавить дизайн в библиотеку' onclick='document.location=`/index.php?module=LibraryEdit&creative_id=".$crt['creative_id']."`'><i class='fas fa-photo-video'></i></button>&nbsp;";
 
 	echo "</td>";
 	echo "</tr>";
