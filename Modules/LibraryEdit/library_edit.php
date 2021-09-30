@@ -11,6 +11,14 @@ include_once($_SERVER['DOCUMENT_ROOT']."/Layout/settings.php"); // Функци�
 // Получаем ID креатива для редактирования 
 $creative_id = $_GET['creative_id'];
 echo "<script>var c_Id = {$creative_id};</script>\n\r";
+
+$stmt = $pdo->prepare("SELECT * FROM designes WHERE creative_id = ?");
+$stmt->execute(array($creative_id));
+$designes = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+// echo "<pre>";
+// print_r($designes);
+// echo "</pre>";
 ?>
 <!-- Библиотека -->
 <style>
@@ -32,6 +40,19 @@ echo "<script>var c_Id = {$creative_id};</script>\n\r";
 				</div>
 			</div>
 	</div>
+
+	<?php if (count($designes) > 0){?>
+
+		
+
+		
+		
+
+
+
+
+	<?}?>
+
 	<div class="row mt-3">
 			<div class="col">
 				<h6 class="border-bottom border-gray pb-3 mb-2"><i class="far fa-images"></i> Библиотека</h6>
@@ -52,16 +73,16 @@ echo "<script>var c_Id = {$creative_id};</script>\n\r";
 							<input type="hidden" name="user_id" value="<?=$user_id?>"> 
 							<div class="form-group">
 								<label for="design_source_url">Путь к странице исходника в Internet</label>
-								<input type="text" class="form-control form-control-sm" id="design_source_url" aria-describedby="emailHelp" name="design_source_url" required>
+								<input type="text" class="form-control form-control-sm myRQ" id="design_source_url" aria-describedby="emailHelp" name="design_source_url">
 							</div>
 							<div class="row">
 								<div class="col-md-6">
 									<label for="design_name">Введите название</label>
-									<input type="text" class="form-control form-control-sm" id="design_name" aria-describedby="emailHelp" name="design_name" required>
+									<input type="text" class="form-control form-control-sm myRQ" id="design_name" aria-describedby="emailHelp" name="design_name">
 								</div>
 								<div class="col-md-6">
 									<label for="design_creative_style">Введите направление дизайна</label>
-									<select class="form-control form-control-sm" id="design_creative_style" name = "design_creative_style" required>
+									<select class="form-control form-control-sm myRQ" id="design_creative_style" name = "design_creative_style">
 										<?php
 											echo "<option value=''>Выберете...</option>";
 										foreach($array_creative_style as $acs){
@@ -73,15 +94,13 @@ echo "<script>var c_Id = {$creative_id};</script>\n\r";
 							</div>
 							<div style = "text-align: center" class = "mt-3">
 								<div class="custom-file mb-3">
-									<input type="file" class="custom-file-input" id="customFile1" lang="ru" name="file[]" multiple required>
+									<input type="file" class="custom-file-input myRQ" id="customFile1" lang="ru" name="file[]" multiple>
 									<label class="custom-file-label" for="customFile">Выбрать файл</label>
 								</div>
 								<button class="btn btn-primary" type="button" id="BtnSendFilesToLibrary"><i class="far fa-save"></i> Сохранить изменения</button>
 							</div>
 						</form>	
 					</div>
-
-
 				</div>
 			</div>
 	</div>

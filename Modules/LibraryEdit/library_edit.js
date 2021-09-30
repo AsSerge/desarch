@@ -1,6 +1,8 @@
 $(document).ready(function () {
 	"use strict";
 
+	$('#BtnSendFilesToLibrary').attr("disabled", true); // Запрещена отправка по умолчанию
+
 	// Настройка кнопки загрузки файлов в библиотеку
 	$('#customFile1').on('change', function (e) {
 		var files = [];
@@ -11,21 +13,28 @@ $(document).ready(function () {
 	});
 
 
-	function CheckFormFilelds() {
-		let design_source_url = $('#design_source_url').val();
-		let design_name = $('#design_name').val();
-		let design_creative_style = $('#design_creative_style').val();
-		let customFile1 = $('#customFile1').val();
-		if (design_source_url == "" || design_name == "" || design_creative_style == "" || customFile1 == "") {
-			// console.log("False");
-			return false
-		} else {
-			// console.log("True");
-			return true
-		}
+	// Проверка заполненности всех полей формы
+	function checkAllFields() {
+		let k = 0;
+		$('.myRQ').each(function () {
+			if ($(this).val() != '') {
+				k++
+			}
+		});
+		return k
 	}
 
-	// CheckFormFilelds();
+	// Включение / отключение кнопки отправки #BtnSendFilesToLibrary
+	$('.myRQ').on("change", function () {
+		let h = checkAllFields();
+		if (h < 4) {
+			$('#BtnSendFilesToLibrary').attr("disabled", true);
+		} else {
+			$('#BtnSendFilesToLibrary').attr("disabled", false);
+		}
+	});
+
+
 
 	$('#BtnSendFilesToLibrary').on("click", function () {
 		$('#DesignSendInfo').ajaxSubmit({
@@ -37,11 +46,10 @@ $(document).ready(function () {
 			success: function (data) {
 				console.log(data);
 				$('#DesignSendInfo')[0].reset(); // Сбрасываем поля формы
-				// $('#customFile1').find('.custom-file-label').html(''); // Сбрасываем поле выбора файла
+				location.reload(); // Перезагрузка страницы
 			}
 		});
 	});
-
 
 
 
