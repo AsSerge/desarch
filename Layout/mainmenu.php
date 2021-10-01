@@ -19,7 +19,9 @@
 			<li class="nav-item">
 				<a class="nav-link" href="/index.php?module=RatingList">Голосование</a>
 			</li>
-
+			<li class="nav-item">
+				<a class="nav-link" href="/index.php?module=CreativeListView">Просмотр креативов</a>
+			</li>
 			<li class="nav-item">
 				<a class="nav-link" href="/index.php?module=TaskList">Список задач</a>
 			</li>

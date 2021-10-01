@@ -76,7 +76,7 @@ body {
 	align-items: center;
 	padding-top: 40px;
 	padding-bottom: 40px;
-	background-color: #f5f5f5;
+	background-color: #f8f9fa;	
 }
 
 .pass_error{
@@ -137,7 +137,7 @@ body {
 	<input type="email" id="inputEmail" name="login" class="form-control" placeholder="Email адрес" required autofocus>
 	<label for="inputPassword" class="sr-only">Password</label>
 	<input type="password" id="inputPassword" name="password" class="form-control" placeholder="Пароль" required>
-	<p class="mt-2 mb-2 text-muted"><a href = "#">Я забыл пароль</a></p>
+	<!-- <p class="mt-2 mb-2 text-muted"><a href = "#">Я забыл пароль</a></p> -->
 	<button class="btn btn-md btn-primary btn-block" name="submit" type="submit">Вход</button>
 	<p class="mt-3 mb-2 text-muted"><a href = "http://www.dmtextile.ru" target="_blanc">&copy; Dmtextile 2021</a></p>
 </form>

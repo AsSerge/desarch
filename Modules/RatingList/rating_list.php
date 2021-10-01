@@ -129,7 +129,7 @@ include_once($_SERVER['DOCUMENT_ROOT']."/Layout/settings.php"); // Функци�
 	?>
 	</div>
 	<?php
-	if($myKeyCount == 0){echo "<div class='alert alert-success' role='alert'>Спасибо! В настоящее время нет доступных дизайнов для голосования</div>";}
+	if($myKeyCount == 0){echo "<div class='alert alert-success' role='alert'>В настоящее время нет доступных дизайнов для голосования.</div>";}
 	?>
 </div>
 

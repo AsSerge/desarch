@@ -64,6 +64,10 @@
 							$link = '/Modules/RatingList/rating_list.php';
 							$js_local_source = '/Modules/RatingList/rating_list.js';
 							break;
+					case 'CreativeListView':
+							$link = '/Modules/CreativeListView/creative_list_view.php';
+							$js_local_source = '/Modules/CreativeListView/creative_list_view.js';
+							break;
 					default:
 							$link = '/Modules/TaskList/task_list.php';
 							$js_local_source = '/Modules/TaskList/task_list.js';
