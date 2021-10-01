@@ -27,6 +27,9 @@ $(document).ready(function () {
 		var imgwidht = $(window).width() * 0.5 + "px"; // Здесь устнавливаем ширину картинки в зависимости от ширины окна
 		var scrl = $(window).outerWidth() - $(window).width() + "px" // Ширина линейки прокрутки
 
+		var wh = $(window).height() - 100; // Устанавливаем высоту большой картинки
+		var wh = wh + "px";
+
 		var activeimage = $(this).attr("big-image");
 		$('body').css({
 			"overflow": "hidden",
@@ -45,8 +48,8 @@ $(document).ready(function () {
 
 		var loc = $(location).attr('href');
 		$(".popup__close").html("<i class = 'fas fa-times'></i>");
-		// $(".popup__dnload").html('<a href = "' + loc + activeimage + '" download>Скачать</a>');
-		$(".popup__image").html('<img src="' + activeimage + '" width="' + imgwidht + '">');
+		// $(".popup__image").html('<img src="' + activeimage + '" width="' + imgwidht + '">');
+		$(".popup__image").html('<img src="' + activeimage + '" height="' + wh + '">');
 
 	});
 	$(".popup__close").on("click", function () {

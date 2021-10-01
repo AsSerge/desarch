@@ -124,7 +124,9 @@ $designes = $stmt->fetchAll(PDO::FETCH_ASSOC);
 				
 				echo "	<div class='DesignList PreviewFile'></div>";
 
-				echo "		<img src = './Designes/{$des['design_id']}/preview.jpg' width = '100%'>";
+				$f_size = getimagesize("./Designes/{$des['design_id']}/preview.jpg"); // Найдем размер preview.jpg
+
+				echo "		<img src = './Designes/{$des['design_id']}/preview.jpg' width = '100%' class='oneimage' big-image='./Designes/{$des['design_id']}/preview.jpg' title = '{$f_size[0]} X $f_size[1]'>";
 				
 				echo "	</div>";
 				echo "	<div class='col-md-10'>";
@@ -150,6 +152,9 @@ $designes = $stmt->fetchAll(PDO::FETCH_ASSOC);
 	</div>	
 
 </div>
+
+
+
 <!-- Модальное окно Добавления дизайна -->
 <div class="modal fade modal" id="AddDesign" tabindex="-1">
 	<div class="modal-dialog">
@@ -205,5 +210,16 @@ $designes = $stmt->fetchAll(PDO::FETCH_ASSOC);
 			</div>
 		</div>
 	</div>
+</div>
+
+<!-- Отображение картинок в полный экран -->
+<div id="popup" class="popup">
+		<div class="popup__body">
+			<div class="popup__content">
+				<div class="popup__dnload"></div>
+				<div class="popup__close"></div>
+				<div class="popup__image"></div>
+			</div>
+		</div>
 </div>
 

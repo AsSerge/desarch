@@ -86,7 +86,7 @@ if (isset($_FILES[$input_name])) {
 	// Изменяем размер изображения
 	$thumb = new Imagick();
 	$thumb->readImage($path."preview.jpg");	
-	$thumb->thumbnailImage(1200, 1200, true, false); // Настройки выходного изображения
+	$thumb->thumbnailImage(1024, 1024, true, false); // Настройки выходного изображения
 	$thumb->writeImage($path."preview.jpg");
 	$thumb->clear();
 	$thumb->destroy(); 
