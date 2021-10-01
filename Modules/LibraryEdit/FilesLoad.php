@@ -2,7 +2,7 @@
 $input_name = 'file'; // Получаем загруженный файл
 
  // Разрешенные расширения файлов.
-$allow = array('jpg', 'jpeg', 'png', 'gif', 'zip', 'eps', 'ai');
+$allow = array('jpg', 'jpeg', 'png', 'gif', 'zip', 'eps', 'ai', 'svg', 'cdr');
 
  // Директория, куда будут загружаться файлы.
 $path = $_SERVER["DOCUMENT_ROOT"] . '/Designes/'.$designFolderPath.'/';
@@ -22,6 +22,7 @@ if (isset($_FILES[$input_name])) {
 		}
 	}
 
+	$jpegFiles = [];
 	foreach ($files as $file) {
 		$error = $success = '';
 
@@ -55,9 +56,15 @@ if (isset($_FILES[$input_name])) {
 			} elseif (!empty($allow) && !in_array(strtolower($parts['extension']), $allow)) {
 				$error = 'Недопустимый тип файла';
 			} else {
-				 // Перемещаем файл в директорию.				
+				 // Перемещаем файл в директорию.
 				if (move_uploaded_file($file['tmp_name'], $path . $name)) {
-					 // Далее можно сохранить название файла в БД и т.п.
+					// Обработка файлов JPEG
+					// Получаем расширение файла для создания из этого файла Prevew
+					$fi = new SplFileInfo($name);
+					$fe = $fi->getExtension();
+					if($fe == 'jpg'){
+						$jpegFiles[] = $name;
+					}
 					$success = 'Файл «' . $name . '» успешно загружен.';
 				} else {
 					$error = 'Не удалось загрузить файл.';
@@ -72,5 +79,17 @@ if (isset($_FILES[$input_name])) {
 			echo '<p class="error">' . $error . '</p>';
 		}
 	}
+
+	// Копируем первый попавшийся jpeg файл в preview.jpg в ЭТОЙ ЖЕ ПАПКЕ! 
+	copy($path.$jpegFiles[0], $path."preview.jpg");
+
+	// Изменяем размер изображения
+	$thumb = new Imagick();
+	$thumb->readImage($path."preview.jpg");	
+	$thumb->thumbnailImage(1200, 1200, true, false); // Настройки выходного изображения
+	$thumb->writeImage($path."preview.jpg");
+	$thumb->clear();
+	$thumb->destroy(); 
+
 }
 ?>

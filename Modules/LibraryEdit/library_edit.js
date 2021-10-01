@@ -27,6 +27,7 @@ $(document).ready(function () {
 	// Включение / отключение кнопки отправки #BtnSendFilesToLibrary
 	$('.myRQ').on("change", function () {
 		let h = checkAllFields();
+		console.log(h);
 		if (h < 4) {
 			$('#BtnSendFilesToLibrary').attr("disabled", true);
 		} else {
@@ -34,8 +35,13 @@ $(document).ready(function () {
 		}
 	});
 
+	// ПРИНУДИТЕЛЬНАЯ очистка полей формы
+	$('#BtnFormClear').on("click", function () {
+		$('#DesignSendInfo')[0].reset(); // Сбрасываем поля формы
+		location.reload(); // Перезагрузка страницы
+	});
 
-
+	// ОТПРАВКА ИНФОРМАЦИИ
 	$('#BtnSendFilesToLibrary').on("click", function () {
 		$('#DesignSendInfo').ajaxSubmit({
 			url: '/Modules/LibraryEdit/library_updateinfo.php',
