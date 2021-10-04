@@ -64,8 +64,8 @@ if (isset($_FILES[$input_name])) {
 					$thumb = new Imagick();
 					$thumb->readImage($path.$name);	
 					$thumb->thumbnailImage(1024, 1024, true, false); // Настройки выходного изображения
-					$thumb
-					$thumb->destroy(); ->writeImage($path.$name);
+					$thumb->writeImage($path.$name);
+					$thumb->destroy();
 					$thumb->clear();
 
 					$success = 'Файл «' . $name . '» успешно загружен.';
