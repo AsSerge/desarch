@@ -10,7 +10,6 @@ $array_customer_types=array(
 );
 $customer_types = json_encode($array_customer_types);
 
-
 // Статусы креативов
 $creative_status_types=array(
 	'В задаче',

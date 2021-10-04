@@ -23,7 +23,7 @@ $(document).ready(function () {
 	});
 
 	$(".oneimage").on("click", function () {
-		console.log("wetewrtewr");
+		console.log("Грузим картинку");
 		var imgwidht = $(window).width() * 0.5 + "px"; // Здесь устнавливаем ширину картинки в зависимости от ширины окна
 		var scrl = $(window).outerWidth() - $(window).width() + "px" // Ширина линейки прокрутки
 
