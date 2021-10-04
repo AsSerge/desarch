@@ -49,9 +49,9 @@ $(document).ready(function () {
 	GetBaseImage(c_Id);
 
 	// Инициализируем локальное хранилище
-	localStorage.setItem('PreviewImage', '');
-	localStorage.setItem('BaseImage', '');
-	// localStorage.setItem('CreativeDevelopmentType', '');
+	sessionStorage.setItem('PreviewImage', '');
+	sessionStorage.setItem('BaseImage', '');
+	// sessionStorage.setItem('CreativeDevelopmentType', '');
 
 
 	// Сокрытие поля загрузки файлов preview и base (настройка кнопок)
@@ -86,11 +86,11 @@ $(document).ready(function () {
 					$('#PreviewImages').show();
 					$('#PreviewImages').html("<img src = '/Creatives/" + creative_id + "/preview.jpg?ver=" + dummy.getTime() + "' width = '100%'>");
 					$('.OnePreviewImage').html("<img src = '/Creatives/" + creative_id + "/preview.jpg?ver=" + dummy.getTime() + "' width = '100%'>");
-					localStorage.setItem('PreviewImage', true); // Пишем в локальное хранилище
+					sessionStorage.setItem('PreviewImage', true); // Пишем в локальное хранилище
 				} else {
 					$('#PreviewImageNoN').show();
 					$('#PreviewImages').hide();
-					localStorage.setItem('PreviewImage', false); // Пишем в локальное хранилище
+					sessionStorage.setItem('PreviewImage', false); // Пишем в локальное хранилище
 				}
 			}
 		});
@@ -143,11 +143,11 @@ $(document).ready(function () {
 					$('#BaseImageNoN').hide();
 					$('#BaseImages').show();
 					$('#BaseImages').html(GetDesignList(Designes));
-					localStorage.setItem('BaseImage', true);
+					sessionStorage.setItem('BaseImage', true);
 				} else {
 					$('#BaseImageNoN').show();
 					$('#BaseImages').hide();
-					localStorage.setItem('BaseImage', false);
+					sessionStorage.setItem('BaseImage', false);
 				}
 				// Формирование модального окна
 				$('#EditBaseDesign').on('shown.bs.modal', function (event) {
@@ -216,7 +216,7 @@ $(document).ready(function () {
 	$('#creative_development_type').on("change", function () {
 		var testCDT = $('#creative_development_type').val();
 
-		localStorage.setItem('CreativeDevelopmentType', testCDT); // Устанавливаем тип разработки в LocalStorage
+		sessionStorage.setItem('CreativeDevelopmentType', testCDT); // Устанавливаем тип разработки в sessionStorage
 
 		if (testCDT == "Собственная разработка") {
 			// console.log(">>> " + testCDT);
@@ -288,8 +288,8 @@ $(document).ready(function () {
 		// Получаем тип разработки - для собственной разработки источники вдохновения НЕ нужны для отправки на проверку
 
 		var check_creative_development_type = "";
-		var PreviewImage = localStorage.getItem('PreviewImage');
-		var BaseImage = localStorage.getItem('BaseImage');
+		var PreviewImage = sessionStorage.getItem('PreviewImage');
+		var BaseImage = sessionStorage.getItem('BaseImage');
 
 		// Проверяем состояние поля creative_development_type в базе
 		$.ajax({
@@ -300,11 +300,11 @@ $(document).ready(function () {
 				creative_id: c_Id
 			},
 			success: function (data) {
-				localStorage.setItem('CreativeDevelopmentType', data);
+				sessionStorage.setItem('CreativeDevelopmentType', data);
 			}
 		});
 
-		check_creative_development_type = localStorage.getItem('CreativeDevelopmentType');
+		check_creative_development_type = sessionStorage.getItem('CreativeDevelopmentType');
 
 		if (check_creative_development_type == "Собственная разработка" && PreviewImage == 'true' && BaseImage == 'false') {
 			$('#SendToApproval').prop('disabled', false);
