@@ -7,6 +7,7 @@ $user_id = $_POST['user_id'];
 $creative_id = $_POST['creative_id'];
 $creative_grade_pos = $_POST['creative_grade_pos'];
 $creative_comment_content = $_POST['creative_comment_content'];
+$rejectionReason = $_POST['rejectionReason']; // Причина отклонения креатива
 
 
 // Функция провекри позиции ()
@@ -93,18 +94,31 @@ if(GetGradesDataCount($pdo, $creative_id, $user_id) > 0){
 
 }
 
-// Получить коментарий
-if($_POST['creative_comment_content'] != ""){
+// Запись комментариев
+
+if($_POST['rejectionReason'] != "" AND $_POST['creative_comment_content'] != ""){
 	
-	$stmt = $pdo->prepare("INSERT INTO сreative_сomments SET user_id = :user_id, creative_id = :creative_id, creative_comment_content = :creative_comment_content");
+	$stmt = $pdo->prepare("INSERT INTO сreative_сomments SET user_id = :user_id, creative_id = :creative_id, creative_comment_focus = :creative_comment_focus,  creative_comment_content = :creative_comment_content");
+	$updated_content = "[".$rejectionReason."] ".$creative_comment_content; // Пишем в комментарий причину и суть комментария
 	$stmt->execute(array(
 		'user_id'=>$user_id,
 		'creative_id'=>$creative_id,
-		'creative_comment_content'=>$creative_comment_content
+		'creative_comment_content'=>$updated_content,
+		'creative_comment_focus'=>'negative'
 	));
 	
 	$infoTag .= " Записали комментарий";
-}else{
+
+}elseif($_POST['rejectionReason'] == "" AND $_POST['creative_comment_content'] != ""){
+
+	$stmt = $pdo->prepare("INSERT INTO сreative_сomments SET user_id = :user_id, creative_id = :creative_id, creative_comment_focus = :creative_comment_focus,  creative_comment_content = :creative_comment_content");	
+	$stmt->execute(array(
+		'user_id'=>$user_id,
+		'creative_id'=>$creative_id,
+		'creative_comment_content'=>$creative_comment_content,
+		'creative_comment_focus'=>'positive'
+	));
+
 	$infoTag .= " Нет комментария";
 }
 

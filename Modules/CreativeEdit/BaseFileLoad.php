@@ -60,7 +60,14 @@ if (isset($_FILES[$input_name])) {
 				 // Переименовываем файл в [ID][имя файла]
 				$name = $creative_id."_".$name;
 				if (move_uploaded_file($file['tmp_name'], $path . $name)) {
-					 // Далее можно сохранить название файла в БД и т.п.
+					// Изменяем размер загруженного изображения
+					$thumb = new Imagick();
+					$thumb->readImage($path.$name);	
+					$thumb->thumbnailImage(1024, 1024, true, false); // Настройки выходного изображения
+					$thumb
+					$thumb->destroy(); ->writeImage($path.$name);
+					$thumb->clear();
+
 					$success = 'Файл «' . $name . '» успешно загружен.';
 				} else {
 					$error = 'Не удалось загрузить файл.';

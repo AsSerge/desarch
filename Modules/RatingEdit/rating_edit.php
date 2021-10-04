@@ -94,9 +94,26 @@ $cr_files = GetImagesArr(CREATIVE_FOLDER, $creative_id);
 
 			<div class='p-2' style="text-align: center;">
 				<button id="BtnOn" type="button" class="btn btn-outline-success"><i class="far fa-thumbs-up"></i> Принят</button>
-				<button id="BtnOff" type="button" class="btn btn-outline-danger"><i class="far fa-thumbs-down"></i> Отклонен</button>				
+				<button id="BtnOff" type="button" class="btn btn-outline-danger"><i class="far fa-thumbs-down"></i> Отклонен</button>
 			</div>
 
+
+			<style>
+				.rejection{
+				}
+			</style>
+
+			<div class='p-2' id='rejectionReasonBlock'>
+				<label for="rejectionReason">Причина отклонения</label>
+					<select class="form-control form-control-sm rejection" id="rejectionReason" name = "rejectionReason">
+						<option value="">Выберете...</option>
+						<?php
+							foreach ($rejectionReason as $reas){
+									echo "<option value='{$reas}'>{$reas}</option>";
+							}
+						?>
+					</select>
+			</div>
 
 			<div class='p-2' style="text-align: center;">
 				<button id="SetComment" class="btn btn-info btn-sm" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample" >Комментарий <i class="far fa-comment-dots"></i></button>

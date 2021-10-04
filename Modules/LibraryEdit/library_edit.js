@@ -15,7 +15,7 @@ $(document).ready(function () {
 
 	// Проверка заполненности всех полей формы
 	function checkAllFields() {
-		let k = 0;
+		var k = 0;
 		$('.myRQ').each(function () {
 			if ($(this).val() != '') {
 				k++
@@ -26,7 +26,7 @@ $(document).ready(function () {
 
 	// Включение / отключение кнопки отправки #BtnSendFilesToLibrary
 	$('.myRQ').on("change", function () {
-		let h = checkAllFields();
+		var h = checkAllFields();
 		console.log(h);
 		if (h < 4) {
 			$('#BtnSendFilesToLibrary').attr("disabled", true);

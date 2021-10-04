@@ -28,6 +28,9 @@
 			<li class="nav-item">
 				<a class="nav-link" href="/index.php?module=CustomerList">Список заказчиков</a>
 			</li>
+			<li class="nav-item">
+				<a class="nav-link" href="/index.php?module=HelpDesk">Помощь</a>
+			</li>
 
 			<?php } ?>
 
@@ -37,6 +40,9 @@
 			</li>
 			<li class="nav-item">
 				<a class="nav-link" href="/index.php?module=LibraryList">Список дизайнов</a>
+			</li>
+			<li class="nav-item">
+				<a class="nav-link" href="/index.php?module=HelpDesk">Помощь</a>
 			</li>
 			<?php } ?>
 
@@ -60,6 +66,9 @@
 					<a class="dropdown-item" href="/index.php?module=TaskList">Список задач</a>
 					<a class="dropdown-item" href="/index.php?module=CustomerList">Список заказчиков</a>
 					</div>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" href="/index.php?module=HelpDesk">Помощь</a>
 				</li>
 			<?php } ?>
 

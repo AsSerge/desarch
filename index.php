@@ -37,6 +37,11 @@
 							$link = '/Modules/LibraryList/library_list.php';
 							$js_local_source = '/Modules/LibraryList/library_list.js';
 							break;
+					case 'HelpDesk':
+							$link = '/Modules/HelpDesk/help_desk.php';
+							$js_local_source = '/Modules/HelpDesk/help_desk.js';
+							break;
+	
 					default:
 							$link = '/Modules/UserList/user_list.php';
 							$js_local_source = '/Modules/UserList/user_list.js';	
@@ -67,6 +72,10 @@
 					case 'CreativeListView':
 							$link = '/Modules/CreativeListView/creative_list_view.php';
 							$js_local_source = '/Modules/CreativeListView/creative_list_view.js';
+							break;
+					case 'HelpDesk':
+							$link = '/Modules/HelpDesk/help_desk.php';
+							$js_local_source = '/Modules/HelpDesk/help_desk.js';
 							break;
 					default:
 							$link = '/Modules/TaskList/task_list.php';
@@ -109,7 +118,12 @@
 					case 'LibraryList':
 							$link = '/Modules/LibraryList/library_list.php';
 							$js_local_source = '/Modules/LibraryList/library_list.js';
-							break;	
+							break;
+					case 'HelpDesk':
+							$link = '/Modules/HelpDesk/help_desk.php';
+							$js_local_source = '/Modules/HelpDesk/help_desk.js';
+							break;
+	
 					default:
 							$link = '/Modules/CreativeList/сreative_list.php';
 							$js_local_source = '/Modules/CreativeList/сreative_list.js';

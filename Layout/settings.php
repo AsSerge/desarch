@@ -50,6 +50,15 @@ $array_creative_source = array(
 	'www.freepik.com'
 );
 
+$rejectionReason = array(
+	'Первая причина',
+	'Вторая причина',
+	'Третья причина',
+	'Четвертая причина',
+	'Пятая причина',
+	'Шестая причина'
+);
+
 // Констаннты сайта
 define("TASK_FOLDER", $_SERVER['DOCUMENT_ROOT']."/Tasks/"); // Каталог для задач (номера папок по ID задачи)
 define("CREATIVE_FOLDER", $_SERVER['DOCUMENT_ROOT']."/Creatives/"); // Каталог для разрабатываемых креативов (номера папок по ID задачи)

@@ -278,10 +278,18 @@
 							max-width: 400px;
 							min-width: 300px;
 							background-color: var(--light);
-							/* padding: 1rem; */
 							margin: 0.5rem;
+						}
+
+						.positiveComment{
 							background-color: #ffface;
 						}
+
+						.negativeComment{
+							background-color: #ffabab;
+						}
+
+
 						.CommentSignature{
 							font-size: 0.9rem;
 							font-weight: 500;
@@ -301,8 +309,8 @@
 
 										$str_data = mysql_to_date(explode(" ", $cmt['creative_comment_update'])[0]);
 										$str_time = explode(" ", $cmt['creative_comment_update'])[1];
-
-										echo "<div class='OneComment shadow p-3 mb-3 rounded'>";
+										$commentcolor = ($cmt['creative_comment_focus'] == 'positive') ? 'positiveComment' : 'negativeComment';
+										echo "<div class='OneComment {$commentcolor} shadow p-3 mb-3 rounded'>";
 										echo "<i class='far fa-envelope-open'></i>&nbsp;<b>Сообщение</b><hr>";
 										echo "{$cmt['creative_comment_content']}<hr><span class='CommentSignature'>{$cmt['user_name']}&nbsp;{$cmt['user_surname']}&nbsp;|&nbsp;{$str_data}&nbsp;{$str_time}</span>";
 										echo "</div>";
