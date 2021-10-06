@@ -14,5 +14,14 @@ if(isset($_POST['update_user'])){
 	}else{
 		echo "Пароль не меняется";
 	}
+
+	if(isset($_POST['user_superior']) and $_POST['user_superior'] != ""){
+		$user_id = $_POST['user_id'];
+		$user_superior = $_POST['user_superior'];
+		$stmt = $pdo->prepare("UPDATE users SET `user_superior` = ? WHERE `user_id` = ?");
+		$stmt->execute(array($user_superior, $user_id));
+	}	
 }
+
+
 ?>

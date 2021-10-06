@@ -65,17 +65,20 @@
 					<a class="dropdown-item" href="/index.php?module=UserRegistration">Регистрация пользователя</a>
 					<a class="dropdown-item" href="/index.php?module=TaskList">Список задач</a>
 					<a class="dropdown-item" href="/index.php?module=CustomerList">Список заказчиков</a>
+					<a class="dropdown-item" href="/index.php?module=DesignerList">Список дизайнеров</a>
 					</div>
 				</li>
 				<li class="nav-item">
 					<a class="nav-link" href="/index.php?module=HelpDesk">Помощь</a>
 				</li>
 			<?php } ?>
+			</ul>
+			<ul class='navbar-nav mt-2 mt-md-0'>
+				<li class="nav-item">
+					<a class="nav-link" href="/Login/baselogin/logout.php"><i class="fas fa-door-open"></i> Выход</a>
+				</li>
+			</ul>
 
-			<li class="nav-item">
-				<a class="nav-link" href="/Login/baselogin/logout.php">Выход</a>
-			</li>
 
-		</ul>
 		</div>
 </nav>

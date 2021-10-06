@@ -48,7 +48,9 @@ include_once($_SERVER['DOCUMENT_ROOT']."/Layout/settings.php"); // Функци�
 				echo $cr['creative_id'];
 				echo "</td>";
 				echo "<td>";
-				echo "<img src = './Creatives/{$cr['creative_id']}/preview.jpg' width='200px' class='oneimage' big-image='./Creatives/{$cr['creative_id']}/preview.jpg'>";
+				if(file_exists('./Creatives/'.$cr['creative_id'].'/preview.jpg')){
+					echo "<img src = './Creatives/{$cr['creative_id']}/preview.jpg' width='200px' class='oneimage' big-image='./Creatives/{$cr['creative_id']}/preview.jpg'>";
+				}				
 				echo "</td>";
 				echo "<td>";
 				echo $cr['creative_name'];

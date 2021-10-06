@@ -20,6 +20,7 @@ $(document).ready(function () {
 		var user_login = $("#user_login").val();
 		var user_password = $("#user_password").val();
 		var user_role = $("#user_role").val();
+		var user_superior = $("#user_superior").val();
 
 		$.ajax({
 			url: '/Modules/UserList/user_update.php',
@@ -32,10 +33,12 @@ $(document).ready(function () {
 				user_surname: user_surname,
 				user_login: user_login,
 				user_password: user_password,
-				user_role: user_role
+				user_role: user_role,
+				user_superior: user_superior
 			},
 			success: function (data) {
 				console.log(data);
+				GetUserList();
 			}
 		});
 	})
@@ -69,6 +72,7 @@ $(document).ready(function () {
 				var rolle_arr = ["adm", "mgr", "dgr", "ctr"];
 				var role = res.user_role;
 
+				// Формирование списка ролей
 				for (var i = 0; i <= 3; i++) {
 					if (role == rolle_arr[i]) {
 						role_block += '<option value="' + rolle_arr[i] + '" selected>' + rolle_arr_name[i] + '</option>';
@@ -89,6 +93,7 @@ $(document).ready(function () {
 					<label for="user_name">Фамилия</label>
 					<input type="text" class="form-control mb-2" id="user_surname" value = "${res.user_surname}" disabled>
 
+										
 					<label for="user_login">Логин</label>
 					<input type="email" class="form-control mb-2" id="user_login" value = "${res.user_login}" disabled>
 
@@ -96,9 +101,20 @@ $(document).ready(function () {
 					<input type="text" class="form-control mb-2" id="user_password" value = "">
 
 					<label for="user_role">Роль</label>
-					<select class="form-control" id="user_role" name="user_role">
+					<select class="form-control mb-2" id="user_role" name="user_role" disabled>
 						${role_block}
-					</select>
+					</select>`;
+
+
+				if (res.user_role == "dgr") {
+					userEditForm += `<label for="user_superior">Руководитель дизайнера</label>
+					<select class="form-control mb-2" id="user_superior" name="user_superior">
+						<option value''>Выбрать руководителя...</option>
+						<option value='2'>Юлианна Фролова</option>
+						<option value='68'>Елена Артеменко</option>
+					</select>`;
+				}
+				userEditForm += `\	
 				</div>\
 				<div style = "text-align: center">
 					<button type="button" class="btn btn-secondary" data-dismiss="modal">Отмена</button>
@@ -158,9 +174,9 @@ function GetUserList() {
 		dataType: 'html',
 		success: function (data) {
 			var res = $.parseJSON(data);
-			var text_table = "<table class='table table-striped table-sm'><thead>\
-			<tr><th>#</th><th>Пользователь</th><th>Логин</th><th>Роль</th><th>Действие</th></tr>\
-			</thead>";
+			var text_table = `<table class='table table-striped table-sm'><thead>\
+			<tr><th>#</th><th>Пользователь</th><th>Логин</th><th>Роль</th><th>Руководитель</th><th>Действие</th></tr>\
+			</thead>`;
 			// Перебераем массив
 			res.forEach(function (entry) {
 				var user_role = "";
@@ -186,10 +202,15 @@ function GetUserList() {
 
 				>${entry.user_name} ${entry.user_surname}</a></td>\
 				<td>${entry.user_login}</td>\
-				<td>${user_role}</td>\
-				<td><button type="button" class="btn btn-danger userDelBtn btn-sm" data-user-id= "${entry.user_id}"><i class="far fa-trash-alt"></i> Удалить</button></td>\
+				<td>${user_role}</td>`;
+				if (user_role == 'Дизайнер') {
+					text_table += `<td>${entry.user_superior}</td>`;
+				} else {
+					text_table += `<td></td>`;
+				}
+				text_table += `<td><button type="button" class="btn btn-danger userDelBtn btn-sm" data-user-id= "${entry.user_id}"><i class="far fa-trash-alt"></i> Удалить</button></td>\
 				</tr>`;
-			})
+			});
 			text_table += "</table>";
 			$('#main').html(text_table);
 		}

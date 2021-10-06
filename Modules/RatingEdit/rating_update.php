@@ -94,6 +94,10 @@ if(GetGradesDataCount($pdo, $creative_id, $user_id) > 0){
 
 }
 
+
+
+
+
 // Запись комментариев
 
 if($_POST['rejectionReason'] != "" AND $_POST['creative_comment_content'] != ""){

@@ -3,9 +3,8 @@
 <?php require_once($_SERVER['DOCUMENT_ROOT'].'/Layout/mainmenu.php')?>
 <!------------------------------------------------- Основной контент ------------------------------------------------->
 
-	<main role="main" class="container-fluid">
+	<main role="main" class="container-fluid">	
 		<?php
-
 			if($user_role == 'adm'){
 				$module = $_GET['module'];
 				switch($module){
@@ -41,7 +40,10 @@
 							$link = '/Modules/HelpDesk/help_desk.php';
 							$js_local_source = '/Modules/HelpDesk/help_desk.js';
 							break;
-	
+					case 'DesignerList':
+							$link = '/Modules/DesignerList/designer_list.php';
+							$js_local_source = '/Modules/DesignerList/designer_list.js';
+							break;	
 					default:
 							$link = '/Modules/UserList/user_list.php';
 							$js_local_source = '/Modules/UserList/user_list.js';	
