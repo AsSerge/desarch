@@ -10,6 +10,8 @@
 	<meta http-equiv="Expires" content="-1">
 	<meta http-equiv="Cache-Control" content="no-cache">
 
+	<link rel="icon" href="favicon.ico" type="image/x-icon"> 
+
 	<!-- Bootstrap CSS -->	
 	<!-- <link rel="stylesheet" href="/css/bootstrap.css"> -->
 	<link rel="stylesheet" href="/css/bootstrap.min.css">	

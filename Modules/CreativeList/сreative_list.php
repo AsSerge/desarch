@@ -2,7 +2,7 @@
 <div class="d-flex align-items-center p-3 my-3 text-white-50 bg-purple rounded box-shadow">
 			<span style="margin-right: 10px"><i class="fas fa-list-ul" style="font-size: 2.5rem;"></i></span>
 			<div class="lh-100">
-				<h6 class="mb-0 text-white lh-100">Список заданий на разработку</h6>
+				<h6 class="mb-0 text-white lh-100">Список креативов в работе</h6>
 				<small><?php echo $user_name." " .$user_surname. " [".$user_role_description."]";?></small>
 			</div>
 </div>

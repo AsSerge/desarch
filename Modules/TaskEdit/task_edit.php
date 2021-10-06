@@ -22,10 +22,17 @@
 	$stmtcr->execute(array($task_id ));	
 	$creatives = $stmtcr->fetchAll(PDO::FETCH_ASSOC);
 
-	// Получаем список дизайнеров
-	$stmtdr = $pdo->prepare("SELECT * FROM  users WHERE user_role = 'dgr'");
-	$stmtdr->execute();	
-	$designers = $stmtdr->fetchAll(PDO::FETCH_ASSOC);
+	// echo "<pre>";
+	// print_r($creatives);
+	// echo "</pre>";
+	
+	// Функция получение информации о дизайнере креатива
+	function GetDesignerInfo($pdo, $user_id){
+		$stmtdr = $pdo->prepare("SELECT * FROM users WHERE user_id = ?");
+		$stmtdr->execute(array($user_id));	
+		$designer = $stmtdr->fetch(PDO::FETCH_ASSOC);
+		return $designer;
+	}
 ?>
 
 <div class="my-3 p-3 bg-white rounded box-shadow">
@@ -153,20 +160,10 @@
 								$des_label = ($crt['creative_status'] != "В задаче") ? 'disabled' : ''; // Определяем статус креатива
 								echo "<tr>";
 									echo "<td>".$crt['creative_name']."</td>";
-									echo "<td>";
-										echo "<select class='custom-select CreativeDesigner' name='CreativeDesigner' data-creative = {$crt['creative_id']} {$des_label}>";
-										echo "<option selected value=''>Выбрать...</option>";
-
-										foreach ($designers as $des){
-											$sel_label = ($des['user_id'] == $crt['user_id']) ? 'selected' : '';// Проверяем назначенного пользователя
-											echo "<option value='".$des['user_id']."' ".$sel_label.">".$des['user_name']." ".$des['user_surname']."</option>";
-										}
-
-										echo "</select>";
-									echo "</td>";
+									echo "<td>".GetDesignerInfo($pdo, $crt['user_id'])['user_name']."&nbsp;".GetDesignerInfo($pdo, $crt['user_id'])['user_surname']."</td>";
 									echo "<td>".$crt['creative_status']."</td>";
 									echo "<td>";
-										echo "<button type='button' class='btn btn-outline-danger btn-sm DelOneCreative' data-creative = {$crt['creative_id']} {$des_label}><i class='fas fa-window-close'></i> Удалить</button>";
+										echo "<button type='button' class='btn btn-outline-danger btn-sm DelOneCreative' data-creative = {$crt['creative_id']} {$des_label}><i class='fas fa-window-close'></i></button>";
 									echo "</td>";
 								echo "</tr>";
 							}
@@ -177,9 +174,9 @@
 					<div class="row">
 						<div class="col" style="text-align: center;">
 							<div class="btn-group" role="group" aria-label="Basic example">
-								<button type="button" class="btn btn-secondary" id="AddNewCreative"><i class="far fa-plus-square"></i> Добавить креатив</button>								
+								<!-- <button type="button" class="btn btn-secondary" id="AddNewCreative"><i class="far fa-plus-square"></i> Добавить креатив</button> -->
 								<button type="button" class="btn btn-primary" onclick="window.location='/index.php?module=TaskList'"><i class="fas fa-undo"></i> В список задач</button>
-								<button type="button" class="btn btn-info" disabled>Завершить задачу</button>
+								<!-- <button type="button" class="btn btn-info" disabled>Завершить задачу</button> -->
 							</div>
 						</div>
 					</div>	

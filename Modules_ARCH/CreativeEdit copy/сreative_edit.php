@@ -37,45 +37,7 @@
 	// print_r($сomments);
 	// echo "</pre>";
 
-	// Получаем все список всех хэшей для Креатива
-	$stmt_hash = $pdo->prepare("SELECT * FROM hash_tags WHERE 1");
-	$stmt_hash->execute();
-	$hash_tags = $stmt_hash->fetchAll(PDO::FETCH_ASSOC);
-
 ?>
-<style>
-	/* Модальное окно c HASH-тегами */
-	.TagsList { 
-		border: 1px solid var(--gray);
-		border-radius: 3px;
-		display: flex;
-		flex-direction: row;
-		flex-wrap: wrap;
-		padding: 10px;
-		text-decoration: none;
-		color: white;
-	}
-	.OneTag {
-		font-size: 0.7rem;
-		margin: 3px;
-		padding: 5px 10px;
-		height: 26px;
-		border-radius: 14px;
-		cursor: pointer;
-	}
-	.OneTagSelected{
-		background-color: rgb(33, 201, 201);
-	}
-	.OneTagSelected:HOVER{
-		background-color: var(--secondary);
-	}
-	.OneTagUnSelected {
-		background-color: var(--secondary);
-	}
-	.OneTagUnSelected:HOVER {
-		background-color: rgb(33, 201, 201);
-	}
-</style>
 <div class="my-3 p-3 bg-white rounded box-shadow">
 	<div class="row">
 		<div class="col-md-3">
@@ -192,7 +154,7 @@
 
 									</div>
 									<div id="resultBase"></div>
-									<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#HashWork" id='HashWorkBtn'>HASH</button>
+										
 								</div>
 							</div>	
 		
@@ -286,7 +248,6 @@
 										<label for="creative_description">Описание креатива</label>
 										<textarea class="form-control mb-2" name="creative_description" id="creative_description" cols="3" rows="3"><?=$creative['creative_description']?></textarea>
 									</div>
-
 								</div>
 								<div class="col" style="text-align: center;">
 									<button type="button" class="btn btn-primary" id="CreativeInfoUpdate"><i class="far fa-save"></i> Сохранить описание</button>
@@ -387,49 +348,6 @@
 			</div>
 		</div>
 	</div>
-
-
-
-<!-- Модальное окно HASH теги -->
-<div class="modal fade modal" id="HashWork" tabindex="-1">
-	<div class="modal-dialog modal-dialog-centered">
-		<div class="modal-content">
-			<div class="modal-header">
-				<h5 class="modal-title">Хэш-теги для креатива</h5>
-				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-				<span aria-hidden="true">&times;</span>
-				</button>
-			</div>
-			<div class="modal-body">
-				<form id="">
-					<div class="col-sm-12 mb-2" id="UsedTagsBlock">
-									<label for="creative_tags">Хэш-теги</label>
-									<div class="TagsList" id="HashTagsUsed">
-												<!-- <div class='OneTag OneTagSelected'>Эстония</div>
-												<div class='OneTag OneTagSelected'>Латвия</div> -->
-									</div>	
-									</div>
-									<div class="col-sm-12 mb-2" id="TagsBlock">
-									<label for="creative_tags">Варианты</label>
-									<div class="TagsList" id="HashTagsUnUsed">
-											<?php
-											// foreach($hash_tags as $h){
-											// 	echo "<div class='OneTag OneTagUnSelected' hid='{$h['hash_id']}'>{$h['hash_name']}</div>";
-											// }
-											?>
-									</div>
-					</div>
-					<div class="mt-3" style="text-align: center">
-						<button type="reset" class="btn btn-secondary" data-dismiss="modal">Отмена</button>
-						<button type="submit" class="btn btn-danger" data-dismiss="modal" id="">Сохранить</button>
-					</div>
-				</form>
-			</div>
-		</div>
-	</div>	
-</div>	
-
-
 <!-- Системные сообщения (Сохранение изменений)  -->
 <div class="position-fixed bottom-0 right-0 p-3" style="z-index: 5; left: 0; bottom: 0;">
 	<div id="liveToast" class="toast hide" role="alert" aria-live="assertive" aria-atomic="true" data-delay="1000" style="background-color: #ffc107">

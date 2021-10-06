@@ -121,14 +121,18 @@
 							$link = '/Modules/LibraryList/library_list.php';
 							$js_local_source = '/Modules/LibraryList/library_list.js';
 							break;
+					case 'TaskListDesigner':
+							$link = '/Modules/TaskListDesigner/task_list_dsigner.php';
+							$js_local_source = '/Modules/TaskListDesigner/task_list_dsigner.js';
+							break;	
 					case 'HelpDesk':
 							$link = '/Modules/HelpDesk/help_desk.php';
 							$js_local_source = '/Modules/HelpDesk/help_desk.js';
 							break;
 	
 					default:
-							$link = '/Modules/CreativeList/сreative_list.php';
-							$js_local_source = '/Modules/CreativeList/сreative_list.js';
+							$link = '/Modules/TaskListDesigner/task_list_dsigner.php';
+							$js_local_source = '/Modules/TaskListDesigner/task_list_dsigner.js';
 
 			}
 		}

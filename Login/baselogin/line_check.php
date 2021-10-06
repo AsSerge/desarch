@@ -12,6 +12,7 @@ if (isset($_COOKIE['id']) and isset($_COOKIE['hash']))
 	$user_role = $userdata['user_role']; // Роль пользователя
 	$user_name = $userdata['user_name']; // Имя пользователя
 	$user_surname = $userdata['user_surname']; // Фамилия пользователя
+	$user_superior = $userdata['user_superior']; // Фамилия пользователя
 
 	switch ($user_role){
 		case "adm":

@@ -1,8 +1,6 @@
 $(document).ready(function () {
 	"use strict";
 
-	// var c_Id = "003"; // Код задачи
-
 	// Формирование страницы  (Функция)
 	function ImgWork(TaskId) {
 		// Модальное окно для работы с изображением		
@@ -63,7 +61,7 @@ $(document).ready(function () {
 		});
 
 	}
-	// Удаление элемента (Функция)
+	// Удаление элемента из модального окна (Функция)
 	function DelImageFromDir(imgToDel) {
 		var ImgToDel = imgToDel;
 		$.ajax({
@@ -77,7 +75,6 @@ $(document).ready(function () {
 			}
 		});
 	}
-
 
 	// Базовое формирование страницы
 	ImgWork(c_Id);
@@ -116,61 +113,8 @@ $(document).ready(function () {
 		});
 	});
 
-	// Добавление нового креатива к текущей задаче
-	$(document).on("click", "#AddNewCreative", function () {
-		$.ajax({
-			url: '/Modules/TaskEdit/addNewCreative.php',
-			type: 'post',
-			data: {
-				TaskID: c_Id
-			},
-			success: function (data) {
-				location.reload();
-			}
-		});
-	});
-
-	// Удаление креатива из задачи (только для креативов, которые не взяты в рабту)
-	$(document).on("click", ".DelOneCreative", function () {
-
-		var CreativeToDel = $(this).data('creative');
-		$.ajax({
-			url: '/Modules/TaskEdit/delOneCreative.php',
-			type: 'post',
-			data: {
-				creative_id: CreativeToDel
-			},
-			success: function (data) {
-				location.reload();
-			}
-		});
-	});
-
-	// Добавление дизайнера к креативу
-	$(document).on("change", ".CreativeDesigner", function () {
-		var Designer_id = $(this).val();
-		var Creative_id = $(this).data('creative');
-		if (Designer_id != "") {
-			$.ajax({
-				url: '/Modules/TaskEdit/addDesignerToCreative.php',
-				type: 'post',
-				data: {
-					creative_id: Creative_id,
-					user_id: Designer_id
-				},
-				success: function (data) {
-					var ToasBodyText = "Дизайнеру задача поставлена";
-					$('#liveToast').children(".toast-body").html("<p><i class='far fa-save'> " + ToasBodyText + "</p>");
-					$('#liveToast').toast('show');
-				}
-			});
-		}
-
-	});
-
-	// Загрузка файлов
+	// Загрузка файлов в задачу (Базовые изображения)
 	$('#js-file').on("change", function () {
-		// console.log("Загрузка в папку " + c_Id);
 		$('#js-form').ajaxSubmit({
 			url: '/Modules/TaskEdit/LoadImages.php',
 			type: 'POST',
@@ -186,6 +130,4 @@ $(document).ready(function () {
 			}
 		});
 	});
-
-
 });
