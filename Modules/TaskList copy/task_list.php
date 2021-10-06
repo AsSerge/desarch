@@ -48,7 +48,7 @@ if(count($tasks)==0){
 }else{
 	echo "<table class='table table-sm table-light-header' id='DT_TaskList'>";
 
-	echo "<thead><tr><th>#</th><th>#</th><th>Номер</th><th>Заказчик</th><th>Тип</th><th>Название задачи</th><th>Крайний срок</th><th>Креативов всего</th><th>Принято</th><th>В работе</th><th>На утверждении</th><th>Статус</th></tr></thead>";
+	echo "<thead><tr><th>#</th><th>#</th><th>Номер</th><th>Заказчик</th><th>Тип</th><th>Название задачи</th><th>Крайний срок</th><th>Креативов всего</th><th>Принято</th><th>В работе</th><th>На утверждении</th><th>Статус</th><th>Действие</th></tr></thead>";
 
 	echo "<tbody>";
 	forEach($tasks as $task){
@@ -58,14 +58,14 @@ if(count($tasks)==0){
 		echo "<td>".$task['task_number']."</td>";
 		echo "<td>".$task['customer_name']."</td>";
 		echo "<td>".$task['customer_type']."</td>";
-		echo "<td><a href = '/index.php?module=TaskEdit&task_id=".$task['task_id']."'><i class='fas fa-edit'></i>".$task['task_name']."</a></td>";
+		echo "<td>".$task['task_name']."</td>";
 		echo "<td>".mysql_to_date($task['task_deadline'])."</td>";
 		echo "<td>".GetCreativeNumbers($pdo, $task['task_id'], "All")."</td>";
 		echo "<td>".GetCreativeNumbers($pdo, $task['task_id'], "Accept")."</td>";
 		echo "<td>".GetCreativeNumbers($pdo, $task['task_id'], "Inwork")."</td>";
 		echo "<td>".GetCreativeNumbers($pdo, $task['task_id'], "Approve")."</td>";
 		echo "<td>".$task['task_status']."</td>";
-		// echo "<td><a href = '/index.php?module=TaskEdit&task_id=".$task['task_id']."' class='btn btn-outline-primary btn-sm' type='button'><i class='fas fa-edit'></i></a></td>";
+		echo "<td><a href = '/index.php?module=TaskEdit&task_id=".$task['task_id']."' class='btn btn-outline-primary btn-sm' type='button'><i class='fas fa-edit'></i> Редактор</a></td>";
 		echo "</tr>";
 	}
 	echo "</tbody>";
@@ -143,14 +143,14 @@ if(count($tasks)==0){
 							</div>
 						</div>
 
-						<!-- <div class="row">
+						<div class="row">
 							<div class="col">
 								<div class="form-group">
 									<input class = "form-control" type="number" min="1" max="50" value = "1" id="creativeCount">
 									<small id="emailHelp" class="form-text text-muted">Количество креативов в задаче <span class = 'text-danger' data-toggle="tooltip" data-placement="bottom" title="Не меньше 1 креатива!">[обязательное поле]</span></small>
 								</div>
 							</div>
-						</div> -->
+						</div>
 
 						<label for="task_description">Описание задачи</label>
 						<textarea class="form-control mb-2" id="task_description" name="task_description" rows="3"></textarea>

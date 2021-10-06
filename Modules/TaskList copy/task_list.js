@@ -93,6 +93,7 @@ $(document).ready(function () {
 		var datepicker_start = $("#datepicker_start").val();
 		var datepicker_end = $("#datepicker_end").val();
 		var task_description = $("#task_description").val();
+		var creativeCount = $("#creativeCount").val();
 
 		// console.log("Сохраняем задачу от заказчика" + datetask_description);
 
@@ -108,7 +109,8 @@ $(document).ready(function () {
 				task_name: task_name,
 				datepicker_start: datepicker_start,
 				datepicker_end: datepicker_end,
-				task_description: task_description
+				task_description: task_description,
+				creativeCount: creativeCount
 			},
 			success: function (data) {
 				console.log(data);

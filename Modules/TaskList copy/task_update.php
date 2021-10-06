@@ -13,7 +13,8 @@ if (isset($_POST['add_task']) and $_POST['add_task'] == true){
 	$task_description = $_POST['task_description'];
 	$task_status = "Поставлена";
 
-		
+	$creativeCount = $_POST['creativeCount']; // Здесь получаем количество Записей креативов
+	
 	$stmt = $pdo->prepare("INSERT INTO tasks SET 
 		task_setdatetime = :task_setdatetime,
 		task_deadline = :task_deadline,
@@ -40,5 +41,17 @@ if (isset($_POST['add_task']) and $_POST['add_task'] == true){
 	$last_index = $pdo->lastInsertId();
 	// Создаем папку в /Tasks/ с именем индекса. В дальнейшем все, касающееся задачи будет храниться в этой папке 
 	mkdir(TASK_FOLDER.$last_index, 0777);
+
+
+	// Добавляем в таблицу креативов необходимое количество записей
+
+	// $stmt2->beginTransaction(); // Старт транзакции
+
+	for($i=1; $i<=$creativeCount; $i++){
+
+		$stmt2 = $pdo->prepare("INSERT INTO сreatives SET task_id = ?");
+		$stmt2->execute(array($last_index));
+	}
+	// $stmt2->commit(); // Финиш транзакции
 }
 ?>
