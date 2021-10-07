@@ -5,6 +5,7 @@ $(document).ready(function () {
 	$('#BaseImageNoN').show();
 	$('#PreviewImages').hide();
 	$('#BaseImages').hide();
+	$('#HashTagsRow').hide();
 
 	// ОБЯЗАТЕЛЬНОЕ ОТКЛЮЧЕНИЕ КЭША ДЛЯ БРАУЗЕРА!!!!
 	$.ajaxSetup({
@@ -12,30 +13,7 @@ $(document).ready(function () {
 	});
 
 
-	// Заполнение сессионного массива ХЭШ НЕИСПОЛЬЗОВАННЫХ тегов	
-	$.ajax({
-		url: '/Modules/CreativeEdit/get_all_hash.php',
-		type: 'post',
-		datatype: 'html',
-		data: {
-			creative_id: c_Id
-		},
-		success: function (data) {
-			var LongLine = "";
-			var hash_arr = jQuery.parseJSON(data);
-			var hash_array = Object.entries(hash_arr); // Преобразуем Объект в массив для перебора
-			if (hash_array.length > 0) {
-				hash_array.forEach(function (item) {
-					LongLine += "<div class='OneTag OneTagUnSelected' hid='" + item[0] + "'>" + item[1] + "</div>";
-				});
-			}
-			$('#HashTagsUnUsed').html(LongLine); //Заполняем тегами варианты
-			$('.OneTagUnSelected').on("click", function () {
-				var hash_id = $(this).attr('hid');
-				console.log('Нажал на тег ' + hash_id);
-			});
-		}
-	});
+	// HASH теги
 	// Заполнение сессионного массива ХЭШ ИСПОЛЬЗОВАННЫХ тегов
 	$.ajax({
 		url: '/Modules/CreativeEdit/get_used_hash.php',
@@ -48,18 +26,44 @@ $(document).ready(function () {
 			var LongLine = "";
 			var hash_arr = jQuery.parseJSON(data);
 			var hash_array = Object.entries(hash_arr); // Преобразуем Объект в массив для перебора
-			if (hash_array.length > 0) {
+			if (hash_array.length > 1) {
 				hash_array.forEach(function (item) {
-					LongLine += "<div class='OneTag OneTagSelected' hid='" + item[0] + "'>" + item[1] + "</div>";
+					LongLine += "<div class='OneTag OneTagSelected'>" + item[1] + "</div>";
 				});
+				$('.TagsList').html(LongLine); //Заполняем тегами варианты
 			}
-			$('#HashTagsUsed').html(LongLine); //Заполняем тегами варианты
-			$('.OneTagSelected').on("click", function () {
-				var hash_id = $(this).attr('hid');
-				console.log('Нажал на тег ' + hash_id);
-			});
 		}
 	});
+	// Управление блоком тегов
+	$('#OpenTagsGialog').on("click", function () {
+		$('.TagsLable').toggleClass('TagsLableColor');
+		$('#HashTagsRow').toggle('slow');
+	});
+
+
+	// Подлив в базу информации о тегах
+	$('#HashTags').on("change", function () {
+		var tagsString = "";
+		var tags = $(this).val();
+		tags.forEach(function (item) {
+			tagsString += "<div class='OneTag OneTagSelected'>" + item + "</div>";
+		});
+		$('.TagsList').html(tagsString);
+		console.log(tags);
+		$.ajax({
+			url: '/Modules/CreativeEdit/update_creative_tags.php',
+			type: 'post',
+			datatype: 'html',
+			data: {
+				creative_id: c_Id,
+				tags: tags
+			},
+			success: function (data) {
+				console.log(data);
+			}
+		});
+	})
+
 
 	// Для УТВЕРЖДЕННОГО креатива скрываем некоторые кнопки
 	$.ajax({

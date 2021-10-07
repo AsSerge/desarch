@@ -5,6 +5,36 @@
 				<small><?php echo $user_name." " .$user_surname. " [".$user_role_description."]";?></small>
 			</div>
 </div>
+<style>
+	/* Модальное окно c HASH-тегами */
+	.TagsList { 
+		/* border: 1px solid var(--gray);
+		border-radius: 3px; */
+		display: flex;
+		flex-direction: row;
+		flex-wrap: wrap;
+		padding: 10px;
+		text-decoration: none;
+		color: white;
+	}
+	.OneTag {
+		font-size: 0.7rem;
+		margin: 3px;
+		padding: 5px 10px;
+		height: 26px;
+		border-radius: 14px;
+		background-color: rgb(33, 201, 201);
+	}
+	.TagsLable{
+		font-size: 2rem;
+		color: var(--gray);
+		text-align: right;
+		cursor: pointer;
+	}
+	.TagsLableColor{		
+		color: rgb(33, 201, 201);
+	}	
+</style>
 <?php
 	include_once($_SERVER['DOCUMENT_ROOT']."/Layout/settings.php"); // Функции сайта
 	// Получаем ID креатива для редактирования 
@@ -37,45 +67,19 @@
 	// print_r($сomments);
 	// echo "</pre>";
 
-	// Получаем все список всех хэшей для Креатива
+	// Получаем все список всех хэшей для Креативов
 	$stmt_hash = $pdo->prepare("SELECT * FROM hash_tags WHERE 1");
 	$stmt_hash->execute();
 	$hash_tags = $stmt_hash->fetchAll(PDO::FETCH_ASSOC);
 
+	// Получаем массив использованных хашей для данного креатива
+	$stmt_used_hash = $pdo->prepare("SELECT creative_hash_list FROM сreatives WHERE creative_id = ?");
+	$stmt_used_hash->execute(array($creative_id));
+	$used_hash_tags = $stmt_used_hash->fetch(PDO::FETCH_ASSOC);
+	$used_hash_tags_array = explode("|", $used_hash_tags['creative_hash_list']);	
+	
 ?>
-<style>
-	/* Модальное окно c HASH-тегами */
-	.TagsList { 
-		border: 1px solid var(--gray);
-		border-radius: 3px;
-		display: flex;
-		flex-direction: row;
-		flex-wrap: wrap;
-		padding: 10px;
-		text-decoration: none;
-		color: white;
-	}
-	.OneTag {
-		font-size: 0.7rem;
-		margin: 3px;
-		padding: 5px 10px;
-		height: 26px;
-		border-radius: 14px;
-		cursor: pointer;
-	}
-	.OneTagSelected{
-		background-color: rgb(33, 201, 201);
-	}
-	.OneTagSelected:HOVER{
-		background-color: var(--secondary);
-	}
-	.OneTagUnSelected {
-		background-color: var(--secondary);
-	}
-	.OneTagUnSelected:HOVER {
-		background-color: rgb(33, 201, 201);
-	}
-</style>
+
 <div class="my-3 p-3 bg-white rounded box-shadow">
 	<div class="row">
 		<div class="col-md-3">
@@ -192,7 +196,6 @@
 
 									</div>
 									<div id="resultBase"></div>
-									<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#HashWork" id='HashWorkBtn'>HASH</button>
 								</div>
 							</div>	
 		
@@ -285,6 +288,33 @@
 									<div class="col-sm-12 mb-2">
 										<label for="creative_description">Описание креатива</label>
 										<textarea class="form-control mb-2" name="creative_description" id="creative_description" cols="3" rows="3"><?=$creative['creative_description']?></textarea>
+									</div>
+									<!-- Теги для креатива -->
+
+									
+									
+
+									<div class="col-sm-12 mb-2">
+										<div class="row">
+											<div class="col-md-1">
+												<div class="TagsLable"><i class="fas fa-tags" id="OpenTagsGialog"></i></div>
+											</div>
+											<div class="col-md-11">
+												<div class="TagsList"></div>
+											</div>
+
+										</div>
+										<div class="row" id="HashTagsRow">
+											<select class="custom-select" size="5" id="HashTags" multiple>
+												<?php
+												foreach ($hash_tags as $h){
+													$f = (in_array($h['hash_name'], $used_hash_tags_array)) ? 'selected' : ''; 
+													echo "<option value='{$h['hash_name']}' {$f}>{$h['hash_name']}</option>";
+												}
+												?>
+											</select>
+										</div>
+
 									</div>
 
 								</div>
@@ -387,47 +417,6 @@
 			</div>
 		</div>
 	</div>
-
-
-
-<!-- Модальное окно HASH теги -->
-<div class="modal fade modal" id="HashWork" tabindex="-1">
-	<div class="modal-dialog modal-dialog-centered">
-		<div class="modal-content">
-			<div class="modal-header">
-				<h5 class="modal-title">Хэш-теги для креатива</h5>
-				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-				<span aria-hidden="true">&times;</span>
-				</button>
-			</div>
-			<div class="modal-body">
-				<form id="">
-					<div class="col-sm-12 mb-2" id="UsedTagsBlock">
-									<label for="creative_tags">Хэш-теги</label>
-									<div class="TagsList" id="HashTagsUsed">
-												<!-- <div class='OneTag OneTagSelected'>Эстония</div>
-												<div class='OneTag OneTagSelected'>Латвия</div> -->
-									</div>	
-									</div>
-									<div class="col-sm-12 mb-2" id="TagsBlock">
-									<label for="creative_tags">Варианты</label>
-									<div class="TagsList" id="HashTagsUnUsed">
-											<?php
-											// foreach($hash_tags as $h){
-											// 	echo "<div class='OneTag OneTagUnSelected' hid='{$h['hash_id']}'>{$h['hash_name']}</div>";
-											// }
-											?>
-									</div>
-					</div>
-					<div class="mt-3" style="text-align: center">
-						<button type="reset" class="btn btn-secondary" data-dismiss="modal">Отмена</button>
-						<button type="submit" class="btn btn-danger" data-dismiss="modal" id="">Сохранить</button>
-					</div>
-				</form>
-			</div>
-		</div>
-	</div>	
-</div>	
 
 
 <!-- Системные сообщения (Сохранение изменений)  -->
