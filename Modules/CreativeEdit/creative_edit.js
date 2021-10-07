@@ -34,6 +34,8 @@ $(document).ready(function () {
 			}
 		}
 	});
+
+
 	// Управление блоком тегов
 	$('#OpenTagsGialog').on("click", function () {
 		$('.TagsLable').toggleClass('TagsLableColor');
@@ -63,6 +65,26 @@ $(document).ready(function () {
 			}
 		});
 	})
+
+	// Добавление в базу новых тегов
+	$('#NewHashTagBtn').on("click", function () {
+		var newhashtag_name = $('#NewHashTag').val();
+		$.ajax({
+			url: '/Modules/CreativeEdit/update_list_tags.php',
+			type: 'post',
+			datatype: 'html',
+			data: {
+				hash_name: newhashtag_name
+			},
+			success: function (data) {
+				// console.log(data);
+				location.reload();
+			}
+		});
+	});
+
+
+
 
 
 	// Для УТВЕРЖДЕННОГО креатива скрываем некоторые кнопки
@@ -393,25 +415,25 @@ $(document).ready(function () {
 	// 	console.log('Загрузились');
 	// });
 
-	$('#HashWorkBtn').on("click", function () {
-		// console.log('Нажали' + c_Id);
-		$.ajax({
-			url: '/Modules/CreativeEdit/get_used_hash.php',
-			type: 'post',
-			datatype: 'html',
-			data: {
-				creative_id: c_Id
-			},
-			success: function (data) {
-				var hash_arr = jQuery.parseJSON(data);
-				if (hash_arr.length > 0) {
-					hash_arr.forEach(function (item) {
+	// $('#HashWorkBtn').on("click", function () {
+	// 	// console.log('Нажали' + c_Id);
+	// 	$.ajax({
+	// 		url: '/Modules/CreativeEdit/get_used_hash.php',
+	// 		type: 'post',
+	// 		datatype: 'html',
+	// 		data: {
+	// 			creative_id: c_Id
+	// 		},
+	// 		success: function (data) {
+	// 			var hash_arr = jQuery.parseJSON(data);
+	// 			if (hash_arr.length > 0) {
+	// 				hash_arr.forEach(function (item) {
 
-						// console.log(sessionStorage.getItem(item));
+	// 					// console.log(sessionStorage.getItem(item));
 
-					});
-				}
-			}
-		});
-	});
+	// 				});
+	// 			}
+	// 		}
+	// 	});
+	// });
 });

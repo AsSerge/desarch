@@ -4,7 +4,7 @@ include_once($_SERVER['DOCUMENT_ROOT']."/Layout/settings.php"); // Функци�
 
 $creative_id = $_POST['creative_id'];
 $tags = $_POST['tags'];
-if(count($tags) !=0){
+if(is_array($tags) AND count($tags) !=0){
 	foreach($tags as $tag){
 		$creative_hash_list .= $tag . "|";
 	}

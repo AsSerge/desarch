@@ -26,14 +26,20 @@
 		background-color: rgb(33, 201, 201);
 	}
 	.TagsLable{
-		font-size: 2rem;
+		/* border: 1px solid var(--gray);
+		border-radius: 3px;		 */
+		font-size: 1.4rem;
 		color: var(--gray);
-		text-align: right;
+		text-align: center;
 		cursor: pointer;
+		padding: 10px 0;
 	}
 	.TagsLableColor{		
 		color: rgb(33, 201, 201);
-	}	
+	}
+	#HashTags{
+		font-size: 0.9rem;
+	}
 </style>
 <?php
 	include_once($_SERVER['DOCUMENT_ROOT']."/Layout/settings.php"); // Функции сайта
@@ -68,9 +74,10 @@
 	// echo "</pre>";
 
 	// Получаем все список всех хэшей для Креативов
-	$stmt_hash = $pdo->prepare("SELECT * FROM hash_tags WHERE 1");
+	$stmt_hash = $pdo->prepare("SELECT * FROM hash_tags WHERE 1 ORDER BY hash_name"); // Сортировка, т.к. хэши обновляются
 	$stmt_hash->execute();
 	$hash_tags = $stmt_hash->fetchAll(PDO::FETCH_ASSOC);
+
 
 	// Получаем массив использованных хашей для данного креатива
 	$stmt_used_hash = $pdo->prepare("SELECT creative_hash_list FROM сreatives WHERE creative_id = ?");
@@ -174,6 +181,36 @@
 									</div>
 									<div id="resultPreview"></div>
 
+
+								<!-- Теги для креатива -->
+								<div class="col-sm-12 mb-2">
+										<div class="row mb-2">
+											<div class="col-md-1">
+												<div class="TagsLable"><i class="fas fa-tags align-baseline" id="OpenTagsGialog"></i></div>
+											</div>
+											<div class="col-md-11">
+												<div class="TagsList"></div>
+											</div>
+										</div>
+										<div class="row" id="HashTagsRow">
+												<div class="col-md-12">
+													<select class="custom-select" size="5" id="HashTags" multiple>
+													<?php
+														foreach ($hash_tags as $h){
+															$f = (in_array($h['hash_name'], $used_hash_tags_array)) ? 'selected' : ''; 
+															echo "<option value='{$h['hash_name']}' {$f}>{$h['hash_name']}</option>";
+														}
+														?>
+													</select>
+												</div>
+												<div class="col-md-9 mt-3">
+													<input class="form-control form-control-sm" type="text" id="NewHashTag" placeholder="Новый HASH-тег">
+												</div>
+												<div class="col-md-3 mt-3">	
+													<button type="button" class="btn btn-info btn-sm w-100" id="NewHashTagBtn"><i class="fas fa-tag"></i> Добавить</button>
+												</div>
+										</div>
+									</div>
 								</div>
 							</div>
 							
@@ -206,9 +243,7 @@
 				<div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
 					<div class="row mt-3">
 						<div class="col-md-4">
-
 							<div class="OnePreviewImage mt-5"></div>
-
 						</div>	
 						<div class="col-md-8">
 							<form id="SendCreativeAllInfo">
@@ -289,35 +324,8 @@
 										<label for="creative_description">Описание креатива</label>
 										<textarea class="form-control mb-2" name="creative_description" id="creative_description" cols="3" rows="3"><?=$creative['creative_description']?></textarea>
 									</div>
-									<!-- Теги для креатива -->
-
-									
-									
-
-									<div class="col-sm-12 mb-2">
-										<div class="row">
-											<div class="col-md-1">
-												<div class="TagsLable"><i class="fas fa-tags" id="OpenTagsGialog"></i></div>
-											</div>
-											<div class="col-md-11">
-												<div class="TagsList"></div>
-											</div>
-
-										</div>
-										<div class="row" id="HashTagsRow">
-											<select class="custom-select" size="5" id="HashTags" multiple>
-												<?php
-												foreach ($hash_tags as $h){
-													$f = (in_array($h['hash_name'], $used_hash_tags_array)) ? 'selected' : ''; 
-													echo "<option value='{$h['hash_name']}' {$f}>{$h['hash_name']}</option>";
-												}
-												?>
-											</select>
-										</div>
-
-									</div>
-
 								</div>
+								<hr>
 								<div class="col" style="text-align: center;">
 									<button type="button" class="btn btn-primary" id="CreativeInfoUpdate"><i class="far fa-save"></i> Сохранить описание</button>
 								</div>
