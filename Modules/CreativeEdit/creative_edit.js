@@ -1,4 +1,6 @@
 $(document).ready(function () {
+	//Git testing
+
 	"use strict";
 	// Начальная настройка
 	$('#PreviewImageNoN').show();
@@ -82,8 +84,6 @@ $(document).ready(function () {
 			}
 		});
 	});
-
-
 
 
 
