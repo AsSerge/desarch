@@ -337,11 +337,11 @@
 				<div class="tab-pane fade" id="grades" role="tabpanel" aria-labelledby="grades-tab">
 					<div class="row mt-3" id="InfoGrades">
 						<div class="col-md-4 text-center mb-3">
-							<button type="button" class="btn btn-info" data-toggle="tooltip" data-placement="bottom" title="Отправка на утверждение" id="SendToApproval"><i class="far fa-share-square"></i> Отправить креатив на утверждение</button>
+							<button type="button" class="btn btn-info" data-toggle="tooltip" data-placement="bottom" title="Отправка на утверждение руководителю" id="SendToApproval"><i class="far fa-share-square"></i> Отправить креатив на утверждение</button>
 						</div>
 						<div class="col-md-8">
 							<div class="alert alert-primary" role="alert">
-							<i class="fas fa-info-circle"></i> После разработки или доработки креатива отправьте его на утверждение, нажав кнопку "Отправить креатив на утверждение". На время работы комиссии, доступ к редактированию креатива будет преостановлен. Креатива собственной разработки достаточно загрузки Preview. Для компилированного креатива необходимо хотя бы одно базовое изображение. 
+							<i class="fas fa-info-circle"></i> После разработки или доработки креатива отправьте его на утверждение Вашему руководителю, нажав кнопку "Отправить креатив на утверждение". На время утверждения, доступ к редактированию креатива будет преостановлен. Креатива собственной разработки достаточно загрузки Preview. Для компилированного креатива необходимо хотя бы одно базовое изображение. 
 							</div>
 						</div>
 					</div>

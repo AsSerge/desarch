@@ -16,18 +16,20 @@
 
 
 			<?php if($user_role == 'mgr'){?>
+
 			<li class="nav-item">
-				<a class="nav-link" href="/index.php?module=RatingList">Голосование</a>
+				<a class="nav-link" href="/index.php?module=CreativeApprovalList">На утверждении</a>
 			</li>
-			<li class="nav-item">
-				<a class="nav-link" href="/index.php?module=CreativeListView">Просмотр креативов</a>
+			<li class="nav-item dropdown">
+					<a class="nav-link dropdown-toggle" href="#" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Постановщик задач</a>
+					<div class="dropdown-menu" aria-labelledby="dropdown01">
+						<a class="dropdown-item" href="/index.php?module=CreativeListView">Список креативов</a>
+						<a class="dropdown-item" href="/index.php?module=TaskList">Список задач</a>
+						<a class="dropdown-item" href="/index.php?module=CustomerList">Список заказчиков</a>
+					</div>
 			</li>
-			<li class="nav-item">
-				<a class="nav-link" href="/index.php?module=TaskList">Список задач</a>
-			</li>
-			<li class="nav-item">
-				<a class="nav-link" href="/index.php?module=CustomerList">Список заказчиков</a>
-			</li>
+
+
 			<li class="nav-item">
 				<a class="nav-link" href="/index.php?module=HelpDesk">Помощь</a>
 			</li>

@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Хост: 127.0.0.1:3306
--- Время создания: Окт 06 2021 г., 21:48
--- Версия сервера: 5.6.47
--- Версия PHP: 7.2.29
+-- Время создания: Окт 08 2021 г., 16:41
+-- Версия сервера: 5.7.29
+-- Версия PHP: 7.3.17
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -124,7 +124,9 @@ INSERT INTO `hash_tags` (`hash_id`, `hash_name`) VALUES
 (40, 'Фрукты'),
 (41, 'Цветы'),
 (42, 'Шкура'),
-(43, 'Этника');
+(43, 'Этника'),
+(44, 'Малевич'),
+(45, 'Весенняя тема');
 
 -- --------------------------------------------------------
 
@@ -144,13 +146,6 @@ CREATE TABLE `tasks` (
   `task_status` varchar(64) NOT NULL DEFAULT 'Черновик' COMMENT 'Статус задачи',
   `task_description` varchar(256) DEFAULT NULL COMMENT 'Описание задачи'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
---
--- Дамп данных таблицы `tasks`
---
-
-INSERT INTO `tasks` (`task_id`, `task_update`, `task_setdatetime`, `task_deadline`, `user_id`, `customer_id`, `task_name`, `task_number`, `task_status`, `task_description`) VALUES
-(1, '2021-10-06 11:03:57', '2021-10-06', '2021-11-30', 2, 7, 'Разработка дизайнов набора полотенец', 'FR-0002', 'Поставлена', 'Требуются свежие идеи');
 
 -- --------------------------------------------------------
 
@@ -174,12 +169,12 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`user_id`, `user_login`, `user_password`, `user_name`, `user_surname`, `user_hash`, `user_role`, `user_superior`) VALUES
-(1, 'zoom@tk-ug.ru', 'f25c28fa4d121e1ac3a1286c59822424', 'Сергей', 'Цветков', 'fb12b23c16ae829484c6e69f155cf987', 'adm', NULL),
-(2, 'frolova@tk-ug.ru', '4b125a92f0480f68a9d4d38e492b7278', 'Юлианна', 'Фролова', 'd98a23502dd79c220bae7fbd836935b9', 'mgr', NULL),
-(61, 'surkova@tk-ug.ru', '8beda5eb46666320a6895a443f06febb', 'Вероника', 'Суркова', '247e23352d5bc0fb6eaa24caca2eaa00', 'dgr', 2),
-(62, 'lilit@tk-ug.ru', 'b8e2e5a0a3a541242657d3199c6c2282', 'Лилит', 'Аршакян', 'b1ce8c78ecb111d9877fdbe72374bfb3', 'dgr', 2),
+(1, 'zoom@tk-ug.ru', 'f25c28fa4d121e1ac3a1286c59822424', 'Сергей', 'Цветков', '8520ed0ee46f4578547b90b5b7f729d3', 'adm', NULL),
+(2, 'frolova@tk-ug.ru', '4b125a92f0480f68a9d4d38e492b7278', 'Юлианна', 'Фролова', '20b4b4c7a8a9ad3e65645bf7561a1993', 'mgr', NULL),
+(61, 'surkova@tk-ug.ru', '8beda5eb46666320a6895a443f06febb', 'Вероника', 'Суркова', '7ad674e9348b7a16cf6cc8555060fb27', 'dgr', 2),
+(62, 'lilit@tk-ug.ru', 'b8e2e5a0a3a541242657d3199c6c2282', 'Лилит', 'Аршакян', 'ccd76d2aa0d0099fa72c57e6fce3b84c', 'dgr', 2),
 (63, 'daria@tk-ug.ru', '9f482d7e3332ec534c4edc23ab608e7a', 'Дарья', 'Филатьева', '', 'dgr', 2),
-(64, 'melnik@tk-ug.ru', 'e217c791bc88277a56caceee1f930ab8', 'Дмитрий', 'Мельник', 'bb3b393b83957e78f9333ee920968fb6', 'ctr', NULL),
+(64, 'melnik@tk-ug.ru', 'e217c791bc88277a56caceee1f930ab8', 'Дмитрий', 'Мельник', '754b22983262773784eaea5dd400f580', 'ctr', NULL),
 (65, 'grozov@tk-ug.ru', '32215a59e22348eb55d8b1b777cf0b06', 'Александр', 'Грозов', 'e28a553ee175c8f1a773d83714924111', 'ctr', NULL),
 (66, 'kosse@tk-ug.ru', '8957ee7bd966918dfc9221e9bd45ec97', 'Андрей', 'Коссе', '313b76d8afe65284e33baa0dda2527f0', 'ctr', NULL),
 (67, 'pupkin@tk-ug.ru', 'c924740cbaf4032b197ff7c64c059320', 'Василий', 'Пупкин', '', 'dgr', 68),
@@ -205,17 +200,8 @@ CREATE TABLE `сreatives` (
   `user_id` int(11) DEFAULT NULL COMMENT 'Дизайнер креатива',
   `creative_magnitude` varchar(128) DEFAULT NULL COMMENT 'Изменение по отношению к оригиналу в %',
   `creative_description` varchar(512) DEFAULT NULL COMMENT 'Описание',
-  `creative_hash_list` varchar(256) DEFAULT NULL
+  `creative_hash_list` varchar(256) DEFAULT NULL COMMENT 'Набор тегов'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
---
--- Дамп данных таблицы `сreatives`
---
-
-INSERT INTO `сreatives` (`creative_id`, `task_id`, `creative_update`, `creative_start_date`, `creative_end_date`, `creative_name`, `creative_source`, `creative_development_type`, `creative_status`, `creative_style`, `user_id`, `creative_magnitude`, `creative_description`, `creative_hash_list`) VALUES
-(1, 1, '2021-10-06 11:04:53', '2021-10-06', NULL, 'Белое море', 'www.depositphotos.com', 'Компиляция', 'В работе', 'Растительный', 61, 'от 50 до 80%', '', NULL),
-(2, 1, '2021-10-06 11:21:40', '2021-10-06', NULL, 'Горные вершины Тироля', NULL, NULL, 'В работе', NULL, 62, NULL, NULL, NULL),
-(3, 1, '2021-10-06 11:24:20', '2021-10-06', NULL, 'Синее небо Нью-Йорка', NULL, NULL, 'В работе', NULL, 62, NULL, NULL, '1-3-7-8');
 
 -- --------------------------------------------------------
 
@@ -318,13 +304,13 @@ ALTER TABLE `designes`
 -- AUTO_INCREMENT для таблицы `hash_tags`
 --
 ALTER TABLE `hash_tags`
-  MODIFY `hash_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=44;
+  MODIFY `hash_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=46;
 
 --
 -- AUTO_INCREMENT для таблицы `tasks`
 --
 ALTER TABLE `tasks`
-  MODIFY `task_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `task_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT для таблицы `users`
@@ -336,7 +322,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT для таблицы `сreatives`
 --
 ALTER TABLE `сreatives`
-  MODIFY `creative_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `creative_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT для таблицы `сreative_grades`

@@ -43,6 +43,10 @@ $(document).ready(function () {
 		$('.TagsLable').toggleClass('TagsLableColor');
 		$('#HashTagsRow').toggle('slow');
 	});
+	// Сокрытие блока тегов при покидании вкладки
+	$(document).on('shown.bs.tab', function () {
+		$('#HashTagsRow').hide();
+	});
 
 
 	// Подлив в базу информации о тегах
@@ -53,7 +57,7 @@ $(document).ready(function () {
 			tagsString += "<div class='OneTag OneTagSelected'>" + item + "</div>";
 		});
 		$('.TagsList').html(tagsString);
-		console.log(tags);
+		// console.log(tags);
 		$.ajax({
 			url: '/Modules/CreativeEdit/update_creative_tags.php',
 			type: 'post',
@@ -63,7 +67,7 @@ $(document).ready(function () {
 				tags: tags
 			},
 			success: function (data) {
-				console.log(data);
+				// console.log(data);
 			}
 		});
 	})
