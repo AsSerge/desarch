@@ -1,5 +1,5 @@
 $(document).ready(function () {
-	//Git testing
+	//Git hub testing
 
 	"use strict";
 });
