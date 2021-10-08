@@ -1,0 +1,93 @@
+﻿Users
+=====
+user_id
+user_login
+user_password
+user_name
+user_surname
+user_hash
+user_role
+
+
+Заказчик (customers) 
+========
+customer_id
+customer_update		(дата последнего обновления)
+customer_name
+customer_type		(тип заказчика, список типов находится в /Layout/settings.php)
+customer_description
+
+
+
+Задачи (tasks)
+==============
+task_id
+task_update		(дата последнего обновления)
+task_setdatetime
+task_deadline
+user_id
+customer_id
+task_name
+task_number
+task_status
+task_description
+
+
+
+Креативы (паспорт) (сreatives)
+=============================
+creative_id                     (ID креатива)	
+task_id				(Задача, в которую входит креатив. Материалы находатся в папке "[creative_id]" - креативы хранятся отдельно от задач)
+creative_update			(Дата последнего обновления)
+creative_start_date		(Начало работы)
+creative_end_date               (Окончание работы)
+creative_name                   (Название)
+creative_source			(Источник изображений)
+creative_development_type	(Тип разработки: Может быть полностью самостоятельная разработка - утверждается постановщзиком задачи. Может быть переделка стоковых изображений - утверждается всеми членами комиссии)
+creative_status			(Статус креатива)
+creative_style			(Художественные стили креатива)
+user_id		 		(ID дизайнера)
+creative_magnitude		(Степень заимствования в процентах)
+creative_description		(Описание)
+
+Статус креатива:
+В задаче - закреплен за дизайнером, но не взят в работу
+В работе - дизайнер взял креатив в работу -> создана папка креатива и запущен счетчик (Доступ на редактирование true)
+На утверждении - дизайнер отправил креатив в большую комиссию, если он с заимствованиями или своему руководителю, если это полностью самостоятельнеая разработка (Доступ на редактирование false)
+На доработке - Кем-то из членов комиссии (или руководителем) креатив не принят (Доступ на редактирование true)
+
+
+
+
+Оценка креатива (сreative_grades)
+===========================================
+сreative_grade_id
+creative_grade_update           (время обновления)
+creative_id		        (ID креатива)	
+user_id				(ID оценщика)
+creative_grade_pos		(Принят/не принят: boolean)
+
+
+
+
+
+Комментарии к креативам (сreative_сomments)
+===========================================
+сreative_comment_id
+creative_comment_update		(время обновления)
+creative_id			(ID креатива)
+user_id				(текстовое поле Фамилия + Имя)
+сreative_comment_content        (суть комментария)
+
+
+
+Дизайн (designes загруженные изображения)
+================================
+design_id
+design_update
+design_name
+design_source_name
+design_source_url
+design_folder
+design_creative_style
+{design_preview_name}
