@@ -159,7 +159,7 @@
 
 								$des_label = ($crt['creative_status'] != "В задаче") ? 'disabled' : ''; // Определяем статус креатива
 								echo "<tr>";
-									echo "<td><img src=''>{$crt['creative_id']}</td>";
+									echo "<td><img src='/Creatives/{$crt['creative_id']}/preview.jpg' class='rounded-circle' width='30px' height='30px'></td>";
 									echo "<td>".$crt['creative_name']."</td>";
 									echo "<td>".GetDesignerInfo($pdo, $crt['user_id'])['user_name']."&nbsp;".GetDesignerInfo($pdo, $crt['user_id'])['user_surname']."</td>";
 									echo "<td>".$crt['creative_status']."</td>";
