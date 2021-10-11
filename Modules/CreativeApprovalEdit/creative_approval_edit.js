@@ -17,10 +17,10 @@
 			$('#BtnOn').removeClass();
 			$('#BtnCheck').removeClass();
 			$('#BtnCheck').addClass('btn btn-outline-info');
-			$('#BtnOff').addClass('btn btn-danger');
+			$('#BtnOff').addClass('btn btn-warning');
 			$('#BtnOn').addClass('btn btn-outline-success');
 			CheckAlertStatus(VoteVal);
-			console.log(VoteVal);
+			// console.log(VoteVal);
 		});
 		$('#BtnOn').on("click", function () {
 			VoteVal = "on";
@@ -28,21 +28,21 @@
 			$('#BtnOn').removeClass();
 			$('#BtnCheck').removeClass();
 			$('#BtnCheck').addClass('btn btn-outline-info');
-			$('#BtnOff').addClass('btn btn-outline-danger');
+			$('#BtnOff').addClass('btn btn-outline-warning');
 			$('#BtnOn').addClass('btn btn-success');
 			CheckAlertStatus(VoteVal);
-			console.log(VoteVal);
+			// console.log(VoteVal);
 		});
 		$('#BtnCheck').on("click", function () {
 			VoteVal = "check";
 			$('#BtnOff').removeClass();
 			$('#BtnOn').removeClass();
 			$('#BtnCheck').removeClass();
-			$('#BtnOff').addClass('btn btn-outline-danger');
+			$('#BtnOff').addClass('btn btn-outline-warning');
 			$('#BtnOn').addClass('btn btn-outline-success');
 			$('#BtnCheck').addClass('btn btn-info');
 			CheckAlertStatus(VoteVal);
-			console.log(VoteVal);
+			// console.log(VoteVal);
 		});
 
 		// Селектор выбора причины отклонения
@@ -58,7 +58,7 @@
 			var v_description = $('#v_description').val();
 			var rejectionReason = $('#rejectionReason').val();
 			$.ajax({
-				url: '/Modules/RatingEdit/rating_update.php',
+				url: '/Modules/CreativeApprovalEdit/creative_approval_update.php',
 				datatype: 'html',
 				type: 'post',
 				data: {

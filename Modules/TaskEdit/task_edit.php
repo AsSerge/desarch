@@ -153,12 +153,13 @@
 						echo"<div class='alert alert-warning' role='alert'>Креативы в задаче отсутствуют!</div>";
 					}else{
 						echo "<table class='table table-borderless table-striped table-setdisigner-task table-light-header'>";
-							echo "<thead><tr><th scope='col'>Название креатива</th><th scope='col'>Дизайнер</th><th scope='col'>Статус</th><th scope='col'>Действие</th></tr></thead>";
+							echo "<thead><tr><th scope='col'>#</th><th scope='col'>Название креатива</th><th scope='col'>Дизайнер</th><th scope='col'>Статус</th><th scope='col'>Действие</th></tr></thead>";
 							echo "<tbody>";
 							foreach($creatives as $crt){
 
 								$des_label = ($crt['creative_status'] != "В задаче") ? 'disabled' : ''; // Определяем статус креатива
 								echo "<tr>";
+									echo "<td><img src=''>{$crt['creative_id']}</td>";
 									echo "<td>".$crt['creative_name']."</td>";
 									echo "<td>".GetDesignerInfo($pdo, $crt['user_id'])['user_name']."&nbsp;".GetDesignerInfo($pdo, $crt['user_id'])['user_surname']."</td>";
 									echo "<td>".$crt['creative_status']."</td>";
