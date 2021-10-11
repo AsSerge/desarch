@@ -18,7 +18,7 @@
 			<?php if($user_role == 'mgr'){?>
 
 			<li class="nav-item">
-				<a class="nav-link" href="/index.php?module=CreativeApprovalList">На утверждении</a>
+				<a class="nav-link" href="/index.php?module=CreativeApprovalList">На рассмотрении</a>
 			</li>
 			<li class="nav-item dropdown">
 					<a class="nav-link dropdown-toggle" href="#" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Постановщик задач</a>

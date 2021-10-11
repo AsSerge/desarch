@@ -63,23 +63,14 @@
 							$link = '/Modules/TaskEdit/task_edit.php';
 							$js_local_source = '/Modules/TaskEdit/task_edit.js';
 							break;
-
-/*
-					case 'RatingEdit':
-							$link = '/Modules/RatingEdit/rating_edit.php';
-							$js_local_source = '/Modules/RatingEdit/rating_edit.js';
-							break;
-					case 'RatingList':
-							$link = '/Modules/RatingList/rating_list.php';
-							$js_local_source = '/Modules/RatingList/rating_list.js';
-							break;
-*/
 					case 'CreativeApprovalList':
 							$link = '/Modules/CreativeApprovalList/creative_approval_list.php';
 							$js_local_source = '/Modules/CreativeApprovalList/creative_approval_list.js';
 							break;
-
-
+					case 'CreativeApprovalEdit':
+							$link = '/Modules/CreativeApprovalEdit/creative_approval_edit.php';
+							$js_local_source = '/Modules/CreativeApprovalEdit/creative_approval_edit.js';
+							break;
 					case 'CreativeListView':
 							$link = '/Modules/CreativeListView/creative_list_view.php';
 							$js_local_source = '/Modules/CreativeListView/creative_list_view.js';
