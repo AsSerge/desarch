@@ -1,4 +1,4 @@
-<?
+<?php
 include($_SERVER['DOCUMENT_ROOT']."/Login/baselogin/line_check.php");
 // Страница регистрации нового пользователя
 // Соединямся с БД

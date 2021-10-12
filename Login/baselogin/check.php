@@ -1,4 +1,4 @@
-<?
+<?php
 // Скрипт проверки
 // Соединямся с БД
 include_once($_SERVER['DOCUMENT_ROOT']."/Login/classes/dbconnect.php"); //$pdo
