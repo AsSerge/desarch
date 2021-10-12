@@ -71,6 +71,9 @@ include_once($_SERVER['DOCUMENT_ROOT']."/Layout/settings.php"); // Функци�
 		width: 25%;
 		height: 3px;
 	}
+	.card-text{
+		margin: 0.4rem 0;
+	}
 </style>
 
 	<div class="MyCardDesk">
@@ -101,6 +104,7 @@ include_once($_SERVER['DOCUMENT_ROOT']."/Layout/settings.php"); // Функци�
 	$myKeyCount=0; // Ставим счетчик дизайнов
 	foreach($creatives as $cr){
 		
+		$creative_development_type = ($cr['creative_development_type'] == "") ? 'Собственная разработка': 'Компиляция'; // ТИп разработки
 		// Проверяем - голосовал ли проверяющий за этот креатив, если нет - отображаем его
 		$myKey = GetGradesDataCount($pdo, $cr['creative_id'], $user_id);
 		if($myKey != 1){
@@ -109,6 +113,7 @@ include_once($_SERVER['DOCUMENT_ROOT']."/Layout/settings.php"); // Функци�
 			echo "	<a href = '/index.php?module=RatingEdit&creative_id={$cr['creative_id']}'><img class='card-img-top' src='/Creatives/{$cr['creative_id']}/preview.jpg' alt=''></a>";
 			echo "	<div class='card-body'>";
 			echo "		<p class='card-text'><strong>Дизайн: </strong>[{$cr['creative_id']}] {$cr['creative_name']}</p>";
+			echo "		<p class='card-text'><strong>Тип: </strong>{$creative_development_type}</p>";
 			echo "		<p class='card-text'><strong>Статус: </strong>{$cr['creative_status']}</p>";
 			echo "		<p class='card-text'><strong>Дизайнер: </strong>{$cr['user_surname']} {$cr['user_name']}</p>";
 			echo "		<p class='card-text'><strong>Заказчик: </strong>".Customer($pdo, $cr['task_id'])['customer_name']."</p>";

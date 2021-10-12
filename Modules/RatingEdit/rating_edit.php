@@ -88,13 +88,13 @@ $cr_files = GetImagesArr(CREATIVE_FOLDER, $creative_id);
 	
 	<div class="col-md-4 mb-2">
 		<h6 class="border-bottom border-gray pb-3 mb-2"><i class="far fa-images"></i> Блок голосования</h6>
-		<div class="alert alert-warning" id = "FTMyRadio" role="alert">Для оценки дизайна (креатива) необходимо кликнуть на переключателе, выбрав <i class="far fa-thumbs-up"></i> (Принят) или <i class="far fa-thumbs-down"></i> (Отклонен).<br>Если вы ходтите оставить комметнарий <span class="SetComment"><i class="far fa-comment-dots"></i></span> для дизайнера - впишите его в поле комментариев</div>
+		<div class="alert alert-warning" id = "FTMyRadio" role="alert">Вам необходимо рассмотреть возможность закупки стоковых изображений. Для этого необходимо кликнуть на переключателе, выбрав <i class="far fa-thumbs-up"></i> (Разрешить покупку) или <i class="far fa-thumbs-down"></i> (Отправить на доработку).<br>Если вы ходтите оставить комметнарий <span class="SetComment"><i class="far fa-comment-dots"></i></span> для дизайнера - впишите его в поле комментариев</div>
 		<form action="#">
 
 
 			<div class='p-2' style="text-align: center;">
-				<button id="BtnOn" type="button" class="btn btn-outline-success"><i class="far fa-thumbs-up"></i> Принят</button>
-				<button id="BtnOff" type="button" class="btn btn-outline-danger"><i class="far fa-thumbs-down"></i> Отклонен</button>
+				<button id="BtnOn" type="button" class="btn btn-outline-success"><i class="far fa-thumbs-up"></i> Разрешить покупку</button>
+				<button id="BtnOff" type="button" class="btn btn-outline-danger"><i class="far fa-thumbs-down"></i> Отправить на доработку</button>
 			</div>
 
 

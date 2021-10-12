@@ -119,7 +119,7 @@ $cr_files = GetImagesArr(CREATIVE_FOLDER, $creative_id);
 			</div>
 			<div class="collapse" id="collapseExample">
 				<div class="card card-body bg-light MyComment">
-					<textarea class="form-control mb-2" name="v_description" id="v_description" cols="3" rows="5" placeholder='Оставьте комментарий для дизайнера'></textarea>
+					<textarea class="form-control mb-2" name="v_description" id="v_description" cols="3" rows="5" placeholder='Оставьте Ваш комментарий'></textarea>
 				</div>
 			</div>
 			<hr>

@@ -72,13 +72,13 @@
 			if (VoteVal == "off") {
 				$('#FTMyRadio').removeClass();
 				$('#FTMyRadio').addClass('alert alert-danger');
-				$('#FTMyRadio').html('Вы не приняли дизайн! Необходимо выбрать причину отказа из выпадающего списка. Также, вы можете оставить комметнарий <i class="far fa-comment-dots"></i> для дизайнера и продолжить голосование, нажав кнопку "Отклонить диизайн" этого дизайна <i class="far fa-thumbs-down"></i>');
+				$('#FTMyRadio').html('Вы не приняли дизайн. Покупка запрещена. Необходимо выбрать причину отказа из выпадающего списка. Также, вы можете оставить комметнарий <i class="far fa-comment-dots"></i> для дизайнера и продолжить голосование, нажав кнопку "Доработать дизайн" <i class="far fa-thumbs-down"></i>');
 				$('#rejectionReasonBlock').show();
 				SetButtonLable(VoteVal);
 			} else if (VoteVal == "on") {
 				$('#FTMyRadio').removeClass();
 				$('#FTMyRadio').addClass('alert alert-success');
-				$('#FTMyRadio').html('Ура! Дизайн принят! Вы можете оставить комметнарий <i class="far fa-comment-dots"></i> для дизайнера и продолжить голосование, нажав кнопку "Принять дизайн" этот дизайн <i class="far fa-thumbs-down"></i>');
+				$('#FTMyRadio').html('Дизайн принят - покупка разрешена. Вы можете оставить комметнарий <i class="far fa-comment-dots"></i> для дизайнера и продолжить голосование, нажав кнопку "Покупка разрешена"<i class="far fa-thumbs-down"></i>');
 				$('#rejectionReasonBlock').hide();
 				SetButtonLable(VoteVal);
 			}
@@ -93,11 +93,11 @@
 				$('#SendVote').html('ГОЛОСОВАТЬ');
 			} else if (t == "off") {
 				$('#SendVote').show();
-				$('#SendVote').html('Отклонить дизайн');
+				$('#SendVote').html('Доработать дизайн');
 				$('#SendVote').prop("disabled", true);
 			} else if (t == "on") {
 				$('#SendVote').show();
-				$('#SendVote').html('Принять дизайн');
+				$('#SendVote').html('Покупка разрешена');
 				$('#SendVote').prop("disabled", false);
 			}
 		}

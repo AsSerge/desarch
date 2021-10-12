@@ -34,7 +34,7 @@
 					$('#AddCreativeFrm')[0].reset(); // Сбрасываем поля формы
 					$('#liveToast').toast('show');
 					$('#MyCountSrc' + task_id).html(data);
-					// location.reload(); // Перезагрузка страницы
+					location.reload(); // Перезагрузка страницы
 				}
 			});
 
