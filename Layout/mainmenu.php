@@ -70,6 +70,15 @@
 					<a class="dropdown-item" href="/index.php?module=DesignerList">Список дизайнеров</a>
 					</div>
 				</li>
+
+				<li class="nav-item dropdown">
+					<a class="nav-link dropdown-toggle" href="#" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Работа с базой</a>
+					<div class="dropdown-menu" aria-labelledby="dropdown01">
+					<a class="dropdown-item" href="/Modules/SystemAdmin/clearsystem.php">Очистка базы</a>	
+					</div>
+				</li>
+
+
 				<li class="nav-item">
 					<a class="nav-link" href="/index.php?module=HelpDesk">Помощь</a>
 				</li>
