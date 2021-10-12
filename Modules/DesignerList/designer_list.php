@@ -8,21 +8,41 @@
 
 <div class="my-3 p-3 bg-white rounded box-shadow">
 <?php
-
+// Список всех дизайнеров
 $stmt = $pdo->prepare("SELECT * FROM users WHERE user_role = 'dgr'");
 $stmt->execute();
-$customers = $stmt->fetchAll(PDO::FETCH_ASSOC);
+$designers = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-function CheckDesigner($pdo, $customer_id){
-	$stmt = $pdo->prepare("SELECT * FROM tasks WHERE customer_id = ?");
-	$stmt->execute(array($customer_id));
+// Получаем общее принятых количество креативов
+function CheckDesignerCreatives($pdo, $user_id){
+	$stmt = $pdo->prepare("SELECT * FROM сreatives WHERE user_id = ? AND creative_status = 'Принят'");
+	$stmt->execute(array($user_id));
 	return $stmt->rowCount();
 }
 
-echo "<pre>";
-print_r($customers);
-echo "</pre>";
+// Получаем данные по руководителю
 
+// echo "<pre>";
+// print_r($designers);
+// echo "</pre>";
 ?>
+<table class="table table-striped table-sm">
+	<tr><th>ID</th><th>Дизайнер</th><th>Руководитель</th><th>Всего креативов принято</th></tr>
+	<?php
+	foreach($designers as $dgr){
+		
+		$creativeCount = CheckDesignerCreatives($pdo, $dgr['user_id']); // Число креативов
+		echo "<tr>";
+		echo "<td>{$dgr['user_id']}</td>";
+		echo "<td>{$dgr['user_name']} {$dgr['user_surname']}</td>";
+		echo "<td></td>";
+		echo "<td>{$creativeCount}</td>";
+		echo "</tr>";
+	}
+	?>
+</table>
+
+
+
 
 </div>

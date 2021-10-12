@@ -112,7 +112,7 @@ $(document).ready(function () {
 			},
 			success: function (data) {
 				console.log(data);
-				// location.reload(); // Перезагрузка страницы
+				location.reload(); // Перезагрузка страницы
 			}
 		});
 	});

@@ -34,7 +34,7 @@
 					<a href="#" class="OneDot" data-source="hd_сreatives.php">Список креативов</a>
 				</div>
 				<div class="m-3">
-					<a href="#" class="OneDot" data-source="hd_сreative_grades.php">Голосование</a>
+					<a href="#" class="OneDot" data-source="hd_сreative_grades.php">Разрешение на покупку</a>
 				</div>
 				<div class="m-3">
 					<a href="#" class="OneDot" data-source="hd_file_formats.php">Форматы файлов</a>

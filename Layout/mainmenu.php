@@ -37,6 +37,10 @@
 			<?php } ?>
 
 			<?php if($user_role == 'dgr'){?>
+			
+			<li class="nav-item">
+				<a class="nav-link" href="/index.php?module=TaskListDesigner">Список задач</a>
+			</li>				
 			<li class="nav-item">
 				<a class="nav-link" href="/index.php?module=CreativeList">Список креативов</a>
 			</li>

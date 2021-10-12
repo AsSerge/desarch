@@ -71,7 +71,7 @@
 				success: function (data) {
 					// console.log(data);
 					// Идем домой
-					$(location).attr('href', '/');
+					$(location).attr('href', '/index.php?module=CreativeApprovalList');
 				}
 			});
 		});
